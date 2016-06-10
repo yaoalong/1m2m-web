@@ -19,7 +19,7 @@ public class StatusController {
     @RequestMapping(value = "/statistics.do", method = RequestMethod.GET)
     public
     @ResponseBody
-    StatusStatistics getConnection() {
+    StatusStatistics getStatus() {
         StatusStatistics statusStatistics = new StatusStatistics();
         AirConditionStatistics airConditionStatistics = new AirConditionStatistics();
         airConditionStatistics.setClosed(40.0);
