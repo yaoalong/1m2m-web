@@ -1,13 +1,12 @@
 package lab.mars.controller;
 
-import lab.mars.model.AirConditionStatistics;
-import lab.mars.model.AntiTheftStatistics;
-import lab.mars.model.LightStatusStatistics;
-import lab.mars.model.StatusStatistics;
+import lab.mars.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Random;
 
 /**
  * Author:yaoalong.
@@ -16,23 +15,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class StatusController {
-    @RequestMapping(value = "/statistics.do", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/parkingStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody
-    StatusStatistics getStatus() {
-        StatusStatistics statusStatistics = new StatusStatistics();
+    ParkingStatisticsStatus getParkingStatus() {
+        ParkingStatisticsStatus parkingStatisticsStatus = new ParkingStatisticsStatus();
+        parkingStatisticsStatus.setUnUsed(Double.valueOf(new Random().nextInt(50)));
+        return parkingStatisticsStatus;
+    }
+    @RequestMapping(value = "/airConditionStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    AirConditionStatistics getAirConditionStatus() {
         AirConditionStatistics airConditionStatistics = new AirConditionStatistics();
-        airConditionStatistics.setClosed(40.0);
-        airConditionStatistics.setOpen(100 - 40.0);
-        AntiTheftStatistics antiThefiStatistics = new AntiTheftStatistics();
-        antiThefiStatistics.setClosed(0.5);
-        antiThefiStatistics.setOpen(0.5);
+        airConditionStatistics.setOpen(Double.valueOf(new Random().nextInt(50)));
+        return airConditionStatistics;
+    }
+    @RequestMapping(value = "/lightStatusStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    LightStatusStatistics getLightStatus() {
         LightStatusStatistics lightStatusStatistics = new LightStatusStatistics();
-        lightStatusStatistics.setOpen(0.7);
-        lightStatusStatistics.setClosed(0.3);
-        statusStatistics.setAirConditionStatistics(airConditionStatistics);
-        statusStatistics.setAntiTheftStatistics(antiThefiStatistics);
-        statusStatistics.setLightStatusStatistics(lightStatusStatistics);
-        return statusStatistics;
+        lightStatusStatistics.setOpen(Double.valueOf(new Random().nextInt(50)));
+        return lightStatusStatistics;
+    }
+    @RequestMapping(value = "/antiTheftStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    AntiTheftStatistics getAntiTheftStatus() {
+        AntiTheftStatistics antiTheftStatistics = new AntiTheftStatistics();
+        antiTheftStatistics.setOpen(Double.valueOf(new Random().nextInt(50)));
+        return antiTheftStatistics;
     }
 }

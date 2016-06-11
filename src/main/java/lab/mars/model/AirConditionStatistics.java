@@ -8,19 +8,18 @@ package lab.mars.model;
 public class AirConditionStatistics {
     private Double open;
     private Double closed;
+
     public Double getOpen() {
         return open;
     }
 
     public void setOpen(Double open) {
+        this.closed = 100 - open;
         this.open = open;
+
     }
 
     public Double getClosed() {
         return closed;
-    }
-
-    public void setClosed(Double closed) {
-        this.closed = closed;
     }
 }

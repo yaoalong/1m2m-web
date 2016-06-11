@@ -6,7 +6,7 @@ $(document).ready(function(){
      $(".machine").click(function () {
          var text=$(this).attr("href");
         $.getJSON("/retrieve.do",{key:text},function(data){
-            alert(data.closed);
+            alert(data.closed?"打开":"关闭");
         }) ;
          $(this).attr("href","####");
      });

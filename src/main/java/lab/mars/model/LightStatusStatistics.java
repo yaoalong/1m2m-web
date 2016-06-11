@@ -14,13 +14,10 @@ public class LightStatusStatistics {
 
     public void setOpen(Double open) {
         this.open = open;
+        this.closed=100-open;
     }
 
     public Double getClosed() {
         return closed;
-    }
-
-    public void setClosed(Double closed) {
-        this.closed = closed;
     }
 }

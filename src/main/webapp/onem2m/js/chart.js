@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/6/4.
  */
-var xMaxNumber=10;
+var xMaxNumber=20;
 window.onload = function () {
     tps();
     serverLoad();
@@ -13,7 +13,7 @@ window.onload = function () {
         $.getJSON("/connection/tps.do", {}, function (data) {
             var chart = $("#chartContainer").CanvasJSChart();
             var length = chart.options.data[0].dataPoints.length;
-            if(length>5){
+            if(length>xMaxNumber){
                 chart.options.data[0].dataPoints.shift();
             }
             chart.options.data[0].dataPoints.push({ x: new Date(), y: data.connectionNumber});
@@ -66,7 +66,7 @@ function serverLoad() {
             fontSize: 22
         },
         axisY: {
-            title: "响应时间",
+            title: "响应时间(/ms)",
         },
         axisX:{
             valueFormatString: "HH:ss:mm" ,
