@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>首页</title>
     <meta charset="UTF-8">
     <title>oneM2M</title>
     <link rel="stylesheet" href="css/index.css"/>
@@ -37,22 +37,14 @@
                     <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
                     <c:out value="<a href='/bulding${i}'>${i}栋</a>" escapeXml="false"></c:out>
                     <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                    <c:forEach var="w" begin="1" end="10">
+
+                    <c:forEach var="t" begin="1" end="4">
                         <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                        <c:out value="<a href='/floor/${w}'>${w}楼</a>" escapeXml="false"></c:out>
+                        <c:out value="<a href='/ceil/${t}}'>${t}层</a>" escapeXml="false"></c:out>
 
                         <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                        <c:forEach var="t" begin="1" end="4">
-
-                            <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                            <c:out value="<a href='/ceil/${t}}'>${t}层</a>" escapeXml="false"></c:out>
-
-                            <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                            <c:forEach var="f" begin="1" end="4">
-                                <c:out value="<li><a href='/family/${f}'>${f}户</a></li>" escapeXml="false"></c:out>
-                            </c:forEach>
-                            <c:out value="</ul>" escapeXml="false"></c:out>
-                            <c:out value="</li>" escapeXml="false"></c:out>
+                        <c:forEach var="f" begin="1" end="4">
+                            <c:out value="<li><a href='/family/${f}'>${f}户</a></li>" escapeXml="false"></c:out>
                         </c:forEach>
                         <c:out value="</ul>" escapeXml="false"></c:out>
                         <c:out value="</li>" escapeXml="false"></c:out>
@@ -74,23 +66,16 @@
                     <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
                     <c:out value="<a href='/bulding${i}'>${i}栋</a>" escapeXml="false"></c:out>
                     <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                    <c:forEach var="w" begin="1" end="10">
+
+                    <c:forEach var="t" begin="1" end="4">
+
+
                         <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                        <c:out value="<a href='/floor/${w}'>${w}楼</a>" escapeXml="false"></c:out>
+                        <c:out value="<a href='/ceil/${t}}'>${t}层</a>" escapeXml="false"></c:out>
 
                         <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                        <c:forEach var="t" begin="1" end="4">
-
-
-                            <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                            <c:out value="<a href='/ceil/${t}}'>${t}层</a>" escapeXml="false"></c:out>
-
-                            <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                            <c:forEach var="f" begin="1" end="4">
-                                <c:out value="<li><a href='/family/${f}'>${f}户</a></li>" escapeXml="false"></c:out>
-                            </c:forEach>
-                            <c:out value="</ul>" escapeXml="false"></c:out>
-                            <c:out value="</li>" escapeXml="false"></c:out>
+                        <c:forEach var="f" begin="1" end="4">
+                            <c:out value="<li><a href='/family/${f}'>${f}户</a></li>" escapeXml="false"></c:out>
                         </c:forEach>
                         <c:out value="</ul>" escapeXml="false"></c:out>
                         <c:out value="</li>" escapeXml="false"></c:out>
@@ -115,24 +100,12 @@
                     <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
                     <c:out value="<a href='/bulding${i}'>${i}栋</a>" escapeXml="false"></c:out>
                     <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                    <c:forEach var="w" begin="1" end="10">
-                        <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                        <c:out value="<a href='/floor/${w}'>${w}楼</a>" escapeXml="false"></c:out>
 
-                        <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                        <c:forEach var="t" begin="1" end="4">
-                            <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                            <c:out value="<a href='/ceil/${t}}'>${t}层</a>" escapeXml="false"></c:out>
-                            <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
-                            <c:forEach var="f" begin="1" end="4">
-                                <c:out value="<li><a href='/family/${f}'>${f}户</a></li>" escapeXml="false"></c:out>
-                            </c:forEach>
-                            <c:out value="</ul>" escapeXml="false"></c:out>
-                            <c:out value="</li>" escapeXml="false"></c:out>
+                        <c:forEach var="f" begin="1" end="4">
+                            <c:out value="<li><a href='/family/${f}'>${f}层</a></li>" escapeXml="false"></c:out>
                         </c:forEach>
-                        <c:out value="</ul>" escapeXml="false"></c:out>
-                        <c:out value="</li>" escapeXml="false"></c:out>
-                    </c:forEach>
+
+
                     <c:out value="</ul>" escapeXml="false"></c:out>
                     <c:out value="</li>" escapeXml="false"></c:out>
                 </c:forEach>

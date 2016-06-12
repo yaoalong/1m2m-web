@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>检索</title>
+    <title>检索状态</title>
     <meta charset="UTF-8">
     <title>oneM2M</title>
     <link rel="stylesheet" href="css/index.css"/>
@@ -20,6 +20,7 @@
     <script type="text/javascript" src="../canvas/jquery.canvasjs.min.js"></script>
     <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/retrieve.js"></script>
+    <script type="text/javascript" src="../bootstrap/js/bootbox.min.js"></script>
 </head>
 <body>
 <div class="row first">
@@ -66,7 +67,7 @@
                 <option>空调</option>
                 <option>灯</option>
             </select>
-            <input type='button' value='确认' class='button right button-primary'>
+            <input type='button' value='确认' class='button right button-primary' id="retrieveMachine">
         </form>
     </div>
 </div>
@@ -77,20 +78,18 @@
                 class='top'>
             <form class="bs-example bs-example-form " role="form">
                 <div class="form-inline">
-                    <label for="sel1">楼层</label>
+                    <label for="sel1">车层</label>
                     <select class="form-control" id="sel1" name="ddd">
-                        <option disabled="disabled" selected="selected">楼层</option>
+                        <option  selected="selected">1层</option>
                         <option>2层</option>
                     </select>
                     <input type="text" style="padding: 5px; width: 200px;" class="form-control" placeholder="车位号">
-                    <input type='button' value='确认' class='button right button-primary'>
+                    <input type='button' value='确认' class='button right button-primary' id="retrieveParking">
                 </div>
                 <br>
             </form>
         </div>
     </div>
 </div>
-
-
 </body>
 </html>
