@@ -38,11 +38,11 @@ function tps(){
     var data = [];
     $("#chartContainer").CanvasJSChart({
         title: {
-            text: "连接信息",
+            text: "系统负载",
             fontSize: 22
         },
         axisY: {
-            title: "连接数",
+            title: "负载",
         },
         axisX:{
             valueFormatString: "HH:ss:mm" ,
@@ -62,7 +62,7 @@ function serverLoad() {
     var data = [];
     $("#serverLoadChart").CanvasJSChart({
         title: {
-            text: "响应时间",
+            text: "平均响应时间",
             fontSize: 22
         },
         axisY: {

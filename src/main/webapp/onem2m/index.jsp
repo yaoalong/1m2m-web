@@ -22,6 +22,7 @@
     </script>
 </head>
 <body>
+<h2 style="text-align:center">智能社区</h2>
 <c:set var="ban" value="10"></c:set>
 <c:set var="floor" value="20"></c:set>
 <c:set var="apartment" value="4"></c:set>
@@ -31,7 +32,7 @@
     <div id="chartContainer" class="span8 offset3 statistics"></div>
     <div id="serverLoadChart" class="span8 offset3 statistics"></div>
 </div>
-<div class="row">
+<div class="row first">
     <div id="airconditionStatistics" class="span6 offset3" style="height: 300px"></div>
     <div class="select">
         <div class="dropdown">
@@ -109,8 +110,6 @@
                         <c:forEach var="f" begin="1" end="${floor}">
                             <c:out value="<li><a href='/family/${f}'>${f}层</a></li>" escapeXml="false"></c:out>
                         </c:forEach>
-
-
                     <c:out value="</ul>" escapeXml="false"></c:out>
                     <c:out value="</li>" escapeXml="false"></c:out>
                 </c:forEach>
