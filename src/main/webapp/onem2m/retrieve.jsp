@@ -30,19 +30,19 @@
             <div class="form-inline">
                 <label>楼栋</label>
                 <select class="form-control" name="ddd">
-                    <c:forEach var="i" begin="1" end="10">
+                    <c:forEach var="i" begin="1" end="${ban}">
                         <c:out value="<option class='set-center'>${i}栋</option>" escapeXml="false"></c:out>
                     </c:forEach>
                 </select>
                 <label>楼层</label>
                 <select class="form-control" name="ddd">
-                    <c:forEach var="i" begin="1" end="10">
+                    <c:forEach var="i" begin="1" end="${floor}">
                         <c:out value="<option class='set-center'>${i}层</option>" escapeXml="false"></c:out>
                     </c:forEach>
                 </select>
                 <label>户</label>
                 <select class="form-control" name="ddd">
-                    <c:forEach var="i" begin="1" end="10">
+                    <c:forEach var="i" begin="1" end="${apartment}">
                         <c:out value="<option class='set-center'>${i}户</option>" escapeXml="false"></c:out>
                     </c:forEach>
                 </select>
@@ -57,7 +57,7 @@
         <form class="bs-example bs-example-form form-inline " role="form">
             <label>房间</label>
             <select class="form-control" name="ddd">
-                <c:forEach var="i" begin="1" end="10">
+                <c:forEach var="i" begin="1" end="${rooms}">
                     <c:out value="<option class='set-center'>${i}房间</option>" escapeXml="false"></c:out>
                 </c:forEach>
             </select>

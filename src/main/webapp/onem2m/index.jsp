@@ -23,11 +23,11 @@
 </head>
 <body>
 <h2 style="text-align:center">智能社区</h2>
-<c:set var="ban" value="10"></c:set>
-<c:set var="floor" value="20"></c:set>
-<c:set var="apartment" value="4"></c:set>
-<c:set var="rooms" value="5"></c:set>
-<c:set var="parkingFloor" value="2"></c:set>
+<c:set var="ban" value="10" scope="session"></c:set>
+<c:set var="floor" value="20" scope="session"></c:set>
+<c:set var="apartment" value="4" scope="session"></c:set>
+<c:set var="rooms" value="5" scope="session"></c:set>
+<c:set var="parkingFloor" value="2" scope="session"></c:set>
 <div class="row first">
     <div id="chartContainer" class="span8 offset3 statistics"></div>
     <div id="serverLoadChart" class="span8 offset3 statistics"></div>
