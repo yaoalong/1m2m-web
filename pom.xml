@@ -8,7 +8,7 @@
     <name>1m2m-web Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <spring.version>3.2.2.RELEASE</spring.version>
+        <spring.version>4.3.0.RELEASE</spring.version>
         <jackson.version>1.9.10</jackson.version>
         <jdk.version>1.8</jdk.version>
         <maven.compiler.source>1.8</maven.compiler.source>

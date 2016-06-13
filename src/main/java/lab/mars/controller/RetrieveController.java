@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Author:yaoalong.
  * Date:2016/6/10.
@@ -22,10 +24,10 @@ public class RetrieveController {
     MachineStatus retrieve(@RequestParam String key) {
         MachineStatus machineStatus = new MachineStatus();
         try {
-System.out.println("key"+key);
-          //  machineStatus.setClosed(MachineMapper.result.get(key));
-        }catch (Exception e){
-e.printStackTrace();
+            System.out.println("key" + key);
+            //  machineStatus.setClosed(MachineMapper.result.get(key));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return machineStatus;
@@ -36,7 +38,12 @@ e.printStackTrace();
     @ResponseBody
     ParkingStatus retrieveParking(@RequestParam String key) {
         ParkingStatus parkingStatus = new ParkingStatus();
-        parkingStatus.setUnUsed(MachineMapper.parkingCondition.get(key));
+        // parkingStatus.setUnUsed(MachineMapper.parkingCondition.get(key));
         return parkingStatus;
+    }
+
+    @PostConstruct
+    public void init() {
+        MachineMapper.init();
     }
 }
