@@ -1,26 +1,64 @@
 /**
  * Created by yaoalong on 2016/6/10.
  */
-$(document).ready(function(){
+$(document).ready(function () {
+    $(".image").click(function(){
+        alert($(this).attr("id"));
+    });
+    $("#retrieveParking").click(function () {
+        var selectValue = $("#parking").val();
+        var floorNumber = selectValue.split("层")[0];
+        var parkingNumber = $("#parkingNumber").val();
+        if (!parkingNumber) {
+            bootbox.alert("车位号不能为空!", function () {
+            });
+            return;
+        }
+        var retrieveKey = "/" + floorNumber + "/" + parkingNumber;
+        $.getJSON("/parkingRetrieve.do", {key: retrieveKey}, function (data) {
+            if (data.unUsed) {
+                bootbox.alert("车位空闲", function () {
 
-     $("#retrieveParking").click(function () {
-        var text=$(this).attr("href");
-       // $.getJSON("/retrieve.do",{key:text},function(data){
-            bootbox.alert("有车!", function() {
+                });
+            }
+            else {
+                bootbox.alert("车位被占用", function () {
 
-          //  });
-        }) ;
-        $(this).attr("href","####");
+                });
+            }
+        });
     });
     $("#retrieveMachine").click(function () {
-        var text=$(this).attr("href");
-      //  $.getJSON("/retrieve.do",{key:text},function(data){
-            bootbox.alert("打开!", function() {
+        var buildingId = $("#buildingId").val().split("栋")[0];
+        var floorId = $("#floorId").val().split("层")[0];
+        var apartmentId = $("#apartmentId").val().split("户")[0];
+        var roomId = $("#roomId").val().split("房间")[0];
+        var machineType = $("#roomId").val();
+        var machineId;
+        if (machineType == "防盗器") {
+            machineId = 0;
+        }
+        else if (machineType == "空调") {
+            machineId = 1;
+        }
+        else {
+            machineId = 2;
+        }
 
-            });
-      //  }) ;
-        $(this).attr("href","####");
+        var retrieveKey = "/" + buildingId + "/" + floorId + "/" + apartmentId + "/" + roomId + "/" + machineId;
+        console.log("key:"+retrieveKey);
+        $.getJSON("/retrieve.do", {key: retrieveKey}, function (data) {
+            if (data.isClosed) {
+                bootbox.alert("关闭", function () {
+                });
+            }
+            else {
+                bootbox.alert("打开", function () {
+                });
+            }
+        });
+
     });
- 
+
 
 });

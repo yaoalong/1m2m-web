@@ -49,15 +49,41 @@
     border-radius: 6px 0 6px 6px;
 }
 
+select {
+    text-align: center;
+    margin-left: 20px;
+    margin-top: 30px;
+}
 
-select{
-    text-align:center;
-    margin-left:20px;
-    margin-top:30px;
+.right {
+    margin-left: 10px;
 }
-.right{
-    margin-left:20px;
+
+.second {
+    margin-top: 200px;
 }
-.second{
-    margin-top:200px;
+
+
+
+.body-center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+.div-top {
+    margin-top: 10px;
+}
+
+.nav-vertical-width {
+    width: 80px;
+    height:200px;
+}
+.nav-vertical-width > li{
+    width: 80px;
+    height:200px;
+}
+.car-background{
+    background-color: grey;
+    height:50px;
 }

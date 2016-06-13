@@ -25,6 +25,5 @@ public class HelloController {
         connectionsStatistics.setConnectionNumber(new Random().nextInt(100));
         connectionsStatistics.setAvgResonseTime(Long.valueOf(new Random().nextInt(100)));
         return connectionsStatistics;
-
     }
 }

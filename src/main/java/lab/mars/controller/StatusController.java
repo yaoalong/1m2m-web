@@ -1,6 +1,9 @@
 package lab.mars.controller;
 
-import lab.mars.model.*;
+import lab.mars.model.AirConditionStatistics;
+import lab.mars.model.AntiTheftStatistics;
+import lab.mars.model.LightStatusStatistics;
+import lab.mars.model.ParkingStatisticsStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +27,7 @@ public class StatusController {
         parkingStatisticsStatus.setUnUsed(Double.valueOf(new Random().nextInt(50)));
         return parkingStatisticsStatus;
     }
+
     @RequestMapping(value = "/airConditionStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -32,6 +36,7 @@ public class StatusController {
         airConditionStatistics.setOpen(Double.valueOf(new Random().nextInt(50)));
         return airConditionStatistics;
     }
+
     @RequestMapping(value = "/lightStatusStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -40,6 +45,7 @@ public class StatusController {
         lightStatusStatistics.setOpen(Double.valueOf(new Random().nextInt(50)));
         return lightStatusStatistics;
     }
+
     @RequestMapping(value = "/antiTheftStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody

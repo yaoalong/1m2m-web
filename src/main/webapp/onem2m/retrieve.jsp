@@ -29,21 +29,21 @@
         <form class="bs-example bs-example-form " role="form">
             <div class="form-inline">
                 <label>楼栋</label>
-                <select class="form-control" name="ddd">
+                <select class="form-control" id="buildingId">
                     <c:forEach var="i" begin="1" end="${ban}">
                         <c:out value="<option class='set-center'>${i}栋</option>" escapeXml="false"></c:out>
                     </c:forEach>
                 </select>
                 <label>楼层</label>
-                <select class="form-control" name="ddd">
+                <select class="form-control" id="floorId">
                     <c:forEach var="i" begin="1" end="${floor}">
                         <c:out value="<option class='set-center'>${i}层</option>" escapeXml="false"></c:out>
                     </c:forEach>
                 </select>
                 <label>户</label>
-                <select class="form-control" name="ddd">
+                <select class="form-control" id="apartmentId">
                     <c:forEach var="i" begin="1" end="${apartment}">
-                        <c:out value="<option class='set-center'>${i}户</option>" escapeXml="false"></c:out>
+                        <c:out value="<option>${i}户</option>" escapeXml="false"></c:out>
                     </c:forEach>
                 </select>
 
@@ -56,13 +56,13 @@
     <div class="select  span10 offset6">
         <form class="bs-example bs-example-form form-inline " role="form">
             <label>房间</label>
-            <select class="form-control" name="ddd">
+            <select class="form-control"  id="roomId">
                 <c:forEach var="i" begin="1" end="${rooms}">
-                    <c:out value="<option class='set-center'>${i}房间</option>" escapeXml="false"></c:out>
+                    <c:out value="<option>${i}房间</option>" escapeXml="false"></c:out>
                 </c:forEach>
             </select>
             <label>设备</label>
-            <select class="form-control" name="ddd">
+            <select class="form-control"  id="machineType">
                 <option>防盗器</option>
                 <option>空调</option>
                 <option>灯</option>
@@ -78,12 +78,12 @@
                 class='top'>
             <form class="bs-example bs-example-form " role="form">
                 <div class="form-inline">
-                    <label for="sel1">车层</label>
-                    <select class="form-control" id="sel1" name="ddd">
-                        <option  selected="selected">1层</option>
+                    <label for="parking">车层</label>
+                    <select class="form-control" id="parking" name="ddd">
+                        <option selected="selected">1层</option>
                         <option>2层</option>
                     </select>
-                    <input type="text" style="padding: 5px; width: 200px;" class="form-control" placeholder="车位号">
+                    <input type="text" style="padding: 5px; width: 200px;" class="form-control" placeholder="车位号" id="parkingNumber">
                     <input type='button' value='确认' class='button right button-primary' id="retrieveParking">
                 </div>
                 <br>
