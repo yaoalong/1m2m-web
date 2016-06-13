@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/6/4.
  */
-var xMaxNumber=20;
+var xMaxNumber = 20;
 window.onload = function () {
     tps();
     serverLoad();
@@ -11,19 +11,22 @@ window.onload = function () {
     parkingStatistics();
     var updateChart = function () {
         $.getJSON("/connection/tps.do", {}, function (data) {
+            if (data == null) {
+                alert("当前系统故障，请稍后再试");
+            }
             var chart = $("#chartContainer").CanvasJSChart();
             var length = chart.options.data[0].dataPoints.length;
-            if(length>xMaxNumber){
+            if (length > xMaxNumber) {
                 chart.options.data[0].dataPoints.shift();
             }
-            chart.options.data[0].dataPoints.push({ x: new Date(), y: data.connectionNumber});
+            chart.options.data[0].dataPoints.push({x: new Date(), y: data.connectionNumber});
             chart.render();
             chart = $("#serverLoadChart").CanvasJSChart();
             var length = chart.options.data[0].dataPoints.length;
-            if(length>xMaxNumber){
+            if (length > xMaxNumber) {
                 chart.options.data[0].dataPoints.shift();
             }
-            chart.options.data[0].dataPoints.push({ x: new Date(), y: data.avgResonseTime});
+            chart.options.data[0].dataPoints.push({x: new Date(), y: data.avgResonseTime});
             chart.render();
 
         });
@@ -34,7 +37,7 @@ window.onload = function () {
         updateChart();
     }, 1000);
 }
-function tps(){
+function tps() {
     var data = [];
     $("#chartContainer").CanvasJSChart({
         title: {
@@ -44,8 +47,8 @@ function tps(){
         axisY: {
             title: "负载",
         },
-        axisX:{
-            valueFormatString: "HH:ss:mm" ,
+        axisX: {
+            valueFormatString: "HH:ss:mm",
             labelAngle: 45,
             labelFontSize: 15,
         },
@@ -68,8 +71,8 @@ function serverLoad() {
         axisY: {
             title: "响应时间(/ms)",
         },
-        axisX:{
-            valueFormatString: "HH:ss:mm" ,
+        axisX: {
+            valueFormatString: "HH:ss:mm",
             labelAngle: 45,
             labelFontSize: 15,
 
@@ -83,14 +86,13 @@ function serverLoad() {
 }
 
 
-
-function ariconditionStatistics(){
+function ariconditionStatistics() {
     $("#airconditionStatistics").CanvasJSChart({
         title: {
             text: "空调开放情况",
             fontSize: 24
         },
-        legend :{
+        legend: {
             verticalAlign: "center",
             horizontalAlign: "right"
         },
@@ -101,20 +103,20 @@ function ariconditionStatistics(){
                 toolTipContent: "{label} <br/> {y} %",
                 indexLabel: "{y} %",
                 dataPoints: [
-                    { label: "开放",  y: 30.3, legendText: "开放"},
-                    { label: "关闭",    y: 19.1, legendText: "关闭"  }
+                    {label: "开放", y: 30.3, legendText: "开放"},
+                    {label: "关闭", y: 19.1, legendText: "关闭"}
                 ]
             }
         ]
     });
 }
-function lightStatistics(){
+function lightStatistics() {
     $("#lightStatusStatistics").CanvasJSChart({
         title: {
             text: "灯打开情况",
             fontSize: 24
         },
-        legend :{
+        legend: {
             verticalAlign: "center",
             horizontalAlign: "right"
         },
@@ -125,20 +127,20 @@ function lightStatistics(){
                 toolTipContent: "{label} <br/> {y} %",
                 indexLabel: "{y} %",
                 dataPoints: [
-                    { label: "开灯",  y: 50, legendText: "开灯"},
-                    { label: "关闭",    y: 50, legendText: "关闭"  },
+                    {label: "开灯", y: 50, legendText: "开灯"},
+                    {label: "关闭", y: 50, legendText: "关闭"},
                 ]
             }
         ]
     });
 }
-function antitheftStatistics(){
+function antitheftStatistics() {
     $("#antiTheftStatistics").CanvasJSChart({
         title: {
             text: "防盗器打开情况",
             fontSize: 24
         },
-        legend :{
+        legend: {
             verticalAlign: "center",
             horizontalAlign: "right"
         },
@@ -149,20 +151,20 @@ function antitheftStatistics(){
                 toolTipContent: "{label} <br/> {y} %",
                 indexLabel: "{y} %",
                 dataPoints: [
-                    { label: "打开",  y:35, legendText: "打开"},
-                    { label: "关闭",    y: 65, legendText: "关闭"  },
+                    {label: "打开", y: 35, legendText: "打开"},
+                    {label: "关闭", y: 65, legendText: "关闭"},
                 ]
             }
         ]
     });
 }
-function parkingStatistics(){
+function parkingStatistics() {
     $("#parkingStatistics").CanvasJSChart({
         title: {
             text: "停车位情况",
             fontSize: 24
         },
-        legend :{
+        legend: {
             verticalAlign: "center",
             horizontalAlign: "right"
         },
@@ -173,8 +175,8 @@ function parkingStatistics(){
                 toolTipContent: "{label} <br/> {y} %",
                 indexLabel: "{y} %",
                 dataPoints: [
-                    { label: "有车",  y: 30.3, legendText: "有车"},
-                    { label: "无车",    y: 19.1, legendText: "无车"  }
+                    {label: "有车", y: 30.3, legendText: "有车"},
+                    {label: "无车", y: 19.1, legendText: "无车"}
                 ]
             }
         ]
