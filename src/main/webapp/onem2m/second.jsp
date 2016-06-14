@@ -14,6 +14,7 @@
     <title>oneM2M</title>
 
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="css/index.css"/>
     <script type="text/javascript" src="../jquery/jquery-2.2.4.min.js"></script>
     <script type="text/javascript" src="../canvas/jquery.canvasjs.min.js"></script>
@@ -34,9 +35,8 @@
 <div class="row">
     <div class="col-md-1">
         <ul class="nav nav-pills nav-stacked nav-vertical-width">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#">Profile</a></li>
-            <li role="presentation"><a href="#">Messages</a></li>
+            <li role="presentation" class="active"><a href="#">一层</a></li>
+            <li role="presentation"><a href="#">2层</a></li>
         </ul>
     </div>
     <div class="col-md-10">
@@ -44,8 +44,7 @@
         <c:forEach var="i" begin="1" end="5">
             <c:out value="<div class='row'>" escapeXml="false"></c:out>
             <c:forEach var="j" begin="1" end="10">
-
-                <c:out value="  <div class='col-md-1 div-top car-background right'></div>"
+                <c:out value="  <div class='col-md-1 div-top car-background right'><i class='fa fa-car'></i></div>"
                        escapeXml="false"></c:out>
             </c:forEach>
             <c:out value="</div>" escapeXml="false"></c:out>

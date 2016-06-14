@@ -24,24 +24,25 @@
 </head>
 <body>
 <div class="row first">
-    <div class="span2 offset3"><input type='button' value='查看设备状态' class='right button-primary'></div>
-    <div class="select  span10 offset1">
-        <form class="bs-example bs-example-form " role="form">
-            <div class="form-inline">
+    <div class="col-md-2 col-md-offset-2"><input type='button' value='查看设备状态' class='right button-primary'></div>
+    <div class="select  col-md-offset-8">
+        <form class="form-inline" >
+            <div class="form-group">
+
                 <label>楼栋</label>
-                <select class="form-control" id="buildingId">
+                <select  id="buildingId">
                     <c:forEach var="i" begin="1" end="${ban}">
-                        <c:out value="<option class='set-center'>${i}栋</option>" escapeXml="false"></c:out>
+                        <c:out value="<option>${i}栋</option>" escapeXml="false"></c:out>
                     </c:forEach>
                 </select>
                 <label>楼层</label>
-                <select class="form-control" id="floorId">
+                <select id="floorId">
                     <c:forEach var="i" begin="1" end="${floor}">
-                        <c:out value="<option class='set-center'>${i}层</option>" escapeXml="false"></c:out>
+                        <c:out value="<option>${i}层</option>" escapeXml="false"></c:out>
                     </c:forEach>
                 </select>
                 <label>户</label>
-                <select class="form-control" id="apartmentId">
+                <select  id="apartmentId">
                     <c:forEach var="i" begin="1" end="${apartment}">
                         <c:out value="<option>${i}户</option>" escapeXml="false"></c:out>
                     </c:forEach>
@@ -53,7 +54,7 @@
     </div>
 </div>
 <div class="row first">
-    <div class="select  span10 offset6">
+    <div class="select  col-md-5 col-md-offset-3">
         <form class="bs-example bs-example-form form-inline " role="form">
             <label>房间</label>
             <select class="form-control"  id="roomId">
@@ -72,18 +73,18 @@
     </div>
 </div>
 <div class="row second">
-    <div class="span2 offset3"><input type='button' value='查看车位情况' class='right button-primary'></div>
-    <div class="span8 offset1">
+    <div class="col-md-2 col-md-offset-2"><input type='button' value='查看车位情况' class='right button-primary'></div>
+    <div class="col-md-4 col-md-offset-1">
         <div
                 class='top'>
-            <form class="bs-example bs-example-form " role="form">
+            <form class=" " role="form">
                 <div class="form-inline">
                     <label for="parking">车层</label>
-                    <select class="form-control" id="parking" name="ddd">
+                    <select  id="parking" name="ddd">
                         <option selected="selected">1层</option>
                         <option>2层</option>
                     </select>
-                    <input type="text" style="padding: 5px; width: 200px;" class="form-control" placeholder="车位号" id="parkingNumber">
+                    <input type="text" style=" width: 200px;" class="form-control" placeholder="车位号" id="parkingNumber">
                     <input type='button' value='确认' class='button right button-primary' id="retrieveParking">
                 </div>
                 <br>

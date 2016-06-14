@@ -1,15 +1,12 @@
 package lab.mars.controller;
 
-import io.netty.handler.codec.http.HttpMethod;
 import lab.mars.m2m.protocol.http.HeartBeat;
+import lab.mars.mapper.MachineMapper;
 import lab.mars.model.ConnectionsStatistics;
-import lab.mars.network.Network;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 
 /**
  * Author:yaoalong.
@@ -27,9 +24,9 @@ public class SystemInformationController {
     public
     @ResponseBody
     ConnectionsStatistics getConnection() {
-        HeartBeat heartBeat = null;
+        HeartBeat heartBeat;
         try {
-            heartBeat = Network.test2Request(HttpMethod.GET, "/csebase", OK, null);
+            heartBeat = MachineMapper.getConnection();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

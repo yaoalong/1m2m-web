@@ -3,6 +3,11 @@
  */
 var xMaxNumber = 20;
 window.onload = function () {
+    $('.dropdown-submenu a.test').on("click", function(e){
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+    });
     tps();
     serverLoad();
     ariconditionStatistics();
@@ -35,7 +40,7 @@ window.onload = function () {
     }
     setInterval(function () {
         updateChart();
-    }, 1000);
+    }, 10000);
 }
 function tps() {
     var data = [];

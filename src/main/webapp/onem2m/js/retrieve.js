@@ -2,7 +2,7 @@
  * Created by yaoalong on 2016/6/10.
  */
 $(document).ready(function () {
-    $(".image").click(function(){
+    $(".image").click(function () {
         alert($(this).attr("id"));
     });
     $("#retrieveParking").click(function () {
@@ -14,11 +14,10 @@ $(document).ready(function () {
             });
             return;
         }
-        var retrieveKey = "/" + floorNumber + "/" + parkingNumber;
+        var retrieveKey = (parseInt(floorNumber) - 1) * 1000 + (parseInt(parkingNumber)) - 1;
         $.getJSON("/parkingRetrieve.do", {key: retrieveKey}, function (data) {
             if (data.unUsed) {
                 bootbox.alert("车位空闲", function () {
-
                 });
             }
             else {
@@ -33,7 +32,7 @@ $(document).ready(function () {
         var floorId = $("#floorId").val().split("层")[0];
         var apartmentId = $("#apartmentId").val().split("户")[0];
         var roomId = $("#roomId").val().split("房间")[0];
-        var machineType = $("#roomId").val();
+        var machineType = $("#machineType").val();
         var machineId;
         if (machineType == "防盗器") {
             machineId = 0;
@@ -44,9 +43,8 @@ $(document).ready(function () {
         else {
             machineId = 2;
         }
-
-        var retrieveKey = "/" + buildingId + "/" + floorId + "/" + apartmentId + "/" + roomId + "/" + machineId;
-        console.log("key:"+retrieveKey);
+        var retrieveKey = (parseInt(buildingId) - 1) * 880 + (parseInt(floorId) - 1) * 44 + (parseInt(apartmentId) - 1) * 11 + roomId * machineId;
+        console.log("key:" + retrieveKey);
         $.getJSON("/retrieve.do", {key: retrieveKey}, function (data) {
             if (data.isClosed) {
                 bootbox.alert("关闭", function () {

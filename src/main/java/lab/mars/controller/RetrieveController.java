@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
 
+import static lab.mars.mapper.MachineMapper.*;
+
 /**
  * Author:yaoalong.
  * Date:2016/6/10.
@@ -21,11 +23,11 @@ public class RetrieveController {
     @RequestMapping(value = "/retrieve.do", method = RequestMethod.GET)
     public
     @ResponseBody
-    MachineStatus retrieve(@RequestParam String key) {
+    MachineStatus retrieve(@RequestParam int key) {
         MachineStatus machineStatus = new MachineStatus();
         try {
             System.out.println("key" + key);
-            //  machineStatus.setClosed(MachineMapper.result.get(key));
+             machineStatus.setClosed(machineCondition.get(machineIdToURI.get(key)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,9 +38,9 @@ public class RetrieveController {
     @RequestMapping(value = "/parkingRetrieve.do", method = RequestMethod.GET)
     public
     @ResponseBody
-    ParkingStatus retrieveParking(@RequestParam String key) {
+    ParkingStatus retrieveParking(@RequestParam int key) {
         ParkingStatus parkingStatus = new ParkingStatus();
-        // parkingStatus.setUnUsed(MachineMapper.parkingCondition.get(key));
+        parkingStatus.setUnUsed(parkingCondition.get(parkingIdToURI.get(key)));
         return parkingStatus;
     }
 
