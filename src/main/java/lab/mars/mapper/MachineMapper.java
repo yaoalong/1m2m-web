@@ -27,6 +27,9 @@ public class MachineMapper {
     public static final ConcurrentHashMap<String, Boolean> parkingCondition = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<Integer, String> machineIdToURI = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<Integer, String> parkingIdToURI = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, Integer> machineURIToID = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, Integer> parkingURIToID = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, Integer> urlTOType = new ConcurrentHashMap<>();
     public static final List<StatisticsDO> banStatistics = new ArrayList<>();
     public static final List<StatisticsDO> floorStatistics = new ArrayList<>();
     public static final List<StatisticsDO> apartmentStatistics = new ArrayList<>();
@@ -93,9 +96,12 @@ public class MachineMapper {
 
                                         machineCondition.put(container.v, ((Machine) object).isClosed);
                                         machineIdToURI.put(i, container.v);
+                                        machineURIToID.put(container.v, i);
+                                        urlTOType.put(container.v, machineType);
                                     } else if (i < machineCount + parkingCount) {
                                         parkingCondition.put(container.v, ((Machine) object).isClosed);
                                         parkingIdToURI.put(i - machineCount, container.v);
+                                        parkingURIToID.put(container.v, i - machineCount);
                                         int floorId = (i - machineCount) % 2;
                                         if (floorId >= parkingFloorStatistics.size() || parkingFloorStatistics.get(floorId) == null) {
                                             parkingFloorStatistics.add(floorId, new StatisticsDO());
@@ -126,9 +132,48 @@ public class MachineMapper {
         return network.test2Request(HttpMethod.GET, ROOT, OK, null);
     }
 
+    public static void update(String resourceURI) {
+        if (MachineMapper.machineCondition.containsKey(resourceURI)) {
+            if (MachineMapper.machineCondition.get(resourceURI)) {
+                MachineMapper.apartmentStatistics.get(machineURIToID.get(resourceURI) % 11).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
+                MachineMapper.apartmentStatistics.get(machineURIToID.get(resourceURI) % 11).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndDecrement();
+                MachineMapper.floorStatistics.get(machineURIToID.get(resourceURI) % 44).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
+                MachineMapper.floorStatistics.get(machineURIToID.get(resourceURI) % 44).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndDecrement();
+                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % 880).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
+                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % 880).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
+                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
+            } else {
+                MachineMapper.apartmentStatistics.get(machineURIToID.get(resourceURI) % 11).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndIncrement();
+                MachineMapper.apartmentStatistics.get(machineURIToID.get(resourceURI) % 11).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
+                MachineMapper.floorStatistics.get(machineURIToID.get(resourceURI) % 44).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndIncrement();
+                MachineMapper.floorStatistics.get(machineURIToID.get(resourceURI) % 44).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
+                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % 880).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndIncrement();
+                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % 880).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
+            }
+            MachineMapper.machineCondition.put(resourceURI, !MachineMapper.machineCondition.get(resourceURI));
+
+        } else if (MachineMapper.parkingCondition.containsKey(resourceURI)) {
+            if (MachineMapper.parkingCondition.get(resourceURI)) {
+                MachineMapper.parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(MachineTypeEnum.ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
+                MachineMapper.parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(MachineTypeEnum.ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+                parkingStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
+            } else {
+                MachineMapper.parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(MachineTypeEnum.ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                MachineMapper.parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(MachineTypeEnum.ANTITHEFT.getIndex()).getUnUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
+            }
+            MachineMapper.parkingCondition.put(resourceURI, !MachineMapper.parkingCondition.get(resourceURI));
+        }
+    }
+
+
     public static void main(String args[]) {
         MachineMapper.init();
         System.out.println("sieze:" + MachineMapper.machineCondition.size());
         System.out.println("sieze:" + MachineMapper.parkingCondition.size());
     }
+
 }

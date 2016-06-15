@@ -236,12 +236,6 @@ public class Network {
     }
 
     public void handleNotify(m2m_childResourceRef resourceRef) {
-
-        if (MachineMapper.machineCondition.containsKey(resourceRef.v)) {
-            MachineMapper.machineCondition.put(resourceRef.v, !MachineMapper.machineCondition.get(resourceRef.v));
-        }
-        if (MachineMapper.parkingCondition.containsKey(resourceRef.v)) {
-            MachineMapper.parkingCondition.put(resourceRef.v, !MachineMapper.parkingCondition.get(resourceRef.v));
-        }
+        MachineMapper.update(resourceRef.v);
     }
 }
