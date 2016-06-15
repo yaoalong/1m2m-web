@@ -29,13 +29,7 @@ public class RetrieveController {
     @ResponseBody
     MachineStatus retrieve(@RequestParam int key) {
         MachineStatus machineStatus = new MachineStatus();
-        try {
-            System.out.println("key" + key);
-             machineStatus.setClosed(machineCondition.get(machineIdToURI.get(key)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        machineStatus.setClosed(machineCondition.get(machineIdToURI.get(key)));
         return machineStatus;
     }
 

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+import static lab.mars.model.MachineTypeEnum.ANTITHEFT;
 
 /**
  * Author:yaoalong.
@@ -50,36 +51,32 @@ public class MachineMapper {
                         List<m2m_childResourceRef> containers = ((m2m_AE) m2mResource).ch;
                         for (m2m_childResourceRef container : containers) {
                             m2mResource = network.testRetrieve(container.v, null, OK);
-                            System.out.println("查询完成" + m2mResource + " containerURI:" + container.v);
                             if (m2mResource instanceof m2m_Container) {
                                 if (((m2m_Container) m2mResource).la == null) {
                                     continue;
                                 }
                                 m2mResource = network.testRetrieve(((m2m_Container) m2mResource).la, null, OK);
-                                System.out.println("开始");
                                 if (m2mResource instanceof m2m_ContentInstance) {
                                     Object object = ResourceReflection.deserializeKryo(((m2m_ContentInstance) m2mResource).con);
                                     if (object instanceof Machine) {
                                         if (i < machineCount) {
-                                            int machineType=i%11;
-                                            if(machineType==0){
-                                            }
-                                            else if(machineType%2==1){
-                                                machineType=1;
-                                            }
-                                            else{
-                                                machineType=2;
+                                            int machineType = i % 11;
+                                            if (machineType == 0) {
+                                            } else if (machineType % 2 == 1) {
+                                                machineType = 1;
+                                            } else {
+                                                machineType = 2;
                                             }
                                             int apartmentId = i / 11;
-                                            if (apartmentId>=apartmentStatistics.size()||apartmentStatistics.get(apartmentId) == null) {
+                                            if (apartmentId >= apartmentStatistics.size() || apartmentStatistics.get(apartmentId) == null) {
                                                 apartmentStatistics.add(apartmentId, new StatisticsDO());
                                             }
                                             int floorId = i / 44;
-                                            if (floorId>=floorStatistics.size()||floorStatistics.get(floorId) == null) {
+                                            if (floorId >= floorStatistics.size() || floorStatistics.get(floorId) == null) {
                                                 floorStatistics.add(floorId, new StatisticsDO());
                                             }
-                                            int banId = i/880;
-                                            if (banId>=banStatistics.size()||banStatistics.get(banId) == null) {
+                                            int banId = i / 880;
+                                            if (banId >= banStatistics.size() || banStatistics.get(banId) == null) {
                                                 banStatistics.add(banId, new StatisticsDO());
                                             }
                                             if (((Machine) object).isClosed) {
@@ -100,15 +97,15 @@ public class MachineMapper {
                                             parkingCondition.put(container.v, ((Machine) object).isClosed);
                                             parkingIdToURI.put(i - machineCount, container.v);
                                             int floorId = (i - machineCount) % 2;
-                                            if (floorId>=parkingFloorStatistics.size()||parkingFloorStatistics.get(floorId) == null) {
+                                            if (floorId >= parkingFloorStatistics.size() || parkingFloorStatistics.get(floorId) == null) {
                                                 parkingFloorStatistics.add(floorId, new StatisticsDO());
                                             }
                                             if (((Machine) object).isClosed) {
-                                                parkingFloorStatistics.get(floorId).getStatistis().get(0).getUnUsed().getAndIncrement();
-                                                parkingStatistics.getStatistis().get(0).getUnUsed().getAndIncrement();
+                                                parkingFloorStatistics.get(floorId).getStatistis().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
+                                                parkingStatistics.getStatistis().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
                                             } else {
-                                                parkingFloorStatistics.get(floorId).getStatistis().get(0).getUsed().getAndIncrement();
-                                                parkingStatistics.getStatistis().get(0).getUsed().getAndIncrement();
+                                                parkingFloorStatistics.get(floorId).getStatistis().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                                                parkingStatistics.getStatistis().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
                                             }
                                         } else {
                                             return;
@@ -127,7 +124,7 @@ public class MachineMapper {
     }
 
     public static HeartBeat getConnection() throws Exception {
-        return network.test2Request(HttpMethod.GET, "/csebase", OK, null);
+        return network.test2Request(HttpMethod.GET, ROOT, OK, null);
     }
 
     public static void main(String args[]) {

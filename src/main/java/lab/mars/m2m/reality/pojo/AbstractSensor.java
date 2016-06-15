@@ -28,14 +28,11 @@ public abstract class AbstractSensor implements SensorObject, Serializable {
     public void request(AbstractSensor sensor) {
         m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
         m2m_ContentInstance m2m_contentInstance = new m2m_ContentInstance();
-       // long zxid = NotificationUtils.zxid.getAndIncrement();
-        //sensor.setId(zxid);
         m2m_contentInstance.con = ResourceReflection.serializeKryo(sensor);
         m2m_primitiveContentType.value = m2m_contentInstance;
         StringWriter sw = new StringWriter();
         try {
             resourceTestBase.marshaller.get().marshal(m2m_primitiveContentType, sw);
-          //  NotificationUtils.zxidMapStartTime.put(zxid, System.currentTimeMillis());
             resourceTestBase.testCreate(cntUri, contentInstance, sw.toString(), OK, ASYNC);//创建一个containerInstance
         } catch (JAXBException e) {
             e.printStackTrace();
@@ -52,7 +49,4 @@ public abstract class AbstractSensor implements SensorObject, Serializable {
         this.id = id;
     }
 
-    public String getMachineUri() {
-        return machineUri;
-    }
 }
