@@ -71,15 +71,15 @@ public class MachineMapper {
                                                 machineType=2;
                                             }
                                             int apartmentId = i / 11;
-                                            if (apartmentStatistics.get(apartmentId) == null) {
+                                            if (apartmentId>=apartmentStatistics.size()||apartmentStatistics.get(apartmentId) == null) {
                                                 apartmentStatistics.add(apartmentId, new StatisticsDO());
                                             }
                                             int floorId = i / 44;
-                                            if (floorStatistics.get(floorId) == null) {
+                                            if (floorId>=floorStatistics.size()||floorStatistics.get(floorId) == null) {
                                                 floorStatistics.add(floorId, new StatisticsDO());
                                             }
                                             int banId = i/880;
-                                            if (banStatistics.get(banId) == null) {
+                                            if (banId>=banStatistics.size()||banStatistics.get(banId) == null) {
                                                 banStatistics.add(banId, new StatisticsDO());
                                             }
                                             if (((Machine) object).isClosed) {
@@ -100,7 +100,7 @@ public class MachineMapper {
                                             parkingCondition.put(container.v, ((Machine) object).isClosed);
                                             parkingIdToURI.put(i - machineCount, container.v);
                                             int floorId = (i - machineCount) % 2;
-                                            if (parkingFloorStatistics.get(floorId) == null) {
+                                            if (floorId>=parkingFloorStatistics.size()||parkingFloorStatistics.get(floorId) == null) {
                                                 parkingFloorStatistics.add(floorId, new StatisticsDO());
                                             }
                                             if (((Machine) object).isClosed) {

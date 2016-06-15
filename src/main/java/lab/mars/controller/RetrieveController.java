@@ -18,6 +18,10 @@ import static lab.mars.mapper.MachineMapper.*;
  * Date:2016/6/10.
  * Email:yaoalong@foxmail.com
  */
+
+/**
+ * 检索某个特定的资源的信息
+ */
 @Controller
 public class RetrieveController {
     @RequestMapping(value = "/retrieve.do", method = RequestMethod.GET)

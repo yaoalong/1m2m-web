@@ -41,16 +41,16 @@
             <ul class="dropdown-menu airconditionStatistics">
                 <c:forEach var="i" begin="1" end="${ban}">
                     <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                    <c:out value="<a href='/bulding${i}'>${i}栋</a>" escapeXml="false"></c:out>
+                    <c:out value="<a href='${i}c'>${i}栋</a>" escapeXml="false"></c:out>
                     <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
 
                     <c:forEach var="t" begin="1" end="${floor}">
                         <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                        <c:out value="<a href='/ceil/${t}}'>${t}层</a>" escapeXml="false"></c:out>
+                        <c:out value="<a href='${i}c${t}c}'>${t}层</a>" escapeXml="false"></c:out>
 
                         <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
                         <c:forEach var="f" begin="1" end="${rooms}">
-                            <c:out value="<li><a href='/family/${f}'>${f}户</a></li>" escapeXml="false"></c:out>
+                            <c:out value="<li><a href='${i}c${t}c{f}c'>${f}户</a></li>" escapeXml="false"></c:out>
                         </c:forEach>
                         <c:out value="</ul>" escapeXml="false"></c:out>
                         <c:out value="</li>" escapeXml="false"></c:out>
@@ -70,18 +70,18 @@
             <ul class="dropdown-menu lightStatusStatistics">
                 <c:forEach var="i" begin="1" end="${ban}">
                     <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                    <c:out value="<a href='/bulding${i}'>${i}栋</a>" escapeXml="false"></c:out>
+                    <c:out value="<a href='${i}c'>${i}栋</a>" escapeXml="false"></c:out>
                     <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
 
                     <c:forEach var="t" begin="1" end="${floor}">
 
 
                         <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                        <c:out value="<a href='/ceil/${t}}'>${t}层</a>" escapeXml="false"></c:out>
+                        <c:out value="<a href='${i}c${t}c}'>${t}层</a>" escapeXml="false"></c:out>
 
                         <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
                         <c:forEach var="f" begin="1" end="${rooms}">
-                            <c:out value="<li><a href='/family/${f}'>${f}户</a></li>" escapeXml="false"></c:out>
+                            <c:out value="<li><a href='${i}c${t}c${f}c'>${f}户</a></li>" escapeXml="false"></c:out>
                         </c:forEach>
                         <c:out value="</ul>" escapeXml="false"></c:out>
                         <c:out value="</li>" escapeXml="false"></c:out>
@@ -104,17 +104,16 @@
             <ul class="dropdown-menu antiTheftStatistics">
                 <c:forEach var="i" begin="1" end="${ban}">
                     <c:out value="<li class='dropdown-submenu'>" escapeXml="false"></c:out>
-                    <c:out value="<a href='/bulding${i}'>${i}栋</a>" escapeXml="false"></c:out>
+                    <c:out value="<a href='${i}c'>${i}栋</a>" escapeXml="false"></c:out>
                     <c:out value="<ul class='dropdown-menu'>" escapeXml="false"></c:out>
 
                     <c:forEach var="f" begin="1" end="${floor}">
-                        <c:out value="<li><a href='/family/${f}'>${f}层</a></li>" escapeXml="false"></c:out>
+                        <c:out value="<li><a href='${i}c${f}c'>${f}层</a></li>" escapeXml="false"></c:out>
                     </c:forEach>
                     <c:out value="</ul>" escapeXml="false"></c:out>
                     <c:out value="</li>" escapeXml="false"></c:out>
                 </c:forEach>
             </ul>
-
         </div>
     </div>
     <div id="parkingStatistics" class="col-md-4 col-md-offset-1" style="height: 300px"></div>
@@ -124,7 +123,7 @@
                 <span class="caret"></span></button>
             <ul class="dropdown-menu parkingStatistics">
                 <c:forEach var="f" begin="1" end="${parkingFloor}">
-                    <c:out value="<li><a href='/family/${f}'>${f}层</a></li>" escapeXml="false"></c:out>
+                    <c:out value="<li><a href='${f}'>${f}层</a></li>" escapeXml="false"></c:out>
                 </c:forEach>
             </ul>
         </div>

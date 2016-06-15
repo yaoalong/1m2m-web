@@ -21,28 +21,16 @@ public class StatisticsDO {
         return statistis;
     }
 
-    public void setStatistis(ConcurrentHashMap<Integer, StatisticsMessage> statistis) {
-        this.statistis = statistis;
-    }
-
     public static class StatisticsMessage {
-        private AtomicLong used;
-        private AtomicLong unUsed;
+        private AtomicLong used=new AtomicLong(0);
+        private AtomicLong unUsed=new AtomicLong(0);
 
         public AtomicLong getUsed() {
             return used;
         }
 
-        public void setUsed(AtomicLong used) {
-            this.used = used;
-        }
-
         public AtomicLong getUnUsed() {
             return unUsed;
-        }
-
-        public void setUnUsed(AtomicLong unUsed) {
-            this.unUsed = unUsed;
         }
     }
 }
