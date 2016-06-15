@@ -45,7 +45,7 @@ $(document).ready(function () {
         }
         var retrieveKey = (parseInt(buildingId) - 1) * 880 + (parseInt(floorId) - 1) * 44 + (parseInt(apartmentId) - 1) * 11 + roomId * machineId;
         console.log("key:" + retrieveKey);
-        $.getJSON("/retrieve.do", {key: retrieveKey}, function (data) {
+        $.getJSON("/retrieveMachine.do", {key: retrieveKey}, function (data) {
             if (data.isClosed) {
                 bootbox.alert("关闭", function () {
                 });

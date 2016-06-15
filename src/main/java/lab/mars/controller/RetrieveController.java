@@ -24,7 +24,7 @@ import static lab.mars.mapper.MachineMapper.*;
  */
 @Controller
 public class RetrieveController {
-    @RequestMapping(value = "/retrieve.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/retrieveMachine.do", method = RequestMethod.GET)
     public
     @ResponseBody
     MachineStatus retrieve(@RequestParam int key) {

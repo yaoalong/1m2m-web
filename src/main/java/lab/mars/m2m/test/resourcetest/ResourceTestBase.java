@@ -6,16 +6,15 @@ package lab.mars.m2m.test.resourcetest;
  * Email:yaoalong@foxmail.com
  */
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.handler.codec.http.*;
+import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lab.mars.m2m.protocol.common.m2m_AnyURIList;
 import lab.mars.m2m.protocol.common.m2m_childResourceRef;
 import lab.mars.m2m.protocol.common.m2m_eventNotificationCriteria;
 import lab.mars.m2m.protocol.enumeration.m2m_resourceStatus;
 import lab.mars.m2m.protocol.primitive.m2m_primitiveContentType;
-import lab.mars.m2m.protocol.primitive.m2m_req;
 import lab.mars.m2m.protocol.primitive.m2m_rsp;
 import lab.mars.m2m.protocol.resource.*;
 import lab.mars.m2m.reflection.ResourceReflection;
@@ -25,7 +24,6 @@ import lab.mars.util.network.HttpServer;
 import lab.mars.util.network.NetworkEvent;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
@@ -64,67 +62,7 @@ public class ResourceTestBase {
     protected AtomicLong dd = new AtomicLong(0);
 
     public void setUp() throws Exception {
-        client = new HttpClient();
-        server = new HttpServer();
-        server.bindAsync(myIp, 9010)
-                .then(future -> {
-                    System.out.println("server has started@9010");
-                })
-                .<NetworkEvent<FullHttpRequest>>loop(m -> {
-                    ByteBuf data = m.msg.content();
-                    try {
-                        m2m_primitiveContentType pc = (m2m_primitiveContentType) unmarshaller.get().unmarshal(new ByteBufInputStream(data));
-                        m2m_childResourceRef ref = (m2m_childResourceRef) pc.value;
-                        handleNotify(ref);
-                        HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-                        m.ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
 
-                    } catch (JAXBException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, OK);
-                    m.ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
-                    return true;
-                });
-        marshaller = new ThreadLocal<Marshaller>() {
-            @Override
-            public Marshaller initialValue() {
-                try {
-                    Marshaller marshaller = jc.createMarshaller();
-                    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                    return marshaller;
-                } catch (JAXBException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-        unmarshaller = new ThreadLocal<Unmarshaller>() {
-            @Override
-            public Unmarshaller initialValue() {
-                try {
-                    return jc.createUnmarshaller();
-                } catch (JAXBException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-        try {
-            jc = JAXBContext.newInstance(m2m_primitiveContentType.class, m2m_req.class, m2m_rsp.class);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-
-        // ExecutorService executorService= Executors.newFixedThreadPool(1);
-        // for(int i=0;i<1;i++){
-        //     executorService.submit(new AddResoureThread(this));
-        // }
-        //  Thread.sleep(1000);
-        //executorService.shutdownNow();
-        handleBefore();
     }
 
     public void handleBefore() {
