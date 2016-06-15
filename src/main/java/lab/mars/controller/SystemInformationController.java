@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 系统负载信息的获取
  */
 @Controller
-@RequestMapping("/connection")
 public class SystemInformationController {
     @RequestMapping(value = "/tps.do", method = RequestMethod.GET)
     public
@@ -33,7 +32,7 @@ public class SystemInformationController {
         }
         ConnectionsStatistics connectionsStatistics = new ConnectionsStatistics();
         connectionsStatistics.setConnectionNumber(heartBeat.getConnections());
-        connectionsStatistics.setAvgResonseTime(new Double(heartBeat.getAvgHandlingTime()).longValue());
+        connectionsStatistics.setAvgResonseTime((long) heartBeat.getAvgHandlingTime());
         return connectionsStatistics;
     }
 }

@@ -32,9 +32,6 @@ public class AntiTheftSensor extends AbstractSensor {
 
     @Override
     public void run() {
-        value = !value;
-        request(new AntiTheftSensor(value, machineUri));
-        System.out.println("红外线传感器" + machineUri + " 状态为:" + (value ? "空" : "被占用"));
     }
 
     @Override

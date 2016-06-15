@@ -23,14 +23,14 @@ import static lab.mars.model.MachineTypeEnum.ANTITHEFT;
  */
 public class MachineMapper {
     private static final String ROOT = "/csebase";
-    public static ConcurrentHashMap<String, Boolean> machineCondition = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<String, Boolean> parkingCondition = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<Integer, String> machineIdToURI = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<Integer, String> parkingIdToURI = new ConcurrentHashMap<>();
-    public static List<StatisticsDO> banStatistics = new ArrayList<>();
-    public static List<StatisticsDO> floorStatistics = new ArrayList<>();
-    public static List<StatisticsDO> apartmentStatistics = new ArrayList<>();
-    public static List<StatisticsDO> parkingFloorStatistics = new ArrayList<>();
+    public static final ConcurrentHashMap<String, Boolean> machineCondition = new ConcurrentHashMap<>();
+    public static final  ConcurrentHashMap<String, Boolean> parkingCondition = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<Integer, String> machineIdToURI = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<Integer, String> parkingIdToURI = new ConcurrentHashMap<>();
+    public static final  List<StatisticsDO> banStatistics = new ArrayList<>();
+    public static final List<StatisticsDO> floorStatistics = new ArrayList<>();
+    public static final List<StatisticsDO> apartmentStatistics = new ArrayList<>();
+    public static final List<StatisticsDO> parkingFloorStatistics = new ArrayList<>();
     public static StatisticsDO machineStatistics = new StatisticsDO();
     public static StatisticsDO parkingStatistics = new StatisticsDO();
     private static int machineCount = 8800;

@@ -27,9 +27,6 @@ public class LaserSensor extends AbstractSensor {
 
     @Override
     public void run() {
-        value = !value;
-        request(new LaserSensor(value, machineUri));
-        System.out.println("传感器" + machineUri + " 状态为:" + (value ? "空" : "被占用"));
     }
 
     @Override

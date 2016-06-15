@@ -3,7 +3,7 @@
  */
 var xMaxNumber = 20;
 window.onload = function () {
-    $('.dropdown-submenu a.test').on("click", function(e){
+    $('.dropdown-submenu a.test').on("click", function (e) {
         $(this).next('ul').toggle();
         e.stopPropagation();
         e.preventDefault();
@@ -15,7 +15,7 @@ window.onload = function () {
     antitheftStatistics();
     parkingStatistics();
     var updateChart = function () {
-        $.getJSON("/connection/tps.do", {}, function (data) {
+        $.getJSON("/tps.do", {}, function (data) {
             if (data == null) {
                 alert("当前系统故障，请稍后再试");
             }
@@ -31,16 +31,14 @@ window.onload = function () {
             if (length > xMaxNumber) {
                 chart.options.data[0].dataPoints.shift();
             }
-            chart.options.data[0].dataPoints.push({x: new Date(), y: data.avgResonseTime});
-            chart.render();
+            chart.options.data[0].dataPoints.push({x: new Date(), y: data.avgResonseTime});chart.render();
 
         });
-
 
     }
     setInterval(function () {
         updateChart();
-    }, 10000);
+    }, 1000);
 }
 function tps() {
     var data = [];

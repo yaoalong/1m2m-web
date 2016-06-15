@@ -30,20 +30,5 @@ public class AirConditioning extends Machine {
 
     @Override
     public void create(int value) {
-        if (value < low && isClosed == true) {
-            System.out.println("温度传感器感应到温度过低，打开空调");
-            isClosed = false;
-            request(new AirConditioning(isClosed));
-        } else if (value > high && isClosed == true) {
-            System.out.println("温度传感器感应到温度过高，打开空调");
-            isClosed = false;
-            request(new AirConditioning(isClosed));
-        } else if (value >= low && value <= high && isClosed == false) {
-            System.out.println("温度传感器感应到温度适中，关闭空调");
-            isClosed = true;
-            request(new AirConditioning(isClosed));
-        } else {
-            System.out.println("温度"+":" + value + "空调+"+cntUri+"的状态为：" + (isClosed ? "关闭" : "开启"));
-        }
     }
 }

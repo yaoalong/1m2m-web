@@ -196,11 +196,9 @@ public class ResourceTestBase {
     }
 
     protected void testUpdate(String path, String contentFilePath, HttpResponseStatus statusCode, int flag) throws Exception {
-        m2m_rsp m_rsp = testRequest(HttpMethod.PUT, path, statusCode, contentFilePath, flag);
     }
 
     public void testDelete(String path, HttpResponseStatus statusCode) throws Exception {
-        testRequest(HttpMethod.DELETE, path, statusCode, null, ASYNC);
     }
 
     protected AsyncStream testRequest(
@@ -216,10 +214,6 @@ public class ResourceTestBase {
         return client.requestAsync(uri, httpRequest)
                 .<NetworkEvent<FullHttpResponse>>then(resp -> {
                     if (!isReality && senderCount != null) {
-
-                        System.out.println("cost time:" + (resp.arriveTime));
-                        System.out.println("时间为" + (recvTime.getAndAdd(resp.arriveTime)));
-                        System.out.println("Haha" + (resp == null) + "count:" + dd.getAndIncrement());
                     }
                 }).end();
     }

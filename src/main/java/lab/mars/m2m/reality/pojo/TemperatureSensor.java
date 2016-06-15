@@ -33,13 +33,6 @@ public class TemperatureSensor extends AbstractSensor {
 
     @Override
     public void run() {
-        if (value >= low && value <= high) {
-            value += incrementNum;
-            request(new TemperatureSensor(value, machineUri));
-        }
-        else{
-            value=low;
-        }
     }
 
     public int getValue() {

@@ -31,18 +31,6 @@ public class Light extends Machine {
 
     @Override
     public void create(int value) {
-        if (value < low && isClosed == true) {
-            System.out.println("光线传感器感应到光强度过低，因此开启灯");
-            isClosed = false;
-            request(new AirConditioning(isClosed));
-        } else if (value > high && isClosed == false) {
-            System.out.println("光线传感器感应到光强度始终，关闭灯");
-            isClosed = false;
-            request(new AirConditioning(isClosed));
-        } else {
-            System.out.println("光线强度为:" + value + "灯"+cntUri+"的状态为：" + (isClosed ? "关闭" : "开启"));
-        }
-
     }
 
 }
