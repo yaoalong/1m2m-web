@@ -48,9 +48,9 @@ public class Network {
     public static final int ASYNC = 1;
     public static final int SYNC = 0;
     protected String myIp = "192.168.10.131";
-    JAXBContext jc = null;
-    ThreadLocal<Unmarshaller> unmarshaller;
-    HttpClient client;
+    private JAXBContext jc = null;
+    private ThreadLocal<Unmarshaller> unmarshaller;
+    private HttpClient client;
     private ThreadLocal<Marshaller> marshaller;
     private HttpServer server;
 
