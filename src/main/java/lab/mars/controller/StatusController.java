@@ -37,7 +37,7 @@ public class StatusController {
             unUsed = MachineMapper.parkingFloorStatistics.get(floorId).getStatistics().get(0).getUnUsed().get();
             used = MachineMapper.parkingFloorStatistics.get(floorId).getStatistics().get(0).getUsed().get();
         }
-        machineStatistics.setOpen(used / (unUsed + used) * 100);
+        machineStatistics.setOpen(used* 100 / (unUsed + used) );
         return machineStatistics;
     }
 
@@ -49,7 +49,7 @@ public class StatusController {
         StatisticsDO statisticsDO = judgePosition(key);
         long unUsed = statisticsDO.getStatistics().get(AIRCONDIION.getIndex()).getUnUsed().get();
         long used = statisticsDO.getStatistics().get(AIRCONDIION.getIndex()).getUsed().get();
-        machineStatistics.setOpen(used / (unUsed + used) * 100);
+        machineStatistics.setOpen(used*100 / (unUsed + used));
         return machineStatistics;
     }
 
@@ -61,7 +61,7 @@ public class StatusController {
         long unUsed = statisticsDO.getStatistics().get(LIGHT.getIndex()).getUnUsed().get();
         long used = statisticsDO.getStatistics().get(LIGHT.getIndex()).getUsed().get();
         MachineStatistics lightStatusStatistics = new MachineStatistics();
-        lightStatusStatistics.setOpen(unUsed / (unUsed + used) * 100);
+        lightStatusStatistics.setOpen(used*100/ (unUsed + used));
         return lightStatusStatistics;
     }
 
@@ -73,7 +73,9 @@ public class StatusController {
         StatisticsDO statisticsDO = judgePosition(key);
         long unUsed = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().get();
         long used = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
-        machineStatistics.setOpen(used / (unUsed + used) * 100);
+        System.out.println(unUsed+"Unused");
+        System.out.println("used："+used);
+        machineStatistics.setOpen(used*100 / (unUsed + used));
         return machineStatistics;
     }
 

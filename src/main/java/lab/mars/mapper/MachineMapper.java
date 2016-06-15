@@ -90,11 +90,13 @@ public class MachineMapper {
                                             banStatistics.add(banId, new StatisticsDO());
                                         }
                                         if (((Machine) object).isClosed) {
+                                            System.out.println("开");
                                             apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
                                             floorStatistics.get(floorId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
                                             banStatistics.get(banId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
                                             machineStatistics.getStatistics().get(machineType).getUnUsed().getAndIncrement();
                                         } else {
+                                            System.out.println("关闭");
                                             apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUsed().getAndIncrement();
                                             floorStatistics.get(floorId).getStatistics().get(machineType).getUsed().getAndIncrement();
                                             banStatistics.get(banId).getStatistics().get(machineType).getUsed().getAndIncrement();
