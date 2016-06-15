@@ -61,38 +61,39 @@ public class MachineMapper {
                                     Object object = ResourceReflection.deserializeKryo(((m2m_ContentInstance) m2mResource).con);
                                     if (object instanceof Machine) {
                                         if (i < machineCount) {
+                                            int machineType=i%11;
+                                            if(machineType==0){
+                                            }
+                                            else if(machineType%2==1){
+                                                machineType=1;
+                                            }
+                                            else{
+                                                machineType=2;
+                                            }
                                             int apartmentId = i / 11;
                                             if (apartmentStatistics.get(apartmentId) == null) {
                                                 apartmentStatistics.add(apartmentId, new StatisticsDO());
-                                            }
-                                            if (((Machine) object).isClosed) {
-                                                apartmentStatistics.get(apartmentId).getUnUsed().getAndIncrement();
-                                            } else {
-                                                apartmentStatistics.get(apartmentId).getUsed().getAndIncrement();
                                             }
                                             int floorId = i / 44;
                                             if (floorStatistics.get(floorId) == null) {
                                                 floorStatistics.add(floorId, new StatisticsDO());
                                             }
-                                            if (((Machine) object).isClosed) {
-                                                floorStatistics.get(floorId).getUnUsed().getAndIncrement();
-                                            } else {
-                                                floorStatistics.get(floorId).getUsed().getAndIncrement();
-                                            }
-                                            int banId = 880;
+                                            int banId = i/880;
                                             if (banStatistics.get(banId) == null) {
                                                 banStatistics.add(banId, new StatisticsDO());
                                             }
                                             if (((Machine) object).isClosed) {
-                                                banStatistics.get(banId).getUnUsed().getAndIncrement();
+                                                apartmentStatistics.get(apartmentId).getStatistis().get(machineType).getUnUsed().getAndIncrement();
+                                                floorStatistics.get(floorId).getStatistis().get(machineType).getUnUsed().getAndIncrement();
+                                                banStatistics.get(banId).getStatistis().get(machineType).getUnUsed().getAndIncrement();
+                                                machineStatistics.getStatistis().get(machineType).getUnUsed().getAndIncrement();
                                             } else {
-                                                banStatistics.get(banId).getUsed().getAndIncrement();
+                                                apartmentStatistics.get(apartmentId).getStatistis().get(machineType).getUsed().getAndIncrement();
+                                                floorStatistics.get(floorId).getStatistis().get(machineType).getUsed().getAndIncrement();
+                                                banStatistics.get(banId).getStatistis().get(machineType).getUsed().getAndIncrement();
+                                                machineStatistics.getStatistis().get(machineType).getUsed().getAndIncrement();
                                             }
-                                            if (((Machine) object).isClosed) {
-                                                machineStatistics.getUnUsed().getAndIncrement();
-                                            } else {
-                                                machineStatistics.getUsed().getAndIncrement();
-                                            }
+
                                             machineCondition.put(container.v, ((Machine) object).isClosed);
                                             machineIdToURI.put(i, container.v);
                                         } else if (i < machineCount + parkingCount) {
@@ -103,11 +104,11 @@ public class MachineMapper {
                                                 parkingFloorStatistics.add(floorId, new StatisticsDO());
                                             }
                                             if (((Machine) object).isClosed) {
-                                                parkingFloorStatistics.get(floorId).getUnUsed().getAndIncrement();
-                                                parkingStatistics.getUnUsed().getAndIncrement();
+                                                parkingFloorStatistics.get(floorId).getStatistis().get(0).getUnUsed().getAndIncrement();
+                                                parkingStatistics.getStatistis().get(0).getUnUsed().getAndIncrement();
                                             } else {
-                                                parkingFloorStatistics.get(floorId).getUsed().getAndIncrement();
-                                                parkingStatistics.getUsed().getAndIncrement();
+                                                parkingFloorStatistics.get(floorId).getStatistis().get(0).getUsed().getAndIncrement();
+                                                parkingStatistics.getStatistis().get(0).getUsed().getAndIncrement();
                                             }
                                         } else {
                                             return;
