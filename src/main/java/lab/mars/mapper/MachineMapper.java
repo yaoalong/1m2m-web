@@ -43,76 +43,74 @@ public class MachineMapper {
         network.init();
         int i = 0;
         try {
-            m2m_resource m2m_resource = network.testRetrieve(ROOT, null, OK);
-            if (m2m_resource instanceof m2m_CSEBase) {
-                List<m2m_childResourceRef> resourceList = ((m2m_CSEBase) m2m_resource).ch;
-                for (m2m_childResourceRef aeURI : resourceList) {
-                    m2m_resource m2mResource = network.testRetrieve(aeURI.v, null, OK);
-                    if (m2mResource instanceof m2m_AE) {
-                        List<m2m_childResourceRef> containers = ((m2m_AE) m2mResource).ch;
-                        for (m2m_childResourceRef container : containers) {
-                            m2mResource = network.testRetrieve(container.v, null, OK);
-                            if (m2mResource instanceof m2m_Container) {
-                                if (((m2m_Container) m2mResource).la == null) {
-                                    continue;
-                                }
-                                m2mResource = network.testRetrieve(((m2m_Container) m2mResource).la, null, OK);
-                                if (m2mResource instanceof m2m_ContentInstance) {
-                                    Object object = ResourceReflection.deserializeKryo(((m2m_ContentInstance) m2mResource).con);
-                                    if (object instanceof Machine) {
-                                        if (i < machineCount) {
-                                            int machineType = i % 11;
-                                            if (machineType == 0) {
-                                            } else if (machineType % 2 == 1) {
-                                                machineType = MachineTypeEnum.AIRCONDIION.getIndex();
-                                            } else {
-                                                machineType = MachineTypeEnum.LIGHT.getIndex();
-                                            }
-                                            int apartmentId = i / 11;
-                                            if (apartmentId >= apartmentStatistics.size() || apartmentStatistics.get(apartmentId) == null) {
-                                                apartmentStatistics.add(apartmentId, new StatisticsDO());
-                                            }
-                                            int floorId = i / 44;
-                                            if (floorId >= floorStatistics.size() || floorStatistics.get(floorId) == null) {
-                                                floorStatistics.add(floorId, new StatisticsDO());
-                                            }
-                                            int banId = i / 880;
-                                            if (banId >= banStatistics.size() || banStatistics.get(banId) == null) {
-                                                banStatistics.add(banId, new StatisticsDO());
-                                            }
-                                            if (((Machine) object).isClosed) {
-                                                apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
-                                                floorStatistics.get(floorId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
-                                                banStatistics.get(banId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
-                                                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndIncrement();
-                                            } else {
-                                                apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUsed().getAndIncrement();
-                                                floorStatistics.get(floorId).getStatistics().get(machineType).getUsed().getAndIncrement();
-                                                banStatistics.get(banId).getStatistics().get(machineType).getUsed().getAndIncrement();
-                                                machineStatistics.getStatistics().get(machineType).getUsed().getAndIncrement();
-                                            }
-
-                                            machineCondition.put(container.v, ((Machine) object).isClosed);
-                                            machineIdToURI.put(i, container.v);
-                                        } else if (i < machineCount + parkingCount) {
-                                            parkingCondition.put(container.v, ((Machine) object).isClosed);
-                                            parkingIdToURI.put(i - machineCount, container.v);
-                                            int floorId = (i - machineCount) % 2;
-                                            if (floorId >= parkingFloorStatistics.size() || parkingFloorStatistics.get(floorId) == null) {
-                                                parkingFloorStatistics.add(floorId, new StatisticsDO());
-                                            }
-                                            if (((Machine) object).isClosed) {
-                                                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
-                                                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
-                                            } else {
-                                                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-                                                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-                                            }
+            m2m_resource m2m_resource = network.testRetrieve(ROOT);
+            List<m2m_childResourceRef> resourceList = ((m2m_CSEBase) m2m_resource).ch;
+            for (m2m_childResourceRef aeURI : resourceList) {
+                m2m_resource m2mResource = network.testRetrieve(aeURI.v);
+                if (m2mResource instanceof m2m_AE) {//检索所有的AE
+                    List<m2m_childResourceRef> containers = ((m2m_AE) m2mResource).ch;
+                    for (m2m_childResourceRef container : containers) {//检索所有的Container
+                        m2mResource = network.testRetrieve(container.v);
+                        if (m2mResource instanceof m2m_Container) {
+                            if (((m2m_Container) m2mResource).la == null) {
+                                continue;
+                            }
+                            m2mResource = network.testRetrieve(((m2m_Container) m2mResource).la);//获取最新的instance
+                            if (m2mResource instanceof m2m_ContentInstance) {
+                                Object object = ResourceReflection.deserializeKryo(((m2m_ContentInstance) m2mResource).con);
+                                if (object instanceof Machine) {
+                                    if (i < machineCount) {
+                                        int machineType = i % 11;
+                                        if (machineType == 0) {
+                                        } else if (machineType % 2 == 1) {
+                                            machineType = MachineTypeEnum.AIRCONDIION.getIndex();
                                         } else {
-                                            return;
+                                            machineType = MachineTypeEnum.LIGHT.getIndex();
                                         }
-                                        i++;
+                                        int apartmentId = i / 11;
+                                        if (apartmentId >= apartmentStatistics.size() || apartmentStatistics.get(apartmentId) == null) {
+                                            apartmentStatistics.add(apartmentId, new StatisticsDO());
+                                        }
+                                        int floorId = i / 44;
+                                        if (floorId >= floorStatistics.size() || floorStatistics.get(floorId) == null) {
+                                            floorStatistics.add(floorId, new StatisticsDO());
+                                        }
+                                        int banId = i / 880;
+                                        if (banId >= banStatistics.size() || banStatistics.get(banId) == null) {
+                                            banStatistics.add(banId, new StatisticsDO());
+                                        }
+                                        if (((Machine) object).isClosed) {
+                                            apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                                            floorStatistics.get(floorId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                                            banStatistics.get(banId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                                            machineStatistics.getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                                        } else {
+                                            apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUsed().getAndIncrement();
+                                            floorStatistics.get(floorId).getStatistics().get(machineType).getUsed().getAndIncrement();
+                                            banStatistics.get(banId).getStatistics().get(machineType).getUsed().getAndIncrement();
+                                            machineStatistics.getStatistics().get(machineType).getUsed().getAndIncrement();
+                                        }
+
+                                        machineCondition.put(container.v, ((Machine) object).isClosed);
+                                        machineIdToURI.put(i, container.v);
+                                    } else if (i < machineCount + parkingCount) {
+                                        parkingCondition.put(container.v, ((Machine) object).isClosed);
+                                        parkingIdToURI.put(i - machineCount, container.v);
+                                        int floorId = (i - machineCount) % 2;
+                                        if (floorId >= parkingFloorStatistics.size() || parkingFloorStatistics.get(floorId) == null) {
+                                            parkingFloorStatistics.add(floorId, new StatisticsDO());
+                                        }
+                                        if (((Machine) object).isClosed) {
+                                            parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
+                                            parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
+                                        } else {
+                                            parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                                            parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                                        }
+                                    } else {
+                                        return;
                                     }
+                                    i++;
                                 }
                             }
                         }

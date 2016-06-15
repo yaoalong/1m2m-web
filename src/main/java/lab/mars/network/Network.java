@@ -110,8 +110,8 @@ public class Network {
         }
     }
 
-    public m2m_resource testRetrieve(String path, String contentFilePath, HttpResponseStatus statusCode) throws Exception {
-        m2m_rsp m_rsp = testRequest(HttpMethod.GET, path, statusCode, contentFilePath);
+    public m2m_resource testRetrieve(String path) throws Exception {
+        m2m_rsp m_rsp = testRequest(HttpMethod.GET, path, OK, null);
         if (m_rsp.pc != null && m_rsp.pc.value instanceof m2m_resource)
             return ((m2m_resource) m_rsp.pc.value);
         return null;
@@ -244,5 +244,4 @@ public class Network {
             MachineMapper.parkingCondition.put(resourceRef.v, !MachineMapper.parkingCondition.get(resourceRef.v));
         }
     }
-
 }
