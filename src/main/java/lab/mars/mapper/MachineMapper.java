@@ -6,9 +6,10 @@ import lab.mars.m2m.protocol.http.HeartBeat;
 import lab.mars.m2m.protocol.resource.*;
 import lab.mars.m2m.reality.pojo.Machine;
 import lab.mars.m2m.reflection.ResourceReflection;
+import lab.mars.model.StatisticsDO;
 import lab.mars.network.Network;
-import lab.mars.util.network.HttpClient;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,7 +26,12 @@ public class MachineMapper {
     public static ConcurrentHashMap<String, Boolean> parkingCondition = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<Integer, String> machineIdToURI = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<Integer, String> parkingIdToURI = new ConcurrentHashMap<>();
-    public static HttpClient client = new HttpClient();
+    public static List<StatisticsDO> banStatistics = new ArrayList<>();
+    public static List<StatisticsDO> floorStatistics = new ArrayList<>();
+    public static List<StatisticsDO> apartmentStatistics = new ArrayList<>();
+    public static List<StatisticsDO> parkingFloorStatistics = new ArrayList<>();
+    public static StatisticsDO machineStatistics = new StatisticsDO();
+    public static StatisticsDO parkingStatistics = new StatisticsDO();
     private static int machineCount = 8800;
     private static int parkingCount = 2000;
     private static Network network;
@@ -41,25 +47,68 @@ public class MachineMapper {
                 for (m2m_childResourceRef aeURI : resourceList) {
                     m2m_resource m2mResource = network.testRetrieve(aeURI.v, null, OK);
                     if (m2mResource instanceof m2m_AE) {
-                        List<m2m_childResourceRef> containers = ((m2m_AE)m2mResource).ch;
+                        List<m2m_childResourceRef> containers = ((m2m_AE) m2mResource).ch;
                         for (m2m_childResourceRef container : containers) {
                             m2mResource = network.testRetrieve(container.v, null, OK);
-                            System.out.println("查询完成"+m2mResource+" containerURI:"+container.v);
+                            System.out.println("查询完成" + m2mResource + " containerURI:" + container.v);
                             if (m2mResource instanceof m2m_Container) {
-                                if(((m2m_Container)m2mResource).la==null){
+                                if (((m2m_Container) m2mResource).la == null) {
                                     continue;
                                 }
-                                m2mResource = network.testRetrieve(((m2m_Container)m2mResource).la, null, OK);
+                                m2mResource = network.testRetrieve(((m2m_Container) m2mResource).la, null, OK);
                                 System.out.println("开始");
                                 if (m2mResource instanceof m2m_ContentInstance) {
                                     Object object = ResourceReflection.deserializeKryo(((m2m_ContentInstance) m2mResource).con);
                                     if (object instanceof Machine) {
                                         if (i < machineCount) {
+                                            int apartmentId = i / 11;
+                                            if (apartmentStatistics.get(apartmentId) == null) {
+                                                apartmentStatistics.add(apartmentId, new StatisticsDO());
+                                            }
+                                            if (((Machine) object).isClosed) {
+                                                apartmentStatistics.get(apartmentId).getUnUsed().getAndIncrement();
+                                            } else {
+                                                apartmentStatistics.get(apartmentId).getUsed().getAndIncrement();
+                                            }
+                                            int floorId = i / 44;
+                                            if (floorStatistics.get(floorId) == null) {
+                                                floorStatistics.add(floorId, new StatisticsDO());
+                                            }
+                                            if (((Machine) object).isClosed) {
+                                                floorStatistics.get(floorId).getUnUsed().getAndIncrement();
+                                            } else {
+                                                floorStatistics.get(floorId).getUsed().getAndIncrement();
+                                            }
+                                            int banId = 880;
+                                            if (banStatistics.get(banId) == null) {
+                                                banStatistics.add(banId, new StatisticsDO());
+                                            }
+                                            if (((Machine) object).isClosed) {
+                                                banStatistics.get(banId).getUnUsed().getAndIncrement();
+                                            } else {
+                                                banStatistics.get(banId).getUsed().getAndIncrement();
+                                            }
+                                            if (((Machine) object).isClosed) {
+                                                machineStatistics.getUnUsed().getAndIncrement();
+                                            } else {
+                                                machineStatistics.getUsed().getAndIncrement();
+                                            }
                                             machineCondition.put(container.v, ((Machine) object).isClosed);
                                             machineIdToURI.put(i, container.v);
                                         } else if (i < machineCount + parkingCount) {
                                             parkingCondition.put(container.v, ((Machine) object).isClosed);
                                             parkingIdToURI.put(i - machineCount, container.v);
+                                            int floorId = (i - machineCount) % 2;
+                                            if (parkingFloorStatistics.get(floorId) == null) {
+                                                parkingFloorStatistics.add(floorId, new StatisticsDO());
+                                            }
+                                            if (((Machine) object).isClosed) {
+                                                parkingFloorStatistics.get(floorId).getUnUsed().getAndIncrement();
+                                                parkingStatistics.getUnUsed().getAndIncrement();
+                                            } else {
+                                                parkingFloorStatistics.get(floorId).getUsed().getAndIncrement();
+                                                parkingStatistics.getUsed().getAndIncrement();
+                                            }
                                         } else {
                                             return;
                                         }
@@ -79,9 +128,10 @@ public class MachineMapper {
     public static HeartBeat getConnection() throws Exception {
         return network.test2Request(HttpMethod.GET, "/csebase", OK, null);
     }
-    public static void main(String args[]){
+
+    public static void main(String args[]) {
         MachineMapper.init();
-        System.out.println("sieze:"+MachineMapper.machineCondition.size());
-        System.out.println("sieze:"+MachineMapper.parkingCondition.size());
+        System.out.println("sieze:" + MachineMapper.machineCondition.size());
+        System.out.println("sieze:" + MachineMapper.parkingCondition.size());
     }
 }
