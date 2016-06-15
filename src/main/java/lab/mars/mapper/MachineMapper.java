@@ -6,6 +6,7 @@ import lab.mars.m2m.protocol.http.HeartBeat;
 import lab.mars.m2m.protocol.resource.*;
 import lab.mars.m2m.reality.pojo.Machine;
 import lab.mars.m2m.reflection.ResourceReflection;
+import lab.mars.model.MachineTypeEnum;
 import lab.mars.model.StatisticsDO;
 import lab.mars.network.Network;
 
@@ -22,15 +23,15 @@ import static lab.mars.model.MachineTypeEnum.ANTITHEFT;
  * Email:yaoalong@foxmail.com
  */
 public class MachineMapper {
-    private static final String ROOT = "/csebase";
     public static final ConcurrentHashMap<String, Boolean> machineCondition = new ConcurrentHashMap<>();
-    public static final  ConcurrentHashMap<String, Boolean> parkingCondition = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, Boolean> parkingCondition = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<Integer, String> machineIdToURI = new ConcurrentHashMap<>();
     public static final ConcurrentHashMap<Integer, String> parkingIdToURI = new ConcurrentHashMap<>();
-    public static final  List<StatisticsDO> banStatistics = new ArrayList<>();
+    public static final List<StatisticsDO> banStatistics = new ArrayList<>();
     public static final List<StatisticsDO> floorStatistics = new ArrayList<>();
     public static final List<StatisticsDO> apartmentStatistics = new ArrayList<>();
     public static final List<StatisticsDO> parkingFloorStatistics = new ArrayList<>();
+    private static final String ROOT = "/csebase";
     public static StatisticsDO machineStatistics = new StatisticsDO();
     public static StatisticsDO parkingStatistics = new StatisticsDO();
     private static int machineCount = 8800;
@@ -63,9 +64,9 @@ public class MachineMapper {
                                             int machineType = i % 11;
                                             if (machineType == 0) {
                                             } else if (machineType % 2 == 1) {
-                                                machineType = 1;
+                                                machineType = MachineTypeEnum.AIRCONDIION.getIndex();
                                             } else {
-                                                machineType = 2;
+                                                machineType = MachineTypeEnum.LIGHT.getIndex();
                                             }
                                             int apartmentId = i / 11;
                                             if (apartmentId >= apartmentStatistics.size() || apartmentStatistics.get(apartmentId) == null) {
@@ -80,15 +81,15 @@ public class MachineMapper {
                                                 banStatistics.add(banId, new StatisticsDO());
                                             }
                                             if (((Machine) object).isClosed) {
-                                                apartmentStatistics.get(apartmentId).getStatistis().get(machineType).getUnUsed().getAndIncrement();
-                                                floorStatistics.get(floorId).getStatistis().get(machineType).getUnUsed().getAndIncrement();
-                                                banStatistics.get(banId).getStatistis().get(machineType).getUnUsed().getAndIncrement();
-                                                machineStatistics.getStatistis().get(machineType).getUnUsed().getAndIncrement();
+                                                apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                                                floorStatistics.get(floorId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                                                banStatistics.get(banId).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                                                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndIncrement();
                                             } else {
-                                                apartmentStatistics.get(apartmentId).getStatistis().get(machineType).getUsed().getAndIncrement();
-                                                floorStatistics.get(floorId).getStatistis().get(machineType).getUsed().getAndIncrement();
-                                                banStatistics.get(banId).getStatistis().get(machineType).getUsed().getAndIncrement();
-                                                machineStatistics.getStatistis().get(machineType).getUsed().getAndIncrement();
+                                                apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUsed().getAndIncrement();
+                                                floorStatistics.get(floorId).getStatistics().get(machineType).getUsed().getAndIncrement();
+                                                banStatistics.get(banId).getStatistics().get(machineType).getUsed().getAndIncrement();
+                                                machineStatistics.getStatistics().get(machineType).getUsed().getAndIncrement();
                                             }
 
                                             machineCondition.put(container.v, ((Machine) object).isClosed);
@@ -101,11 +102,11 @@ public class MachineMapper {
                                                 parkingFloorStatistics.add(floorId, new StatisticsDO());
                                             }
                                             if (((Machine) object).isClosed) {
-                                                parkingFloorStatistics.get(floorId).getStatistis().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
-                                                parkingStatistics.getStatistis().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
+                                                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
+                                                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
                                             } else {
-                                                parkingFloorStatistics.get(floorId).getStatistis().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-                                                parkingStatistics.getStatistis().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                                                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                                                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
                                             }
                                         } else {
                                             return;

@@ -31,11 +31,11 @@ public class StatusController {
         MachineStatistics machineStatistics = new MachineStatistics();
         long unUsed, used;
         if (flag == 0) {
-            unUsed = MachineMapper.parkingStatistics.getStatistis().get(ANTITHEFT.getIndex()).getUnUsed().get();
-            used = MachineMapper.parkingStatistics.getStatistis().get(ANTITHEFT.getIndex()).getUsed().get();
+            unUsed = MachineMapper.parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().get();
+            used = MachineMapper.parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
         } else {
-            unUsed = MachineMapper.parkingFloorStatistics.get(floorId).getStatistis().get(0).getUnUsed().get();
-            used = MachineMapper.parkingFloorStatistics.get(floorId).getStatistis().get(0).getUsed().get();
+            unUsed = MachineMapper.parkingFloorStatistics.get(floorId).getStatistics().get(0).getUnUsed().get();
+            used = MachineMapper.parkingFloorStatistics.get(floorId).getStatistics().get(0).getUsed().get();
         }
         machineStatistics.setOpen(used / (unUsed + used) * 100);
         return machineStatistics;
@@ -47,8 +47,8 @@ public class StatusController {
     MachineStatistics getAirConditionStatus(@RequestParam String key) {
         MachineStatistics machineStatistics = new MachineStatistics();
         StatisticsDO statisticsDO = judgePosition(key);
-        long unUsed = statisticsDO.getStatistis().get(AIRCONDIION.getIndex()).getUnUsed().get();
-        long used = statisticsDO.getStatistis().get(AIRCONDIION.getIndex()).getUsed().get();
+        long unUsed = statisticsDO.getStatistics().get(AIRCONDIION.getIndex()).getUnUsed().get();
+        long used = statisticsDO.getStatistics().get(AIRCONDIION.getIndex()).getUsed().get();
         machineStatistics.setOpen(used / (unUsed + used) * 100);
         return machineStatistics;
     }
@@ -58,8 +58,8 @@ public class StatusController {
     @ResponseBody
     MachineStatistics getLightStatus(@RequestParam String key) {
         StatisticsDO statisticsDO = judgePosition(key);
-        long unUsed = statisticsDO.getStatistis().get(LIGHT.getIndex()).getUnUsed().get();
-        long used = statisticsDO.getStatistis().get(LIGHT.getIndex()).getUsed().get();
+        long unUsed = statisticsDO.getStatistics().get(LIGHT.getIndex()).getUnUsed().get();
+        long used = statisticsDO.getStatistics().get(LIGHT.getIndex()).getUsed().get();
         MachineStatistics lightStatusStatistics = new MachineStatistics();
         lightStatusStatistics.setOpen(unUsed / (unUsed + used) * 100);
         return lightStatusStatistics;
@@ -71,8 +71,8 @@ public class StatusController {
     MachineStatistics getAntiTheftStatus(@RequestParam String key) {
         MachineStatistics machineStatistics = new MachineStatistics();
         StatisticsDO statisticsDO = judgePosition(key);
-        long unUsed = statisticsDO.getStatistis().get(ANTITHEFT.getIndex()).getUnUsed().get();
-        long used = statisticsDO.getStatistis().get(ANTITHEFT.getIndex()).getUsed().get();
+        long unUsed = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().get();
+        long used = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
         machineStatistics.setOpen(used / (unUsed + used) * 100);
         return machineStatistics;
     }
