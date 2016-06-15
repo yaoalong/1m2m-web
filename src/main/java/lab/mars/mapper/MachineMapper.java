@@ -40,9 +40,14 @@ public class MachineMapper {
     private static int machineCount = 8800;
     private static int parkingCount = 2000;
     private static Network network;
-    private static int apartmentNumber=11;
-    private static int floorNumber=44;
-    private static int banNumber=880;
+    //一户人家的设备的数量
+    private static int apartmentNumber = 11;
+    private static int floorNumber = 44;//一层的设备数量
+    private static int banNumber = 880;//一栋楼的设备数量
+
+    /**
+     * 加载所有的资源信息
+     */
     public static void init() {
         network = new Network();
         network.init();
@@ -130,44 +135,56 @@ public class MachineMapper {
         }
     }
 
+    /**
+     * 获取系统性能信息
+     *
+     * @return
+     * @throws Exception
+     */
     public static HeartBeat getConnection() throws Exception {
         return network.test2Request(HttpMethod.GET, ROOT, OK, null);
     }
 
+    /**
+     * 更新所有的统计信息
+     *
+     * @param resourceURI
+     */
     public static void update(String resourceURI) {
-        if (MachineMapper.machineCondition.containsKey(resourceURI)) {
-            if (MachineMapper.machineCondition.get(resourceURI)) {
-                MachineMapper.apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
-                MachineMapper.apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndDecrement();
-                MachineMapper.floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
-                MachineMapper.floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndDecrement();
-                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
-                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndDecrement();
-                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
-                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
+        if (machineCondition.containsKey(resourceURI)) {
+            int machineType = urlTOType.get(urlTOType);
+            if (machineCondition.get(resourceURI)) {
+                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
+                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
+                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndIncrement();
+                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndDecrement();
             } else {
-                MachineMapper.apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndIncrement();
-                MachineMapper.apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
-                MachineMapper.floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndIncrement();
-                MachineMapper.floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
-                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(urlTOType.get(resourceURI)).getUsed().getAndIncrement();
-                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
-                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
-                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
+                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
+                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUnUsed().getAndDecrement();
+                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
+                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUnUsed().getAndDecrement();
+                banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
+                banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUnUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndIncrement();
             }
-            MachineMapper.machineCondition.put(resourceURI, !MachineMapper.machineCondition.get(resourceURI));
+            machineCondition.put(resourceURI, !machineCondition.get(resourceURI));
 
-        } else if (MachineMapper.parkingCondition.containsKey(resourceURI)) {
-            if (MachineMapper.parkingCondition.get(resourceURI)) {
-                MachineMapper.parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(MachineTypeEnum.ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
-                MachineMapper.parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(MachineTypeEnum.ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-                parkingStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndIncrement();
+        } else if (parkingCondition.containsKey(resourceURI)) {
+            if (parkingCondition.get(resourceURI)) {
+                parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
+                parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
             } else {
-                MachineMapper.parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(MachineTypeEnum.ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-                MachineMapper.parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(MachineTypeEnum.ANTITHEFT.getIndex()).getUnUsed().getAndDecrement();
-                machineStatistics.getStatistics().get(urlTOType.get(resourceURI)).getUnUsed().getAndDecrement();
+                parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndDecrement();
             }
-            MachineMapper.parkingCondition.put(resourceURI, !MachineMapper.parkingCondition.get(resourceURI));
+            parkingCondition.put(resourceURI, !MachineMapper.parkingCondition.get(resourceURI));
         }
     }
 
