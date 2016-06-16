@@ -40,12 +40,23 @@ public class LaserSensor extends AbstractSensor {
     @Override
     public void run() {
         value = !value;
-       // request(new LaserSensor(value, machineUri));
+        request(new LaserSensor(value, machineUri));
+        int id = parkingURIToID.get(cntUri);
         if (value) {
-            parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            System.out.println("增加了");
+            synchronized (parkingStatistics){
+                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            }
         } else {
             parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+            System.out.println("减少");
+            synchronized (parkingFloorStatistics){
+                parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+            }
+
         }
+        parkingCondition.put(cntUri, value);
     }
 
     public void add() {
@@ -54,13 +65,17 @@ public class LaserSensor extends AbstractSensor {
         parkingIdToURI.put(i, cntUri);
         parkingURIToID.put(cntUri, i);
         int floorId = (i) % 2;
-        if (floorId >= parkingFloorStatistics.size()) {
-            int[] ints = new int[1];
-            ints[0] = parkingCount / 2;
-            parkingFloorStatistics.add(floorId, new StatisticsDO(1, ints));
-        }
-        if (value) {
-            parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+        System.out.println("laser sensor");
+        synchronized (parkingFloorStatistics) {
+            if (floorId >= parkingFloorStatistics.size()) {
+                int[] ints = new int[1];
+                ints[0] = parkingCount / 2;
+                System.out.println("添加了对应的");
+                parkingFloorStatistics.add(floorId, new StatisticsDO(1, ints));
+            }
+            if (value) {
+                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            }
         }
     }
 

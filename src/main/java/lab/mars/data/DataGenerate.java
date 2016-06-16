@@ -15,6 +15,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+import static lab.mars.mapper.MachineMapper.network;
+import static lab.mars.mapper.MachineMapper.parkingCount;
 import static lab.msrs.web.util.NotificationUtils.cntMapMachine;
 
 /**
@@ -48,7 +50,7 @@ public class DataGenerate extends WebNetwork {
      * 防盗传感器
      */
     private static final boolean antitheft_sensor_value = false;
-    private static final int antitheft_sensor_period = 5000;
+    private static final int antitheft_sensor_period = 50;
 
     /**
      * 楼层
@@ -57,12 +59,12 @@ public class DataGenerate extends WebNetwork {
     /**
      * 停车场
      */
-    private static final int number_parking_number = 10;
+    private static final int number_parking_number =20;
     /**
      * 传感器
      */
     private static final boolean laser_sensor_value = false;
-    private static final int laser_sensor_period = 5000;
+    private static final int laser_sensor_period = 50;
 
 
     //光线传感器0
@@ -72,7 +74,7 @@ public class DataGenerate extends WebNetwork {
 
     @Override
     public void handleNotify(m2m_childResourceRef ref) {
-        System.out.println("接收到了notify");
+      //  System.out.println("接收到了notify");
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(() -> {
             m2m_resource response = null;
@@ -95,7 +97,7 @@ public class DataGenerate extends WebNetwork {
                     cntMapMachine.get(temperatureSensor.getMachineUri()).create(temperatureSensor.getValue());
                 }
             } else {
-                System.out.println("classs:" + response.getClass());
+              //  System.out.println("classs:" + response.getClass());
             }
         });
     }
@@ -105,9 +107,9 @@ public class DataGenerate extends WebNetwork {
         Map<String, String> containerURI = new HashMap<>();
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
         //栋数
-        int banNum = 1;
+        int banNum = 10;
         //层数
-        int floor = 2;
+        int floor = 20;
         //户数
         int houseHold = 1;
         //房间
@@ -176,14 +178,16 @@ public class DataGenerate extends WebNetwork {
                 containerURI.put(i + "/" + j, cntUri);
             }
         }
+        System.out.println("Haha"+garageFloors+":"+number_parking_number);
         for (int i = 0; i < garageFloors; i++) {
             for (int j = 0; j < number_parking_number; j++) {
+                System.out.println("haha");
                 executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, laser_sensor_period, this, containerURI.get(i + "/" + j), null), 1, laser_sensor_period, TimeUnit.SECONDS);
 
             }
         }
         System.out.println("创建完毕");
-        Thread.sleep(1000);
+        Thread.sleep(10000);
     }
     public static void main(String args[]) throws Exception {
         long startTime=System.currentTimeMillis();

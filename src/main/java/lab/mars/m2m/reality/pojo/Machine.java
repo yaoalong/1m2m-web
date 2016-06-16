@@ -30,15 +30,15 @@ public abstract class Machine {
     public void request(Machine machine, int value, int machineType) {
         if (value == 0) {
             int i = atomicInteger.getAndIncrement();
-            int apartmentId = i / apartmentNumber;
+            int apartmentId = i % apartmentNumber;
             if (apartmentId >= apartmentStatistics.size() || apartmentStatistics.get(apartmentId) == null) {
                 apartmentStatistics.add(apartmentId, new StatisticsDO(3, new int[]{1, 5, 5}));
             }
-            int floorId = i / floorNumber;
+            int floorId = i % floorNumber;
             if (floorId >= floorStatistics.size() || floorStatistics.get(floorId) == null) {
                 floorStatistics.add(floorId, new StatisticsDO(3, new int[]{4, 20, 20}));
             }
-            int banId = i / banNumber;
+            int banId = i % banNumber;
             if (banId >= banStatistics.size() || banStatistics.get(banId) == null) {
                 banStatistics.add(banId, new StatisticsDO(3, new int[]{80, 400, 400}));
             }

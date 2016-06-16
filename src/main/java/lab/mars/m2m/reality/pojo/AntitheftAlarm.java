@@ -31,14 +31,14 @@ public class AntitheftAlarm extends Machine {
     public void create(int value) {
         boolean pre = value == 1 ? true : false;
         if (pre && !isClosed) {
-            System.out.println("防盗传感器感应到门关了，防盗报警器关闭");
+           // System.out.println("防盗传感器感应到门关了，防盗报警器关闭");
             isClosed = true;
             request(new AntitheftAlarm(isClosed), 1, ANTITHEFT.getIndex());
         } else if (!pre && isClosed) {
-            System.out.println("防盗传感器感应到门没关,防盗报警器开启");
+           // System.out.println("防盗传感器感应到门没关,防盗报警器开启");
             isClosed = false;
         } else {
-            System.out.println("防盗" + cntUri + "状态:" + (isClosed ? "关闭" : "开启") + "门:" + (pre ? "关了" : "没关"));
+           // System.out.println("防盗" + cntUri + "状态:" + (isClosed ? "关闭" : "开启") + "门:" + (pre ? "关了" : "没关"));
         }
     }
 }

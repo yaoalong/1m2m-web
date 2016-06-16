@@ -58,11 +58,12 @@ public class WebNetwork {
     public void init() {
         client = new HttpClient();
         server = new HttpServer();
-        server.bindAsync(myIp, 9010)
+        server.bindAsync("localhost", 9010)
                 .then(future -> {
                     System.out.println("server has started@9010");
                 })
                 .<NetworkEvent<FullHttpRequest>>loop(m -> {
+                    //System.out.println("接收到");
                     ByteBuf data = m.msg.content();
                     try {
                         m2m_primitiveContentType pc = (m2m_primitiveContentType) unmarshaller.get().unmarshal(new ByteBufInputStream(data));

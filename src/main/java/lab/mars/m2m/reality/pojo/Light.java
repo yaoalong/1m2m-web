@@ -8,6 +8,7 @@ package lab.mars.m2m.reality.pojo;
 
 
 import lab.mars.data.DataGenerate;
+import lab.mars.model.MachineTypeEnum;
 
 import static lab.mars.model.MachineTypeEnum.LIGHT;
 
@@ -42,6 +43,7 @@ public class Light extends Machine {
             System.out.println("光线传感器感应到光强度始终，关闭灯");
             isClosed = false;
             request(new Light(isClosed), 1, LIGHT.getIndex());
+            update(cntUri,isClosed, LIGHT.getIndex());
         } else {
             System.out.println("光线强度为:" + value + "灯" + cntUri + "的状态为：" + (isClosed ? "关闭" : "开启"));
         }

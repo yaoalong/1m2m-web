@@ -2,6 +2,7 @@ package lab.mars.controller;
 
 import lab.mars.model.MachineStatus;
 import lab.mars.model.ParkingStatus;
+import lab.mars.model.Sensor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +40,15 @@ public class RetrieveController {
         ParkingStatus parkingStatus = new ParkingStatus();
         parkingStatus.setUnUsed(parkingCondition.get(parkingIdToURI.get(key)));
         return parkingStatus;
+    }
+
+    @RequestMapping(value = "/parkingRetrieve.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    Sensor retrieveSensor(@RequestParam int key) {
+        Sensor sensor = new Sensor();
+        sensor.setValue(sensorMap.get(machineIdToURI.get(key)));
+        return sensor;
     }
 
     @PostConstruct

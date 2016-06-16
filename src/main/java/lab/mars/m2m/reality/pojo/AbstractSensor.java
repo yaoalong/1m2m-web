@@ -36,7 +36,6 @@ public abstract class AbstractSensor implements SensorObject, Serializable {
         StringWriter sw = new StringWriter();
         try {
             dataGenerate.marshaller.get().marshal(m2m_primitiveContentType, sw);
-            NotificationUtils.zxidMapStartTime.put(zxid, System.currentTimeMillis());
             dataGenerate.testCreate(cntUri, contentInstance, sw.toString(), OK, ASYNC);//创建一个containerInstance
         } catch (JAXBException e) {
             e.printStackTrace();

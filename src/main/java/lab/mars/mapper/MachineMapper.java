@@ -42,7 +42,7 @@ public class MachineMapper {
     public static int floorNumber = 44;//一层的设备数量
     public static int banNumber = 880;//一栋楼的设备数量
     public static int machineCount = 8800;
-    public static int parkingCount = 2000;
+    public static int parkingCount = 40;
     public static StatisticsDO machineStatistics = new StatisticsDO(3, new int[]{1760, 3520, 3520});
     public static StatisticsDO parkingStatistics = new StatisticsDO(1, new int[]{2000});
 

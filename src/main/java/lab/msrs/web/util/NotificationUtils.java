@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class NotificationUtils {
     public static AtomicLong zxid = new AtomicLong(0);
 
-    public static ConcurrentHashMap<Long, Long> zxidMapStartTime = new ConcurrentHashMap<>();
     /**
      * 设备对应的containerURI
      */
