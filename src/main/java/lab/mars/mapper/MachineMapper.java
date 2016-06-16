@@ -57,53 +57,8 @@ public class MachineMapper {
     public static HeartBeat getConnection() throws Exception {
         return network.test2Request(HttpMethod.GET, ROOT, OK, null);
     }
-//
-//    /**
-//     * 更新所有的统计信息
-//     *
-//     * @param resourceURI
-//     */
-//    public static void update(String resourceURI) {
-//        if (machineCondition.containsKey(resourceURI)) {
-//            int machineType = urlTOType.get(urlTOType);
-//            if (machineCondition.get(resourceURI)) {
-//                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUnUsed().getAndIncrement();
-//                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
-//                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUnUsed().getAndIncrement();
-//                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
-//                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUnUsed().getAndIncrement();
-//                MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
-//                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndIncrement();
-//                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndDecrement();
-//            } else {
-//                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
-//                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUnUsed().getAndDecrement();
-//                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
-//                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUnUsed().getAndDecrement();
-//                banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
-//                banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUnUsed().getAndDecrement();
-//                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndDecrement();
-//                machineStatistics.getStatistics().get(machineType).getUnUsed().getAndIncrement();
-//            }
-//            machineCondition.put(resourceURI, !machineCondition.get(resourceURI));
-//
-//        } else if (parkingCondition.containsKey(resourceURI)) {
-//            if (parkingCondition.get(resourceURI)) {
-//                parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
-//                parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-//                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndIncrement();
-//            } else {
-//                parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-//                parkingFloorStatistics.get(parkingURIToID.get(resourceURI) % 2).getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndDecrement();
-//                machineStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().getAndDecrement();
-//            }
-//            parkingCondition.put(resourceURI, !MachineMapper.parkingCondition.get(resourceURI));
-//        }
-//    }
-
 
     public static void main(String args[]) {
-        //   MachineMapper.init();
         System.out.println("sieze:" + MachineMapper.machineCondition.size());
         System.out.println("sieze:" + MachineMapper.parkingCondition.size());
     }

@@ -24,15 +24,15 @@ public class SystemInformationController {
     @ResponseBody
     ConnectionsStatistics getConnection() {
         HeartBeat heartBeat;
-//        try {
-//            heartBeat = MachineMapper.getConnection();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
+        try {
+            heartBeat = MachineMapper.getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         ConnectionsStatistics connectionsStatistics = new ConnectionsStatistics();
-        connectionsStatistics.setConnectionNumber(22);
-        connectionsStatistics.setAvgResonseTime(11L);
+        connectionsStatistics.setConnectionNumber(heartBeat.getConnections());
+        connectionsStatistics.setAvgResonseTime((long) heartBeat.getAvgHandlingTime());
         return connectionsStatistics;
     }
 }

@@ -440,7 +440,6 @@ public class WebNetwork {
         };
         String requestBody = contentPath != null ? IOUtils.toString(Thread.currentThread().getContextClassLoader().getResource(contentPath)) : null;
         String[][] rsp_headers = new String[][]{
-//				{"X-M2M-RI", "00001"},
         };
 
         return test2Request(method, path, req_headers, requestBody, statusCode, rsp_headers);
