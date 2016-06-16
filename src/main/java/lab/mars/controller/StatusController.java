@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import static lab.mars.mapper.MachineMapper.parkingStatistics;
 import static lab.mars.model.MachineTypeEnum.*;
 
 /**
@@ -29,15 +30,14 @@ public class StatusController {
     MachineStatistics getParkingStatus(@RequestParam int floorId) {
         int flag = 1;
         MachineStatistics machineStatistics = new MachineStatistics();
-        long unUsed, used;
+        long sum, used;
+        sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
         if (flag == 0) {
-            unUsed = MachineMapper.parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().get();
-            used = MachineMapper.parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
+            used = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
         } else {
-            unUsed = MachineMapper.parkingFloorStatistics.get(floorId).getStatistics().get(0).getUnUsed().get();
             used = MachineMapper.parkingFloorStatistics.get(floorId).getStatistics().get(0).getUsed().get();
         }
-        machineStatistics.setOpen(used* 100 / (unUsed + used) );
+        machineStatistics.setOpen(used * 100 / sum);
         return machineStatistics;
     }
 
@@ -47,9 +47,9 @@ public class StatusController {
     MachineStatistics getAirConditionStatus(@RequestParam String key) {
         MachineStatistics machineStatistics = new MachineStatistics();
         StatisticsDO statisticsDO = judgePosition(key);
-        long unUsed = statisticsDO.getStatistics().get(AIRCONDIION.getIndex()).getUnUsed().get();
+        long sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
         long used = statisticsDO.getStatistics().get(AIRCONDIION.getIndex()).getUsed().get();
-        machineStatistics.setOpen(used*100 / (unUsed + used));
+        machineStatistics.setOpen(used * 100 / sum);
         return machineStatistics;
     }
 
@@ -58,10 +58,10 @@ public class StatusController {
     @ResponseBody
     MachineStatistics getLightStatus(@RequestParam String key) {
         StatisticsDO statisticsDO = judgePosition(key);
-        long unUsed = statisticsDO.getStatistics().get(LIGHT.getIndex()).getUnUsed().get();
+        long sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
         long used = statisticsDO.getStatistics().get(LIGHT.getIndex()).getUsed().get();
         MachineStatistics lightStatusStatistics = new MachineStatistics();
-        lightStatusStatistics.setOpen(used*100/ (unUsed + used));
+        lightStatusStatistics.setOpen(used * 100 / sum);
         return lightStatusStatistics;
     }
 
@@ -71,11 +71,10 @@ public class StatusController {
     MachineStatistics getAntiTheftStatus(@RequestParam String key) {
         MachineStatistics machineStatistics = new MachineStatistics();
         StatisticsDO statisticsDO = judgePosition(key);
-        long unUsed = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getUnUsed().get();
+        long sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
         long used = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
-        System.out.println(unUsed+"Unused");
-        System.out.println("used："+used);
-        machineStatistics.setOpen(used*100 / (unUsed + used));
+        System.out.println("sum:"+sum);
+        machineStatistics.setOpen(used * 100 / sum);
         return machineStatistics;
     }
 

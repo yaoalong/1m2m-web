@@ -7,7 +7,7 @@ package lab.mars.m2m.reality.pojo;
  */
 
 
-import lab.mars.m2m.test.resourcetest.ResourceTestBase;
+import lab.mars.data.DataGenerate;
 
 /**
  * 防盗传感器
@@ -22,16 +22,21 @@ public class AntiTheftSensor extends AbstractSensor {
         this.machineUri = machineUri;
     }
 
-    public AntiTheftSensor(boolean value, int period, ResourceTestBase resourceTestBase, String cntUri, String machineUri) {
+    public AntiTheftSensor(boolean value, int period, DataGenerate dataGenerate, String cntUri, String machineUri) {
         this.value = value;
         this.period = period;
-        this.resourceTestBase = resourceTestBase;
+        this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
         this.machineUri = machineUri;
+
     }
 
     @Override
     public void run() {
+        value = !value;
+        request(new AntiTheftSensor(value, machineUri));
+        // System.out.println("防盗传感器" + machineUri + " 状态为:" + (value ? "空" : "被占用"));
+
     }
 
     @Override

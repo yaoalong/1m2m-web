@@ -1,6 +1,5 @@
 package lab.mars.controller;
 
-import lab.mars.mapper.MachineMapper;
 import lab.mars.model.MachineStatus;
 import lab.mars.model.ParkingStatus;
 import org.springframework.stereotype.Controller;
@@ -44,6 +43,10 @@ public class RetrieveController {
 
     @PostConstruct
     public void init() {
-        MachineMapper.init();
+        try {
+            network.generateData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

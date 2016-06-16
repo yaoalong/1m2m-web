@@ -1,7 +1,8 @@
 package lab.mars.m2m.reality.pojo;
 
 
-import lab.mars.m2m.test.resourcetest.ResourceTestBase;
+import lab.mars.data.DataGenerate;
+import lab.mars.mapper.MachineMapper;
 
 /**
  * Author:yaoalong.
@@ -20,19 +21,26 @@ public class TemperatureSensor extends AbstractSensor {
         this.machineUri = machineUri;
     }
 
-    public TemperatureSensor(int value, int incrementNum, int low, int high, int period, ResourceTestBase resourceTestBase, String cntUri, String machineUri) {
+    public TemperatureSensor(int value, int incrementNum, int low, int high, int period, DataGenerate dataGenerate, String cntUri, String machineUri) {
         this.incrementNum = incrementNum;
         this.low = low;
         this.high = high;
         this.period = period;
         this.value = value;
-        this.resourceTestBase = resourceTestBase;
+        this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
         this.machineUri = machineUri;
     }
 
     @Override
     public void run() {
+        if (value >= low && value <= high) {
+            value += incrementNum;
+          //  request(new TemperatureSensor(value, machineUri));
+        } else {
+            value = low;
+        }
+        MachineMapper.sensorMap.put(cntUri, value);
     }
 
     public int getValue() {

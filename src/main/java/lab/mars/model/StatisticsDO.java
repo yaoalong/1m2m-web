@@ -15,9 +15,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class StatisticsDO {
     private ConcurrentHashMap<Integer, StatisticsMessage> statistics = new ConcurrentHashMap<>();
 
-    public StatisticsDO() {
-        for (int i = 0; i < 3; i++) {
-            statistics.put(i, new StatisticsMessage());
+    public StatisticsDO(int length,int[] lengths) {
+        for (int i = 0; i < length; i++) {
+            statistics.put(i, new StatisticsMessage(lengths[i]));
         }
     }
 
@@ -27,14 +27,18 @@ public class StatisticsDO {
 
     public static class StatisticsMessage {
         private AtomicLong used = new AtomicLong(0);
-        private AtomicLong unUsed = new AtomicLong(0);
+        private long sum;
+
+        public StatisticsMessage(long sum) {
+            this.sum = sum;
+        }
 
         public AtomicLong getUsed() {
             return used;
         }
 
-        public AtomicLong getUnUsed() {
-            return unUsed;
+        public long getSum() {
+            return sum;
         }
     }
 }
