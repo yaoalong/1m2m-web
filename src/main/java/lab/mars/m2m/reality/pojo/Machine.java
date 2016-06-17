@@ -4,6 +4,7 @@ import lab.mars.data.DataGenerate;
 import lab.mars.m2m.protocol.primitive.m2m_primitiveContentType;
 import lab.mars.m2m.protocol.resource.m2m_ContentInstance;
 import lab.mars.m2m.reflection.ResourceReflection;
+import lab.mars.model.MachineTypeEnum;
 import lab.mars.model.StatisticsDO;
 
 import javax.xml.bind.JAXBException;
@@ -27,7 +28,8 @@ public abstract class Machine {
     protected DataGenerate dataGenerate;
     protected String cntUri;
 
-    public void request(Machine machine, int init, int machineType) {
+    public void request(Machine machine, int init, MachineTypeEnum machineTypeEnum) {
+        int machineType = machineTypeEnum.getIndex();
         if (init == INIT) {
             int i = atomicInteger.getAndIncrement();
             int apartmentId = i % apartmentNumber;
@@ -75,9 +77,10 @@ public abstract class Machine {
      *
      * @param resourceURI
      * @param value
-     * @param machineType
+     * @param machineTypeEnum
      */
-    public void update(String resourceURI, boolean value, int machineType) {
+    public void update(String resourceURI, boolean value, MachineTypeEnum machineTypeEnum) {
+        int machineType = machineTypeEnum.getIndex();
         try {
             if (value) {//当前的状态为关闭，已使用的减1
                 apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
