@@ -13,8 +13,8 @@ public class MachineStatistics {
         return open;
     }
 
-    public void setOpen(long open) {
-        int opened = (int) open;
+    public void setOpen(long open, long sum) {
+        int opened = (int) (open * 100 / sum);
         this.closed = 100 - opened;
         this.open = opened;
 

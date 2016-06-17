@@ -12,7 +12,6 @@ public class LightSensor extends AbstractSensor {
     private int incrementNum;
     private int low = 0;
     private int high;
-    private int period;
     private int value;
 
 
@@ -21,11 +20,10 @@ public class LightSensor extends AbstractSensor {
         this.machineUri = machineUri;
     }
 
-    public LightSensor(int value, int incrementNum, int low, int high, int period, DataGenerate dataGenerate, String cntUri, String machineUri) {
+    public LightSensor(int value, int incrementNum, int low, int high, DataGenerate dataGenerate, String cntUri, String machineUri) {
         this.incrementNum = incrementNum;
         this.low = low;
         this.high = high;
-        this.period = period;
         this.value = value;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
@@ -51,7 +49,4 @@ public class LightSensor extends AbstractSensor {
         this.value = value;
     }
 
-    public int getPeriod() {
-        return period;
-    }
 }

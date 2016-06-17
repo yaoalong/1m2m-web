@@ -25,6 +25,12 @@ import static lab.msrs.web.util.NotificationUtils.*;
  */
 @Controller
 public class RetrieveController {
+    /**
+     * 检索设备的状态
+     *
+     * @param key
+     * @return
+     */
     @RequestMapping(value = "/retrieveMachine.do", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -39,12 +45,13 @@ public class RetrieveController {
         int apartment = Integer.parseInt(result[2]) - 1;
         int roomNumber = Integer.parseInt(result[3]) - 1;
         boolean isClosed = false;
+        String index = ban + "/" + floor + "/" + apartment + "/";
         if (Integer.parseInt(result[4]) == 0) {
-            isClosed = positionMapAntiTheft.get(ban + "/" + floor + "/" + apartment + "/" + 1 + "/").isClosed;
+            isClosed = positionMapAntiTheft.get(index + 1 + "/").isClosed;
         } else if (Integer.parseInt(result[4]) == 1) {
-            isClosed = positionMapMachine.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 1).isClosed;
+            isClosed = positionMapMachine.get(index + roomNumber + "/" + 3).isClosed;
         } else if (Integer.parseInt(result[4]) == 2) {
-            isClosed = positionMapMachine.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 0).isClosed;
+            isClosed = positionMapMachine.get(index + roomNumber + "/" + 2).isClosed;
         }
         machineStatus.setClosed(isClosed);
         return machineStatus;

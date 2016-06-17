@@ -134,13 +134,12 @@ public class DataGenerate extends WebNetwork {
                     cntUri = createSyncContainer(aeUri);//创建一个container
                     containerURI.put(i + "/" + j + "/" + z + "/" + 1 + "/", cntUri);
                     AntitheftAlarm antitheftAlarm = new AntitheftAlarm(false, this, cntUri);
-                    positionMapAntiTheft.put(i + "/" + j + "/" + z + "/" + 1 + "/",antitheftAlarm);
+                    positionMapAntiTheft.put(i + "/" + j + "/" + z + "/" + 1 + "/", antitheftAlarm);
                     cntMapMachine.put(cntUri, antitheftAlarm);
 
                 }
             }
         }
-        System.out.println("contr" + "完成");
         for (int i = 0; i < banNumber; i++) {
             for (int j = 0; j < floorNumber; j++) {
                 for (int z = 0; z < apartmentNumber; z++) {
@@ -150,20 +149,21 @@ public class DataGenerate extends WebNetwork {
                         /**
                          * 创建不同的subscription
                          */
+                    String resourceURI=i + "/" + j + "/" + z + "/" + y + "/";
                         for (int w = 0; w < 2; w++) {
-                            containerURL = containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + w);
+                            containerURL = containerURI.get(resourceURI + w);
                             createAsyncSubScriptions(containerURL);
                         }
-                        LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, light_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 0), containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 2));
-                        TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, temperature_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 1), containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 3));
-                        positionMapSensor.put(i + "/" + j + "/" + z + "/" + y + "/" + 2, lightSensor);
-                        positionMapSensor.put(i + "/" + j + "/" + z + "/" + y + "/" + 3, temperatureSensor);
+                        LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, this, containerURI.get(resourceURI + 0), containerURI.get(resourceURI + 2));
+                        TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, temperature_period, this, containerURI.get(resourceURI + 1), containerURI.get(resourceURI + 3));
+                        positionMapSensor.put(resourceURI + 0, lightSensor);
+                        positionMapSensor.put(resourceURI + 1, temperatureSensor);
                         executorService.scheduleAtFixedRate(lightSensor, 0
                                 , light_period * getRandom(), TimeUnit.SECONDS);
                         executorService.scheduleAtFixedRate(temperatureSensor, 1
                                 , light_period * getRandom(), TimeUnit.SECONDS);
                     }
-                    executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, antitheft_sensor_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(i + "/" + j + "/" + z + "/" + 1 + "/")), 1
+                    executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, this, containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(i + "/" + j + "/" + z + "/" + 1 + "/")), 1
                             , antitheft_sensor_period * getRandom(), TimeUnit.SECONDS);
 
 
@@ -179,7 +179,7 @@ public class DataGenerate extends WebNetwork {
         }
         for (int i = 0; i < parkingFloor; i++) {
             for (int j = 0; j < parkingPositionCount / parkingFloor; j++) {
-                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, laser_sensor_period, this, containerURI.get(i + "/" + j), null), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
+                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j), null), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
 
             }
         }

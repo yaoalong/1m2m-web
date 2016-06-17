@@ -21,16 +21,14 @@ public class LaserSensor extends AbstractSensor {
     private static final long serialVersionUID = 6021429766370514584L;
     static AtomicInteger atomicInteger = new AtomicInteger(0);
     private boolean value;
-    private int period;
 
     public LaserSensor(boolean value, String machineUri) {
         this.value = value;
         this.machineUri = machineUri;
     }
 
-    public LaserSensor(boolean value, int period, DataGenerate dataGenerate, String cntUri, String machineUri) {
+    public LaserSensor(boolean value,  DataGenerate dataGenerate, String cntUri, String machineUri) {
         this.value = value;
-        this.period = period;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
         this.machineUri = machineUri;

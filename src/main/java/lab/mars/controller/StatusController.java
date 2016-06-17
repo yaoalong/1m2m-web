@@ -28,7 +28,12 @@ import static lab.msrs.web.util.NotificationUtils.*;
  */
 @Controller
 public class StatusController {
-
+    /**
+     * 获取停车场的统计信息
+     *
+     * @param floorId
+     * @return
+     */
     @RequestMapping(value = "/parkingStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -38,40 +43,57 @@ public class StatusController {
         long sum, used;
         if (flag == 0) {
             used = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
-            sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
+            sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
         } else {
             sum = parkingFloorStatistics.get(floorId - 1).getStatistics().get(ANTITHEFT.getIndex()).getSum();
-            used = parkingFloorStatistics.get(floorId - 1).getStatistics().get(0).getUsed().get();
+            used = parkingFloorStatistics.get(floorId - 1).getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
         }
-        System.out.println("used:" + used + " sum:" + sum);
-        machineStatistics.setOpen(used * 100 / sum);
+        machineStatistics.setOpen(used, sum);
         return machineStatistics;
     }
 
+    /**
+     * 获取空调的统计信息
+     *
+     * @param key
+     * @return
+     */
     @RequestMapping(value = "/airConditionStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody
     MachineStatistics getAirConditionStatus(@RequestParam String key) {
         MachineStatistics machineStatistics = new MachineStatistics();
         StatisticsDO statisticsDO = judgePosition(key);
-        long sum = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getSum();
+        long sum = statisticsDO.getStatistics().get(AIRCONDIION.getIndex()).getSum();
         long used = statisticsDO.getStatistics().get(AIRCONDIION.getIndex()).getUsed().get();
-        machineStatistics.setOpen(used * 100 / sum);
+        machineStatistics.setOpen(used, sum);
         return machineStatistics;
     }
 
+    /**
+     * 获取灯的统计信息
+     *
+     * @param key
+     * @return
+     */
     @RequestMapping(value = "/lightStatusStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody
     MachineStatistics getLightStatus(@RequestParam String key) {
         StatisticsDO statisticsDO = judgePosition(key);
-        long sum = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getSum();
+        long sum = statisticsDO.getStatistics().get(LIGHT.getIndex()).getSum();
         long used = statisticsDO.getStatistics().get(LIGHT.getIndex()).getUsed().get();
         MachineStatistics lightStatusStatistics = new MachineStatistics();
-        lightStatusStatistics.setOpen(used * 100 / sum);
+        lightStatusStatistics.setOpen(used, sum);
         return lightStatusStatistics;
     }
 
+    /**
+     * 获取警报器的信息
+     *
+     * @param key
+     * @return
+     */
     @RequestMapping(value = "/antiTheftStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -80,10 +102,16 @@ public class StatusController {
         StatisticsDO statisticsDO = judgePosition(key);
         long sum = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getSum();
         long used = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
-        machineStatistics.setOpen(used * 100 / sum);
+        machineStatistics.setOpen(used, sum);
         return machineStatistics;
     }
 
+    /**
+     * 获取一户人家所有的信息
+     *
+     * @param key
+     * @return
+     */
     @RequestMapping(value = "/getApartmentStatistics.do", method = RequestMethod.GET)
     public
     @ResponseBody

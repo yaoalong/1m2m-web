@@ -15,16 +15,14 @@ import lab.mars.data.DataGenerate;
 public class AntiTheftSensor extends AbstractSensor {
     private static final long serialVersionUID = -3092906479136585494L;
     private boolean value;
-    private int period;
 
     public AntiTheftSensor(boolean value, String machineUri) {
         this.value = value;
         this.machineUri = machineUri;
     }
 
-    public AntiTheftSensor(boolean value, int period, DataGenerate dataGenerate, String cntUri, String machineUri) {
+    public AntiTheftSensor(boolean value, DataGenerate dataGenerate, String cntUri, String machineUri) {
         this.value = value;
-        this.period = period;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
         this.machineUri = machineUri;
