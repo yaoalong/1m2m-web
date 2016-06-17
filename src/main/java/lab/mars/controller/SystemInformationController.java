@@ -32,7 +32,7 @@ public class SystemInformationController {
         }
         ConnectionsStatistics connectionsStatistics = new ConnectionsStatistics();
         connectionsStatistics.setConnectionNumber(heartBeat.getConnections());
-        connectionsStatistics.setAvgResonseTime((long) heartBeat.getAvgHandlingTime());
+        connectionsStatistics.setAvgResonseTime((long) (heartBeat.getAvgHandlingTime()*1000));
         return connectionsStatistics;
     }
 }
