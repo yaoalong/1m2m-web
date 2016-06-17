@@ -36,7 +36,7 @@ public class TemperatureSensor extends AbstractSensor {
     public void run() {
         if (value >= low && value <= high) {
             value += incrementNum;
-          //  request(new TemperatureSensor(value, machineUri));
+            request(new TemperatureSensor(value, machineUri));
         } else {
             value = low;
         }
