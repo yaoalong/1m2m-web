@@ -36,15 +36,25 @@ public class MachineMapper {
     public static final List<StatisticsDO> apartmentStatistics = new ArrayList<>();
     public static final List<StatisticsDO> parkingFloorStatistics = new ArrayList<>();
     public static final DataGenerate network = new DataGenerate();
-    private static final String ROOT = "/csebase";
+    //停车场的层数
+    public static final int parkingFloor = 2;
+    //楼栋数
+    public static final int banNumber = 5;
+    //层数
+    public static final int floorNumber = 1;
+    //户数
+    public static final int apartmentNumber = 4;
+    //房间数量
+    public static final int roomNumber = 5;
+
     //一户人家的设备的数量
-    public static int apartmentNumber = 11;
-    public static int floorNumber = 44;//一层的设备数量
-    public static int banNumber = 880;//一栋楼的设备数量
-    public static int machineCount = 8800;
-    public static int parkingCount = 40;
-    public static StatisticsDO machineStatistics = new StatisticsDO(3, new int[]{1760, 3520, 3520});
-    public static StatisticsDO parkingStatistics = new StatisticsDO(1, new int[]{2000});
+    public static final int apartmentMachineNumber = 11;
+    public static final int machineCount = banNumber * floorNumber * apartmentNumber * apartmentMachineNumber;
+    //停车位的总数量
+    public static final int parkingPositionCount = 40;
+    public static final String CSEBASE = "/csebase";
+    public static StatisticsDO machineStatistics = new StatisticsDO(3, new int[]{machineCount / 5, machineCount * 2 / 5, machineCount * 2 / 5});
+    public static StatisticsDO parkingStatistics = new StatisticsDO(1, new int[]{parkingPositionCount});
 
 //
 
@@ -55,7 +65,7 @@ public class MachineMapper {
      * @throws Exception
      */
     public static HeartBeat getConnection() throws Exception {
-        return network.test2Request(HttpMethod.GET, ROOT, OK, null);
+        return network.test2Request(HttpMethod.GET, CSEBASE, OK, null);
     }
 
     public static void main(String args[]) {

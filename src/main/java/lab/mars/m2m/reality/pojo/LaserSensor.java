@@ -45,13 +45,13 @@ public class LaserSensor extends AbstractSensor {
         if (value) {
             parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
             //System.out.println("增加了");
-            synchronized (parkingStatistics){
+            synchronized (parkingStatistics) {
                 parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
             }
         } else {
             parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-           // System.out.println("减少");
-            synchronized (parkingFloorStatistics){
+            // System.out.println("减少");
+            synchronized (parkingFloorStatistics) {
                 parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
             }
 
@@ -64,20 +64,17 @@ public class LaserSensor extends AbstractSensor {
         parkingCondition.put(cntUri, value);
         parkingIdToURI.put(i, cntUri);
         parkingURIToID.put(cntUri, i);
-        int floorId = (i) % 2;
-        System.out.println("laser sensor");
+        int floorId = (i) % parkingFloor;
         synchronized (parkingFloorStatistics) {
             if (floorId >= parkingFloorStatistics.size()) {
                 int[] ints = new int[1];
-                ints[0] = parkingCount / 2;
-                System.out.println("添加了对应的");
+                ints[0] = parkingPositionCount / parkingFloor;
                 parkingFloorStatistics.add(floorId, new StatisticsDO(1, ints));
             }
             if (value) {
-                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-            }
-            else{
                 parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+            } else {
+                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
             }
         }
     }

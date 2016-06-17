@@ -33,14 +33,15 @@ public class StatusController {
         int flag = 1;
         MachineStatistics machineStatistics = new MachineStatistics();
         long sum, used;
-        synchronized (parkingStatistics){
-            sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
+
             if (flag == 0) {
                 used = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
+                sum= parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
             } else {
+                sum = parkingFloorStatistics.get(floorId-1).getStatistics().get(ANTITHEFT.getIndex()).getSum();
                 used = parkingFloorStatistics.get(floorId-1).getStatistics().get(0).getUsed().get();
             }
-        }
+
 
         System.out.println("used:"+used+" sum:"+sum);
         machineStatistics.setOpen(used * 100 / sum);

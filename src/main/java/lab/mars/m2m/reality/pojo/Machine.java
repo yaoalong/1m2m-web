@@ -32,17 +32,17 @@ public abstract class Machine {
         int machineType = machineTypeEnum.getIndex();
         if (init == INIT) {
             int i = atomicInteger.getAndIncrement();
-            int apartmentId = i % apartmentNumber;
+            int apartmentId = i % apartmentMachineNumber;
             if (apartmentId >= apartmentStatistics.size() || apartmentStatistics.get(apartmentId) == null) {
-                apartmentStatistics.add(apartmentId, new StatisticsDO(3, new int[]{1, 5, 5}));
+                apartmentStatistics.add(apartmentId, new StatisticsDO(3, new int[]{apartmentMachineNumber / 11, apartmentMachineNumber * 5 / 11, apartmentMachineNumber * 5 / 11}));
             }
             int floorId = i % floorNumber;
             if (floorId >= floorStatistics.size() || floorStatistics.get(floorId) == null) {
-                floorStatistics.add(floorId, new StatisticsDO(3, new int[]{4, 20, 20}));
+                floorStatistics.add(floorId, new StatisticsDO(3, new int[]{apartmentMachineNumber * 4 / 11, apartmentMachineNumber * 20 / 11, apartmentMachineNumber * 20 / 11}));
             }
             int banId = i % banNumber;
             if (banId >= banStatistics.size() || banStatistics.get(banId) == null) {
-                banStatistics.add(banId, new StatisticsDO(3, new int[]{80, 400, 400}));
+                banStatistics.add(banId, new StatisticsDO(3, new int[]{apartmentMachineNumber * 80 / 11, apartmentMachineNumber * 400 / 11, apartmentMachineNumber * 400 / 11}));
             }
             apartmentStatistics.get(apartmentId).getStatistics().get(machineType).getUsed().getAndIncrement();
             floorStatistics.get(floorId).getStatistics().get(machineType).getUsed().getAndIncrement();

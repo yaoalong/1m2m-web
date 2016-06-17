@@ -16,6 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+import static lab.mars.mapper.MachineMapper.*;
 import static lab.msrs.web.util.NotificationUtils.cntMapMachine;
 
 /**
@@ -51,14 +52,6 @@ public class DataGenerate extends WebNetwork {
     private static final boolean antitheft_sensor_value = false;
     private static final int antitheft_sensor_period = 5;
 
-    /**
-     * 楼层
-     */
-    private static final int garageFloors = 2;
-    /**
-     * 停车场
-     */
-    private static final int number_parking_number = 10;
     /**
      * 传感器
      */
@@ -113,20 +106,12 @@ public class DataGenerate extends WebNetwork {
         init();
         Map<String, String> containerURI = new HashMap<>();
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
-        //栋数
-        int banNum = 10;
-        //层数
-        int floor = 20;
-        //户数
-        int houseHold = 1;
-        //房间
-        int roomsNums = 1;
 
-        for (int i = 0; i < banNum; i++) {
-            for (int j = 0; j < floor; j++) {
+        for (int i = 0; i < banNumber; i++) {
+            for (int j = 0; j < floorNumber; j++) {
                 String aeUri = createSyncAEResource();//现在是每层楼是一个AE
-                for (int z = 0; z < houseHold; z++) {
-                    for (int y = 0; y < roomsNums; y++) {
+                for (int z = 0; z < apartmentNumber; z++) {
+                    for (int y = 0; y < roomNumber; y++) {
                         for (int w = 0; w < 4; w++) {
                             String cntUri = createSyncContainer(aeUri);//创建一个container
                             containerURI.put(i + "/" + j + "/" + z + "/" + y + "/" + w, cntUri);
@@ -153,12 +138,12 @@ public class DataGenerate extends WebNetwork {
             }
         }
         System.out.println("contr" + "完成");
-        for (int i = 0; i < banNum; i++) {
-            for (int j = 0; j < floor; j++) {
-                for (int z = 0; z < houseHold; z++) {
+        for (int i = 0; i < banNumber; i++) {
+            for (int j = 0; j < floorNumber; j++) {
+                for (int z = 0; z < apartmentNumber; z++) {
                     String containerURL = containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/");
                     createAsyncSubScriptions(containerURL);
-                    for (int y = 0; y < roomsNums; y++) {
+                    for (int y = 0; y < roomNumber; y++) {
                         /**
                          * 创建不同的subscription
                          */
@@ -179,14 +164,14 @@ public class DataGenerate extends WebNetwork {
             }
         }
         String aeUri = createSyncAEResource();
-        for (int i = 0; i < garageFloors; i++) {
-            for (int j = 0; j < number_parking_number; j++) {
+        for (int i = 0; i < parkingFloor; i++) {
+            for (int j = 0; j < parkingPositionCount / parkingFloor; j++) {
                 String cntUri = createSyncContainer(aeUri);//创建一个container
                 containerURI.put(i + "/" + j, cntUri);
             }
         }
-        for (int i = 0; i < garageFloors; i++) {
-            for (int j = 0; j < number_parking_number; j++) {
+        for (int i = 0; i < parkingFloor; i++) {
+            for (int j = 0; j < parkingPositionCount / parkingFloor; j++) {
                 executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, laser_sensor_period, this, containerURI.get(i + "/" + j), null), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
 
             }
@@ -195,7 +180,7 @@ public class DataGenerate extends WebNetwork {
         Thread.sleep(10000);
     }
 
-    public int getRandom() {
+    private int getRandom() {
         int result = random.nextInt(10);
         if (result <= 1) {
             result = 1;

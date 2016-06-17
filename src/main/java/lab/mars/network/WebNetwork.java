@@ -15,8 +15,10 @@ import lab.mars.m2m.protocol.http.MissingParameterException;
 import lab.mars.m2m.protocol.primitive.m2m_primitiveContentType;
 import lab.mars.m2m.protocol.primitive.m2m_req;
 import lab.mars.m2m.protocol.primitive.m2m_rsp;
-import lab.mars.m2m.protocol.resource.*;
-import lab.mars.m2m.reflection.ResourceReflection;
+import lab.mars.m2m.protocol.resource.m2m_AE;
+import lab.mars.m2m.protocol.resource.m2m_Container;
+import lab.mars.m2m.protocol.resource.m2m_Subscription;
+import lab.mars.m2m.protocol.resource.m2m_resource;
 import lab.mars.util.async.AsyncStream;
 import lab.mars.util.network.HttpClient;
 import lab.mars.util.network.HttpServer;
@@ -37,6 +39,7 @@ import java.util.concurrent.CountDownLatch;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static lab.mars.m2m.protocol.enumeration.m2m_resourceType.*;
+import static lab.mars.mapper.MachineMapper.CSEBASE;
 
 /**
  * Author:yaoalong.
@@ -44,7 +47,6 @@ import static lab.mars.m2m.protocol.enumeration.m2m_resourceType.*;
  * Email:yaoalong@foxmail.com
  */
 public class WebNetwork {
-    public static final String csebaseuri = "/csebase";
     public static final int ASYNC = 1;
     public static final int SYNC = 0;
     protected final String myIp = "192.168.10.131";
@@ -162,7 +164,6 @@ public class WebNetwork {
     }
 
 
-
     protected AsyncStream testRequest(
             HttpMethod method,
             String path,
@@ -179,8 +180,6 @@ public class WebNetwork {
     }
 
 
-
-
     public String createSyncAEResource() throws Exception {
         m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
         StringWriter sw = new StringWriter();
@@ -188,9 +187,8 @@ public class WebNetwork {
         m2m_primitiveContentType.value = rsp;
         marshaller.get().marshal(m2m_primitiveContentType, sw);
         String value = sw.toString();
-        return testCreate(csebaseuri, AE, value, OK, SYNC);//创建一个AE
+        return testCreate(CSEBASE, AE, value, OK, SYNC);//创建一个AE
     }
-
 
 
     /**
