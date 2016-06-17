@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.PostConstruct;
 
 import static lab.mars.mapper.MachineMapper.*;
-import static lab.msrs.web.util.NotificationUtils.positionMapAntiTheft;
-import static lab.msrs.web.util.NotificationUtils.positionMapMachine;
+import static lab.msrs.web.util.NotificationUtils.*;
 
 /**
  * Author:yaoalong.
@@ -63,9 +62,20 @@ public class RetrieveController {
     @RequestMapping(value = "/retrieveSensor.do", method = RequestMethod.GET)
     public
     @ResponseBody
-    Sensor retrieveSensor(@RequestParam int key) {
+    Sensor retrieveSensor(@RequestParam String key) {
+        String[] result = key.split("c");
+        int ban = Integer.parseInt(result[0]) - 1;
+        int floor = Integer.parseInt(result[1]) - 1;
+        int apartment = Integer.parseInt(result[2]) - 1;
+        int roomNumber = Integer.parseInt(result[3]) - 1;
         Sensor sensor = new Sensor();
-        sensor.setValue(sensorMap.get(machineIdToURI.get(key)));
+        if (Integer.parseInt(result[4]) == 0) {
+            sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 2).getValue());
+        } else if (Integer.parseInt(result[4]) == 1) {
+            sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 1).getValue());
+        } else if (Integer.parseInt(result[4]) == 2) {
+            sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 2).getValue());
+        }
         return sensor;
     }
 
