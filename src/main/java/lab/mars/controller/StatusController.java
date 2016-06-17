@@ -1,6 +1,7 @@
 package lab.mars.controller;
 
 import lab.mars.mapper.MachineMapper;
+import lab.mars.model.ApartmentStatusStatistics;
 import lab.mars.model.MachineStatistics;
 import lab.mars.model.StatisticsDO;
 import org.springframework.stereotype.Controller;
@@ -9,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static lab.mars.mapper.MachineMapper.banStatistics;
-import static lab.mars.mapper.MachineMapper.parkingFloorStatistics;
-import static lab.mars.mapper.MachineMapper.parkingStatistics;
+import java.util.ArrayList;
+import java.util.List;
+
+import static lab.mars.mapper.MachineMapper.*;
 import static lab.mars.model.MachineTypeEnum.*;
+import static lab.msrs.web.util.NotificationUtils.*;
 
 /**
  * Author:yaoalong.
@@ -33,17 +36,14 @@ public class StatusController {
         int flag = 1;
         MachineStatistics machineStatistics = new MachineStatistics();
         long sum, used;
-
-            if (flag == 0) {
-                used = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
-                sum= parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
-            } else {
-                sum = parkingFloorStatistics.get(floorId-1).getStatistics().get(ANTITHEFT.getIndex()).getSum();
-                used = parkingFloorStatistics.get(floorId-1).getStatistics().get(0).getUsed().get();
-            }
-
-
-        System.out.println("used:"+used+" sum:"+sum);
+        if (flag == 0) {
+            used = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
+            sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
+        } else {
+            sum = parkingFloorStatistics.get(floorId - 1).getStatistics().get(ANTITHEFT.getIndex()).getSum();
+            used = parkingFloorStatistics.get(floorId - 1).getStatistics().get(0).getUsed().get();
+        }
+        System.out.println("used:" + used + " sum:" + sum);
         machineStatistics.setOpen(used * 100 / sum);
         return machineStatistics;
     }
@@ -80,12 +80,42 @@ public class StatusController {
         StatisticsDO statisticsDO = judgePosition(key);
         long sum = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getSum();
         long used = statisticsDO.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
-        System.out.println("sum:"+sum);
         machineStatistics.setOpen(used * 100 / sum);
         return machineStatistics;
     }
 
-    public StatisticsDO judgePosition(String key) {
+    @RequestMapping(value = "/getApartmentStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ApartmentStatusStatistics getApartmentStatistics(@RequestParam String key) {
+        String[] result = key.split("c");
+        ApartmentStatusStatistics apartmentStatusStatistics = new ApartmentStatusStatistics();
+        if (result.length != 3) {
+            return apartmentStatusStatistics;
+        }
+        int ban = Integer.parseInt(result[0]) - 1;
+        int floor = Integer.parseInt(result[1]) - 1;
+        int apartment = Integer.parseInt(result[2]) - 1;
+        List<Integer> lightSensorValues = new ArrayList<>();
+        List<Integer> temperatureSensorValues = new ArrayList<>();
+        List<Boolean> lightStatuses = new ArrayList<>();
+        List<Boolean> airConditionStatuses = new ArrayList<>();
+        for (int i = 0; i < roomNumber; i++) {
+            lightStatuses.add(positionMapMachine.get(ban + "/" + floor + "/" + apartment + "/" + i + "/" + 0).isClosed);
+            airConditionStatuses.add(positionMapMachine.get(ban + "/" + floor + "/" + apartment + "/" + i + "/" + 1).isClosed);
+            lightSensorValues.add(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + i + "/" + 2).getValue());
+            temperatureSensorValues.add(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + i + "/" + 3).getValue());
+        }
+        boolean antiTheft = positionMapAntiTheft.get(ban + "/" + floor + "/" + apartment + "/" + 1 + "/").isClosed;
+        apartmentStatusStatistics.setAirConditionStatuses(airConditionStatuses);
+        apartmentStatusStatistics.setLightStatuses(lightStatuses);
+        apartmentStatusStatistics.setTemperatureSensorValues(lightSensorValues);
+        apartmentStatusStatistics.setTemperatureSensorValues(temperatureSensorValues);
+        apartmentStatusStatistics.setAntiTheft(antiTheft);
+        return apartmentStatusStatistics;
+    }
+
+    private StatisticsDO judgePosition(String key) {
         String[] result = key.split("c");
         StatisticsDO statisticsDO = null;
         if (result.length == 1) {

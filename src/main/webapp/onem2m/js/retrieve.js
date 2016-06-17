@@ -43,7 +43,7 @@ $(document).ready(function () {
         else {
             machineId = 2;
         }
-        var retrieveKey = (parseInt(buildingId) - 1) * 880 + (parseInt(floorId) - 1) * 44 + (parseInt(apartmentId) - 1) * 11 + roomId * machineId;
+        var retrieveKey = buildingId + "c" + floorId + "c" + apartmentId + "c" + roomId+"c"+machineId;
         console.log("key:" + retrieveKey);
         $.getJSON("/retrieveMachine.do", {key: retrieveKey}, function (data) {
             if (data.isClosed) {

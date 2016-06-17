@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static lab.mars.mapper.MachineMapper.*;
-import static lab.msrs.web.util.NotificationUtils.cntMapMachine;
+import static lab.msrs.web.util.NotificationUtils.*;
 
 /**
  * Author:yaoalong.
@@ -118,10 +118,12 @@ public class DataGenerate extends WebNetwork {
                             if (w == 2) {
                                 Light light = new Light(light_low_value, light_high_value, false, this, cntUri);//空调
                                 cntMapMachine.put(cntUri, light);
+                                positionMapMachine.put(i + "/" + j + "/" + z + "/" + y + "/" + w, light);
                             }
                             if (w == 3) {
                                 AirConditioning airConditioning = new AirConditioning(temperature_low_value, temperature_high_value, false, this, cntUri);//灯
                                 cntMapMachine.put(cntUri, airConditioning);
+                                positionMapMachine.put(i + "/" + j + "/" + z + "/" + y + "/" + w, airConditioning);
                             }
                         }
                     }
@@ -132,6 +134,7 @@ public class DataGenerate extends WebNetwork {
                     cntUri = createSyncContainer(aeUri);//创建一个container
                     containerURI.put(i + "/" + j + "/" + z + "/" + 1 + "/", cntUri);
                     AntitheftAlarm antitheftAlarm = new AntitheftAlarm(false, this, cntUri);
+                    positionMapAntiTheft.put(i + "/" + j + "/" + z + "/" + 1 + "/",antitheftAlarm);
                     cntMapMachine.put(cntUri, antitheftAlarm);
 
                 }
@@ -151,9 +154,13 @@ public class DataGenerate extends WebNetwork {
                             containerURL = containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + w);
                             createAsyncSubScriptions(containerURL);
                         }
-                        executorService.scheduleAtFixedRate(new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, light_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 0), containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 2)), 0
+                        LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, light_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 0), containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 2));
+                        TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, temperature_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 1), containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 3));
+                        positionMapSensor.put(i + "/" + j + "/" + z + "/" + y + "/" + 2, lightSensor);
+                        positionMapSensor.put(i + "/" + j + "/" + z + "/" + y + "/" + 3, temperatureSensor);
+                        executorService.scheduleAtFixedRate(lightSensor, 0
                                 , light_period * getRandom(), TimeUnit.SECONDS);
-                        executorService.scheduleAtFixedRate(new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, temperature_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 1), containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 3)), 1
+                        executorService.scheduleAtFixedRate(temperatureSensor, 1
                                 , light_period * getRandom(), TimeUnit.SECONDS);
                     }
                     executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, antitheft_sensor_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(i + "/" + j + "/" + z + "/" + 1 + "/")), 1

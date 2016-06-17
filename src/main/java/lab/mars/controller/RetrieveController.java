@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.PostConstruct;
 
 import static lab.mars.mapper.MachineMapper.*;
+import static lab.msrs.web.util.NotificationUtils.positionMapAntiTheft;
+import static lab.msrs.web.util.NotificationUtils.positionMapMachine;
 
 /**
  * Author:yaoalong.
@@ -27,9 +29,25 @@ public class RetrieveController {
     @RequestMapping(value = "/retrieveMachine.do", method = RequestMethod.GET)
     public
     @ResponseBody
-    MachineStatus retrieve(@RequestParam int key) {
+    MachineStatus retrieve(@RequestParam String key) {
         MachineStatus machineStatus = new MachineStatus();
-        machineStatus.setClosed(machineCondition.get(machineIdToURI.get(key)));
+        String[] result = key.split("c");
+        if (result.length != 5) {
+            return machineStatus;
+        }
+        int ban = Integer.parseInt(result[0]) - 1;
+        int floor = Integer.parseInt(result[1]) - 1;
+        int apartment = Integer.parseInt(result[2]) - 1;
+        int roomNumber = Integer.parseInt(result[3]) - 1;
+        boolean isClosed = false;
+        if (Integer.parseInt(result[4]) == 0) {
+            isClosed = positionMapAntiTheft.get(ban + "/" + floor + "/" + apartment + "/" + 1 + "/").isClosed;
+        } else if (Integer.parseInt(result[4]) == 1) {
+            isClosed = positionMapMachine.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 1).isClosed;
+        } else if (Integer.parseInt(result[4]) == 2) {
+            isClosed = positionMapMachine.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 0).isClosed;
+        }
+        machineStatus.setClosed(isClosed);
         return machineStatus;
     }
 

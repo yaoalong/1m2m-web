@@ -14,7 +14,6 @@ public class MachineStatistics {
     }
 
     public void setOpen(long open) {
-        System.out.println("open"+open);
         int opened = (int) open;
         this.closed = 100 - opened;
         this.open = opened;
