@@ -42,7 +42,7 @@ public class RetrieveController {
         return parkingStatus;
     }
 
-    @RequestMapping(value = "/parkingRetrieve.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/retrieveSensor.do", method = RequestMethod.GET)
     public
     @ResponseBody
     Sensor retrieveSensor(@RequestParam int key) {

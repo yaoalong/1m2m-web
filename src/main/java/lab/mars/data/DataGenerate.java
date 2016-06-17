@@ -9,14 +9,13 @@ import lab.mars.network.WebNetwork;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
-import static lab.mars.mapper.MachineMapper.network;
-import static lab.mars.mapper.MachineMapper.parkingCount;
 import static lab.msrs.web.util.NotificationUtils.cntMapMachine;
 
 /**
@@ -50,7 +49,7 @@ public class DataGenerate extends WebNetwork {
      * 防盗传感器
      */
     private static final boolean antitheft_sensor_value = false;
-    private static final int antitheft_sensor_period = 50;
+    private static final int antitheft_sensor_period = 5;
 
     /**
      * 楼层
@@ -59,22 +58,30 @@ public class DataGenerate extends WebNetwork {
     /**
      * 停车场
      */
-    private static final int number_parking_number =20;
+    private static final int number_parking_number = 10;
     /**
      * 传感器
      */
     private static final boolean laser_sensor_value = false;
-    private static final int laser_sensor_period = 50;
+    private static final int laser_sensor_period = 5;
 
 
     //光线传感器0
     //空调传感器1
     //灯2
     //空调3
+    Random random = new Random();
+
+    public static void main(String args[]) throws Exception {
+        long startTime = System.currentTimeMillis();
+        new DataGenerate().generateData();
+        System.out.println(System.currentTimeMillis() - startTime);
+        new Thread(new MyRunnable()).start();
+        System.in.read();
+    }
 
     @Override
     public void handleNotify(m2m_childResourceRef ref) {
-      //  System.out.println("接收到了notify");
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(() -> {
             m2m_resource response = null;
@@ -97,7 +104,7 @@ public class DataGenerate extends WebNetwork {
                     cntMapMachine.get(temperatureSensor.getMachineUri()).create(temperatureSensor.getValue());
                 }
             } else {
-              //  System.out.println("classs:" + response.getClass());
+                //  System.out.println("classs:" + response.getClass());
             }
         });
     }
@@ -145,7 +152,7 @@ public class DataGenerate extends WebNetwork {
                 }
             }
         }
-        System.out.println("contr"+"完成");
+        System.out.println("contr" + "完成");
         for (int i = 0; i < banNum; i++) {
             for (int j = 0; j < floor; j++) {
                 for (int z = 0; z < houseHold; z++) {
@@ -160,12 +167,12 @@ public class DataGenerate extends WebNetwork {
                             createAsyncSubScriptions(containerURL);
                         }
                         executorService.scheduleAtFixedRate(new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, light_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 0), containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 2)), 0
-                                , light_period, TimeUnit.SECONDS);
+                                , light_period * getRandom(), TimeUnit.SECONDS);
                         executorService.scheduleAtFixedRate(new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, temperature_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 1), containerURI.get(i + "/" + j + "/" + z + "/" + y + "/" + 3)), 1
-                                , light_period, TimeUnit.SECONDS);
+                                , light_period * getRandom(), TimeUnit.SECONDS);
                     }
                     executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, antitheft_sensor_period, this, containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(i + "/" + j + "/" + z + "/" + 1 + "/")), 1
-                            , antitheft_sensor_period, TimeUnit.SECONDS);
+                            , antitheft_sensor_period * getRandom(), TimeUnit.SECONDS);
 
 
                 }
@@ -178,20 +185,21 @@ public class DataGenerate extends WebNetwork {
                 containerURI.put(i + "/" + j, cntUri);
             }
         }
-        System.out.println("Haha"+garageFloors+":"+number_parking_number);
         for (int i = 0; i < garageFloors; i++) {
             for (int j = 0; j < number_parking_number; j++) {
-                System.out.println("haha");
-                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, laser_sensor_period, this, containerURI.get(i + "/" + j), null), 1, laser_sensor_period, TimeUnit.SECONDS);
+                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, laser_sensor_period, this, containerURI.get(i + "/" + j), null), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
 
             }
         }
         System.out.println("创建完毕");
         Thread.sleep(10000);
     }
-    public static void main(String args[]) throws Exception {
-        long startTime=System.currentTimeMillis();
-        new DataGenerate().generateData();
-        System.out.println(System.currentTimeMillis()-startTime);
+
+    public int getRandom() {
+        int result = random.nextInt(10);
+        if (result <= 1) {
+            result = 1;
+        }
+        return result;
     }
 }

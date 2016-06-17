@@ -3,7 +3,6 @@ package lab.msrs.web.util;
 import lab.mars.m2m.reality.pojo.Machine;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Author:yaoalong.
@@ -11,7 +10,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * Email:yaoalong@foxmail.com
  */
 public class NotificationUtils {
-    public static AtomicLong zxid = new AtomicLong(0);
+    public static final int INIT = 0;
+    public static final int IS_NOT_INIT = 1;
 
     /**
      * 设备对应的containerURI

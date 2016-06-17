@@ -4,7 +4,6 @@ import lab.mars.data.DataGenerate;
 import lab.mars.m2m.protocol.primitive.m2m_primitiveContentType;
 import lab.mars.m2m.protocol.resource.m2m_ContentInstance;
 import lab.mars.m2m.reflection.ResourceReflection;
-import lab.msrs.web.util.NotificationUtils;
 
 import javax.xml.bind.JAXBException;
 import java.io.Serializable;
@@ -29,8 +28,6 @@ public abstract class AbstractSensor implements SensorObject, Serializable {
     public void request(AbstractSensor sensor) {
         m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
         m2m_ContentInstance m2m_contentInstance = new m2m_ContentInstance();
-        long zxid = NotificationUtils.zxid.getAndIncrement();
-        sensor.setId(zxid);
         m2m_contentInstance.con = ResourceReflection.serializeKryo(sensor);
         m2m_primitiveContentType.value = m2m_contentInstance;
         StringWriter sw = new StringWriter();

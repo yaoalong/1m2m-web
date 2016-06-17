@@ -148,13 +148,6 @@ public class WebNetwork {
         return null;
     }
 
-    public m2m_resource testSyncRetrieve(String path, HttpResponseStatus statusCode) throws Exception {
-        return testRetrieve(path, null, statusCode, SYNC);
-    }
-
-    public m2m_resource testRetrieve(String path, HttpResponseStatus statusCode) throws Exception {
-        return testRetrieve(path, null, statusCode, ASYNC);
-    }
 
     public m2m_resource testRetrieve(String path, String contentFilePath, HttpResponseStatus statusCode, int flag) throws Exception {
 
@@ -168,13 +161,7 @@ public class WebNetwork {
         return null;
     }
 
-    protected void testUpdate(String path, String contentFilePath, HttpResponseStatus statusCode, int flag) throws Exception {
-        m2m_rsp m_rsp = request(HttpMethod.PUT, path, statusCode, contentFilePath, flag);
-    }
 
-    public void testDelete(String path, HttpResponseStatus statusCode) throws Exception {
-        request(HttpMethod.DELETE, path, statusCode, null, ASYNC);
-    }
 
     protected AsyncStream testRequest(
             HttpMethod method,
@@ -188,71 +175,11 @@ public class WebNetwork {
         HttpRequest httpRequest = HttpClient.makeRequest(method, path, req_headers, requestBody);
         return client.requestAsync(uri, httpRequest)
                 .<NetworkEvent<FullHttpResponse>>then(resp -> {
-
                 }).end();
     }
 
-    /**
-     * 异步更新AE
-     *
-     * @throws Exception
-     */
-    public void updateAsyncAEResource(String aeURI) throws Exception {
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        StringWriter sw = new StringWriter();
-        m2m_AE rsp = new m2m_AE();
-        m2m_primitiveContentType.value = rsp;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        String value = sw.toString();
-        testUpdate(aeURI, value, OK, ASYNC);//创建一个AE
-    }
 
-    /**
-     * 异步更新Container
-     *
-     * @throws Exception
-     */
-    public void updateAsyncContainer(String containerURI) throws Exception {
-        StringWriter sw = new StringWriter();
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        m2m_Container m2m_container = new m2m_Container();
-        m2m_primitiveContentType.value = m2m_container;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        testUpdate(containerURI, sw.toString(), OK, ASYNC);//创建一个container
-    }
 
-    /**
-     * 异步更新ContentInstance
-     *
-     * @throws Exception
-     */
-    public void updateAsyncContentInstance(String contentInstance) throws Exception {
-        StringWriter sw = new StringWriter();
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        m2m_ContentInstance m2m_contentInstance = new m2m_ContentInstance();
-        m2m_primitiveContentType.value = m2m_contentInstance;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        testUpdate(contentInstance, sw.toString(), OK, ASYNC);//创建一个container
-    }
-
-    public void updateAsyncSubScriptions(String subscriptionURI) throws Exception {
-        StringWriter sw = new StringWriter();
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        m2m_Subscription m2m_subscription = new m2m_Subscription();
-        m2m_eventNotificationCriteria m2m_eventNotificationCriteria = new m2m_eventNotificationCriteria();
-        List<Integer> integerList = new ArrayList<>();
-        integerList.add(m2m_resourceStatus.childCreated);
-        m2m_eventNotificationCriteria.rss = integerList;
-        m2m_subscription.enc = m2m_eventNotificationCriteria;
-        m2m_AnyURIList m2m_anyURIList = new m2m_AnyURIList();
-        List<String> reference = new ArrayList<>();
-        reference.add("http://" + myIp + ":9010/");
-        m2m_anyURIList.reference = reference;
-        m2m_subscription.nu = m2m_anyURIList;
-        m2m_primitiveContentType.value = m2m_subscription;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        testUpdate(subscriptionURI, sw.toString(), OK, ASYNC);
-    }
 
     public String createSyncAEResource() throws Exception {
         m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
@@ -264,29 +191,7 @@ public class WebNetwork {
         return testCreate(csebaseuri, AE, value, OK, SYNC);//创建一个AE
     }
 
-    public void createAsyncAEResource() throws Exception {
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        StringWriter sw = new StringWriter();
-        m2m_AE rsp = new m2m_AE();
-        m2m_primitiveContentType.value = rsp;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        String value = sw.toString();
-        testCreate(csebaseuri, AE, value, OK, ASYNC);//创建一个AE
-    }
 
-    /**
-     * 异步创建Container
-     *
-     * @throws Exception
-     */
-    public void createAsyncContainer(String aeURI) throws Exception {
-        StringWriter sw = new StringWriter();
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        m2m_Container m2m_container = new m2m_Container();
-        m2m_primitiveContentType.value = m2m_container;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        testCreate(aeURI, container, sw.toString(), OK, ASYNC);//创建一个container
-    }
 
     /**
      * 异步创建Container
@@ -302,20 +207,6 @@ public class WebNetwork {
         return testCreate(aeURI, container, sw.toString(), OK, SYNC);//创建一个container
     }
 
-    /**
-     * 异步创建ContainerInstance
-     *
-     * @throws Exception
-     */
-    public void createAsyncContainerInstance(String cntURI) throws Exception {
-        StringWriter sw = new StringWriter();
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        m2m_ContentInstance m2m_contentInstance = new m2m_ContentInstance();
-        m2m_contentInstance.con = ResourceReflection.serializeKryo("1".getBytes());
-        m2m_primitiveContentType.value = m2m_contentInstance;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        testCreate(cntURI, contentInstance, sw.toString(), OK, ASYNC);
-    }
 
     public void createAsyncSubScriptions(String cntURI) throws Exception {
         StringWriter sw = new StringWriter();
@@ -336,45 +227,6 @@ public class WebNetwork {
         testCreate(cntURI, subscription, sw.toString(), OK, ASYNC);
     }
 
-    /**
-     * 同步创建ContainerInstance
-     *
-     * @throws Exception
-     */
-    public String createSyncContentInstance(String cntURI) throws Exception {
-        StringWriter sw = new StringWriter();
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        m2m_ContentInstance m2m_contentInstance = new m2m_ContentInstance();
-        m2m_contentInstance.con = ResourceReflection.serializeKryo("1".getBytes());
-        m2m_primitiveContentType.value = m2m_contentInstance;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        return testCreate(cntURI, contentInstance, sw.toString(), OK, SYNC);
-    }
-
-    /**
-     * 同步创建subscription
-     *
-     * @param subScrption
-     * @throws Exception
-     */
-    public String createSyncSubScription(String subScrption) throws Exception {
-        StringWriter sw = new StringWriter();
-        m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
-        m2m_Subscription m2m_subscription = new m2m_Subscription();
-        m2m_eventNotificationCriteria m2m_eventNotificationCriteria = new m2m_eventNotificationCriteria();
-        List<Integer> integerList = new ArrayList<>();
-        integerList.add(m2m_resourceStatus.childCreated);
-        m2m_eventNotificationCriteria.rss = integerList;
-        m2m_subscription.enc = m2m_eventNotificationCriteria;
-        m2m_AnyURIList m2m_anyURIList = new m2m_AnyURIList();
-        List<String> reference = new ArrayList<>();
-        reference.add("http://" + myIp + ":9010/");
-        m2m_anyURIList.reference = reference;
-        m2m_subscription.nu = m2m_anyURIList;
-        m2m_primitiveContentType.value = m2m_subscription;
-        marshaller.get().marshal(m2m_primitiveContentType, sw);
-        return testCreate(subScrption, subscription, sw.toString(), OK, SYNC);
-    }
 
     protected m2m_rsp syncTestRequest(
             HttpMethod method,

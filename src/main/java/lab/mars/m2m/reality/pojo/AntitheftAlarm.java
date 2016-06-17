@@ -24,7 +24,7 @@ public class AntitheftAlarm extends Machine {
         this.isClosed = isClosed;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
-        request(new AntitheftAlarm(isClosed), 1, ANTITHEFT.getIndex());
+        request(new AntitheftAlarm(isClosed), 0, ANTITHEFT.getIndex());
     }
 
     @Override
@@ -34,9 +34,12 @@ public class AntitheftAlarm extends Machine {
            // System.out.println("防盗传感器感应到门关了，防盗报警器关闭");
             isClosed = true;
             request(new AntitheftAlarm(isClosed), 1, ANTITHEFT.getIndex());
+            update(cntUri,isClosed, ANTITHEFT.getIndex());
         } else if (!pre && isClosed) {
            // System.out.println("防盗传感器感应到门没关,防盗报警器开启");
             isClosed = false;
+            request(new AntitheftAlarm(isClosed), 1, ANTITHEFT.getIndex());
+            update(cntUri,isClosed, ANTITHEFT.getIndex());
         } else {
            // System.out.println("防盗" + cntUri + "状态:" + (isClosed ? "关闭" : "开启") + "门:" + (pre ? "关了" : "没关"));
         }

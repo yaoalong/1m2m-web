@@ -4,7 +4,6 @@ import lab.mars.data.DataGenerate;
 import lab.mars.m2m.protocol.primitive.m2m_primitiveContentType;
 import lab.mars.m2m.protocol.resource.m2m_ContentInstance;
 import lab.mars.m2m.reflection.ResourceReflection;
-import lab.mars.mapper.MachineMapper;
 import lab.mars.model.StatisticsDO;
 
 import javax.xml.bind.JAXBException;
@@ -15,6 +14,7 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static lab.mars.m2m.protocol.enumeration.m2m_resourceType.contentInstance;
 import static lab.mars.mapper.MachineMapper.*;
 import static lab.mars.network.WebNetwork.ASYNC;
+import static lab.msrs.web.util.NotificationUtils.INIT;
 
 /**
  * Author:yaoalong.
@@ -22,13 +22,13 @@ import static lab.mars.network.WebNetwork.ASYNC;
  * Email:yaoalong@foxmail.com
  */
 public abstract class Machine {
-    static AtomicInteger atomicInteger = new AtomicInteger(0);
+    private static AtomicInteger atomicInteger = new AtomicInteger(0);
     public boolean isClosed;
     protected DataGenerate dataGenerate;
     protected String cntUri;
 
-    public void request(Machine machine, int value, int machineType) {
-        if (value == 0) {
+    public void request(Machine machine, int init, int machineType) {
+        if (init == INIT) {
             int i = atomicInteger.getAndIncrement();
             int apartmentId = i % apartmentNumber;
             if (apartmentId >= apartmentStatistics.size() || apartmentStatistics.get(apartmentId) == null) {
@@ -46,8 +46,8 @@ public abstract class Machine {
             floorStatistics.get(floorId).getStatistics().get(machineType).getUsed().getAndIncrement();
             banStatistics.get(banId).getStatistics().get(machineType).getUsed().getAndIncrement();
             machineStatistics.getStatistics().get(machineType).getUsed().getAndIncrement();
-            machineStatistics.getStatistics().get(machineType).getUsed().getAndIncrement();
             machineIdToURI.put(i, cntUri);
+            machineURIToID.put(cntUri, i);
             urlTOType.put(cntUri, machineType);
             machineCondition.put(cntUri, machine.isClosed);
         }
@@ -78,19 +78,23 @@ public abstract class Machine {
      * @param machineType
      */
     public void update(String resourceURI, boolean value, int machineType) {
-        if (value) {
-
-            apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
-            floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
-            MachineMapper.banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
-
-        } else {
-            apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
-            floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
-            banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
-
+        try {
+            if (value) {//当前的状态为关闭，已使用的减1
+                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
+                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
+                banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(machineType).getUsed().getAndDecrement();
+            } else {
+                apartmentStatistics.get(machineURIToID.get(resourceURI) % apartmentNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
+                floorStatistics.get(machineURIToID.get(resourceURI) % floorNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
+                banStatistics.get(machineURIToID.get(resourceURI) % banNumber).getStatistics().get(machineType).getUsed().getAndIncrement();
+                machineStatistics.getStatistics().get(machineType).getUsed().getAndIncrement();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        machineCondition.put(resourceURI, !machineCondition.get(resourceURI));
+
+        machineCondition.put(resourceURI, value);
     }
 
 }

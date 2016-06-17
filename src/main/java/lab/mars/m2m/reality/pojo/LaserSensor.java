@@ -44,13 +44,13 @@ public class LaserSensor extends AbstractSensor {
         int id = parkingURIToID.get(cntUri);
         if (value) {
             parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-            System.out.println("增加了");
+            //System.out.println("增加了");
             synchronized (parkingStatistics){
                 parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
             }
         } else {
             parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-            System.out.println("减少");
+           // System.out.println("减少");
             synchronized (parkingFloorStatistics){
                 parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
             }
@@ -75,6 +75,9 @@ public class LaserSensor extends AbstractSensor {
             }
             if (value) {
                 parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            }
+            else{
+                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
             }
         }
     }
