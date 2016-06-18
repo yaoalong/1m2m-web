@@ -48,9 +48,10 @@ public class RetrieveController {
         } else {
             int roomId = Integer.parseInt(result[2]) - 1;
             if (Integer.parseInt(result[4]) == 0) {
-                isClosed = positionMapMachine.get(index + roomId + "/" + 0).isClosed;
+                isClosed = positionMapMachine.get(index + roomId + "/" + 2).isClosed;
             } else {
-                isClosed = positionMapMachine.get(index + roomId + "/" + 1).isClosed;
+                System.out.println("ddd"+index + roomId + "/" + 1);
+                isClosed = positionMapMachine.get(index + roomId + "/" + 3).isClosed;
             }
         }
         machineStatus.setClosed(isClosed);
