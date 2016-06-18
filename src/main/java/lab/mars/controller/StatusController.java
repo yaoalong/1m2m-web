@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
+import static lab.mars.data.DataGenerate.*;
 import static lab.mars.mapper.MachineMapper.*;
 import static lab.mars.model.MachineTypeEnum.*;
 import static lab.msrs.web.util.NotificationUtils.*;
@@ -194,15 +195,15 @@ public class StatusController {
         List<Boolean> airConditionStatuses = new ArrayList<>();
         String index = banId + "/" + floorId + "/" + apartmentId + "/";
         for (int i = 0; i < roomNumber; i++) {
-            lightStatuses.add(positionMapMachine.get(index + i + "/" + 0).isClosed);
-            airConditionStatuses.add(positionMapMachine.get(index + i + "/" + 1).isClosed);
-            lightSensorValues.add(positionMapSensor.get(index + i + "/" + 2).getValue());
-            temperatureSensorValues.add(positionMapSensor.get(index + i + "/" + 3).getValue());
+            lightStatuses.add(positionMapMachine.get(index + i + "/" + LIGHT_INDEX).isClosed);
+            airConditionStatuses.add(positionMapMachine.get(index + i + "/" + AIRCONDITION_INDEX).isClosed);
+            lightSensorValues.add(positionMapSensor.get(index + i + "/" + LIGHT_SENSOR_INDEX).getValue());
+            temperatureSensorValues.add(positionMapSensor.get(index + i + "/" + TEMPERATURE_SENSOR_INDEX).getValue());
         }
         boolean antiTheft = positionMapAntiTheft.get(index + 1 + "/").isClosed;
         apartmentStatusStatistics.setAirConditionStatuses(airConditionStatuses);
         apartmentStatusStatistics.setLightStatuses(lightStatuses);
-        apartmentStatusStatistics.setTemperatureSensorValues(lightSensorValues);
+        apartmentStatusStatistics.setLightSensorValues(lightSensorValues);
         apartmentStatusStatistics.setTemperatureSensorValues(temperatureSensorValues);
         apartmentStatusStatistics.setAntiTheft(antiTheft);
         return apartmentStatusStatistics;

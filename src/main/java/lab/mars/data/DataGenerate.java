@@ -62,6 +62,10 @@ public class DataGenerate extends WebNetwork {
     private static final boolean laser_sensor_value = true;
     private static final int laser_sensor_period = 5;
 
+    public static final int LIGHT_SENSOR_INDEX=0;
+    public static final int TEMPERATURE_SENSOR_INDEX=1;
+    public static final int LIGHT_INDEX=2;
+    public static final int AIRCONDITION_INDEX=3;
 
     //光线传感器0
     //空调传感器1
@@ -169,8 +173,8 @@ public class DataGenerate extends WebNetwork {
                         }
                         LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, this, containerURI.get(resourceURI + 0), containerURI.get(resourceURI + 2),resourceURI+0);
                         TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value,  this, containerURI.get(resourceURI + 1), containerURI.get(resourceURI + 3),resourceURI+1);
-                        positionMapSensor.put(resourceURI + 0, lightSensor);
-                        positionMapSensor.put(resourceURI + 1, temperatureSensor);
+                        positionMapSensor.put(resourceURI + LIGHT_SENSOR_INDEX, lightSensor);
+                        positionMapSensor.put(resourceURI + TEMPERATURE_SENSOR_INDEX, temperatureSensor);
                         executorService.scheduleAtFixedRate(lightSensor, 0
                                 , light_period * getRandom(), TimeUnit.SECONDS);
                         executorService.scheduleAtFixedRate(temperatureSensor, 1
