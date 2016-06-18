@@ -7,7 +7,6 @@ import lab.mars.model.StatisticsDO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 
@@ -16,28 +15,19 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
  * Date:2016/6/10.
  * Email:yaoalong@foxmail.com
  */
+
+/**
+ * 这里是统计信息
+ */
 public class MachineMapper {
-    public static final ConcurrentHashMap<String, Boolean> machineCondition = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<String, Boolean> parkingCondition = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<Integer, String> machineIdToURI = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<Integer, String> parkingIdToURI = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<String, Integer> machineURIToID = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<String, Integer> parkingURIToID = new ConcurrentHashMap<>();
 
-    /**
-     * 传感器的值
-     */
-    public static final ConcurrentHashMap<String, Integer> sensorMap = new ConcurrentHashMap<>();
-
-
-    public static final ConcurrentHashMap<String, Integer> urlTOType = new ConcurrentHashMap<>();
     public static final List<StatisticsDO> banStatistics = new ArrayList<>();
     public static final List<StatisticsDO> floorStatistics = new ArrayList<>();
     public static final List<StatisticsDO> apartmentStatistics = new ArrayList<>();
     public static final List<StatisticsDO> parkingFloorStatistics = new ArrayList<>();
     public static final DataGenerate network = new DataGenerate();
     //停车场的层数
-    public static final int parkingFloor = 2;
+    public static final int parkingFloorCount = 2;
     //楼栋数
     public static final int banNumber = 5;
     //层数
@@ -69,8 +59,7 @@ public class MachineMapper {
     }
 
     public static void main(String args[]) {
-        System.out.println("sieze:" + MachineMapper.machineCondition.size());
-        System.out.println("sieze:" + MachineMapper.parkingCondition.size());
+
     }
 
 }

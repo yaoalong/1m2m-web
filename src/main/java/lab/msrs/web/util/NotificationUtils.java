@@ -13,17 +13,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NotificationUtils {
     public static final int INIT = 0;
     public static final int IS_NOT_INIT = 1;
-
+    /**
+     * 位置对应的停车位
+     */
+    public static final ConcurrentHashMap<String, Boolean> parkingCondition = new ConcurrentHashMap<>();
     /**
      * 设备对应的containerURI
      */
-    public static ConcurrentHashMap<String, Machine> cntMapMachine = new ConcurrentHashMap<>();
-
+    public static final ConcurrentHashMap<String, Machine> cntMapMachine = new ConcurrentHashMap<>();
     /**
      * 位置对应的machine
      */
-    public static ConcurrentHashMap<String, Machine> positionMapMachine = new ConcurrentHashMap<>();
-
-    public static ConcurrentHashMap<String, AbstractSensor> positionMapSensor = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<String, Machine> positionMapAntiTheft = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, Machine> positionMapMachine = new ConcurrentHashMap<>();
+    /**
+     * 位置对应的传感器
+     */
+    public static final ConcurrentHashMap<String, AbstractSensor> positionMapSensor = new ConcurrentHashMap<>();
+    //位置对应的防盗器
+    public static final ConcurrentHashMap<String, Machine> positionMapAntiTheft = new ConcurrentHashMap<>();
 }

@@ -53,8 +53,6 @@ public abstract class Machine {
                 banStatistics.get(banId).getStatistics().get(machineType).getUsed().getAndIncrement();
                 machineStatistics.getStatistics().get(machineType).getUsed().getAndIncrement();
             }
-            machineIdToURI.put(i, cntUri);
-            machineURIToID.put(cntUri, i);
         }
         m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
         m2m_ContentInstance m2m_contentInstance = new m2m_ContentInstance();

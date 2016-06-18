@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
 
-import static lab.mars.mapper.MachineMapper.*;
+import static lab.mars.mapper.MachineMapper.network;
 import static lab.msrs.web.util.NotificationUtils.*;
 
 /**
@@ -34,24 +34,24 @@ public class RetrieveController {
     @RequestMapping(value = "/retrieveMachine.do", method = RequestMethod.GET)
     public
     @ResponseBody
-    MachineStatus retrieve(@RequestParam String key) {
+    MachineStatus retrieveMachine(@RequestParam String key) {
         MachineStatus machineStatus = new MachineStatus();
         String[] result = key.split("c");
-        if (result.length != 5) {
-            return machineStatus;
-        }
-        int ban = Integer.parseInt(result[0]) - 1;
-        int floor = Integer.parseInt(result[1]) - 1;
-        int apartment = Integer.parseInt(result[2]) - 1;
-        int roomNumber = Integer.parseInt(result[3]) - 1;
-        boolean isClosed = false;
-        String index = ban + "/" + floor + "/" + apartment + "/";
-        if (Integer.parseInt(result[4]) == 0) {
+
+        int banId = Integer.parseInt(result[0]) - 1;
+        int floorId = Integer.parseInt(result[1]) - 1;
+        int apartmentId = Integer.parseInt(result[2]) - 1;
+        boolean isClosed;
+        String index = banId + "/" + floorId + "/" + apartmentId + "/";
+        if (result.length == 4) {
             isClosed = positionMapAntiTheft.get(index + 1 + "/").isClosed;
-        } else if (Integer.parseInt(result[4]) == 1) {
-            isClosed = positionMapMachine.get(index + roomNumber + "/" + 3).isClosed;
-        } else if (Integer.parseInt(result[4]) == 2) {
-            isClosed = positionMapMachine.get(index + roomNumber + "/" + 2).isClosed;
+        } else {
+            int roomId = Integer.parseInt(result[2]) - 1;
+            if (Integer.parseInt(result[4]) == 0) {
+                isClosed = positionMapMachine.get(index + roomId + "/" + 0).isClosed;
+            } else {
+                isClosed = positionMapMachine.get(index + roomId + "/" + 1).isClosed;
+            }
         }
         machineStatus.setClosed(isClosed);
         return machineStatus;
@@ -60,9 +60,10 @@ public class RetrieveController {
     @RequestMapping(value = "/parkingRetrieve.do", method = RequestMethod.GET)
     public
     @ResponseBody
-    ParkingStatus retrieveParking(@RequestParam int key) {
+    ParkingStatus retrieveParking(@RequestParam String key) {
+        String[] result = key.split("c");
         ParkingStatus parkingStatus = new ParkingStatus();
-        parkingStatus.setUnUsed(parkingCondition.get(parkingIdToURI.get(key)));
+        parkingStatus.setUnUsed(parkingCondition.get(result[0] + "/" + result[1]));
         return parkingStatus;
     }
 
@@ -74,14 +75,17 @@ public class RetrieveController {
         int ban = Integer.parseInt(result[0]) - 1;
         int floor = Integer.parseInt(result[1]) - 1;
         int apartment = Integer.parseInt(result[2]) - 1;
-        int roomNumber = Integer.parseInt(result[3]) - 1;
         Sensor sensor = new Sensor();
-        if (Integer.parseInt(result[4]) == 0) {
-            sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 2).getValue());
-        } else if (Integer.parseInt(result[4]) == 1) {
-            sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 1).getValue());
-        } else if (Integer.parseInt(result[4]) == 2) {
-            sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 2).getValue());
+        if (result.length == 4) {
+            sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + "/" + 0).getValue());
+            return sensor;
+        } else {
+            int roomNumber = Integer.parseInt(result[3]) - 1;
+            if (Integer.parseInt(result[4]) == 0) {
+                sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 0).getValue());
+            } else {
+                sensor.setValue(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + roomNumber + "/" + 1).getValue());
+            }
         }
         return sensor;
     }

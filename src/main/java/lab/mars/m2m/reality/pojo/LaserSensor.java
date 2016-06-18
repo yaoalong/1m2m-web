@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static lab.mars.mapper.MachineMapper.*;
 import static lab.mars.model.MachineTypeEnum.ANTITHEFT;
+import static lab.msrs.web.util.NotificationUtils.parkingCondition;
 
 /**
  * Author:yaoalong.
@@ -19,19 +20,22 @@ import static lab.mars.model.MachineTypeEnum.ANTITHEFT;
  */
 public class LaserSensor extends AbstractSensor {
     private static final long serialVersionUID = 6021429766370514584L;
-    static AtomicInteger atomicInteger = new AtomicInteger(0);
     private boolean value;
+    private int parkingFloor;
+    private String resourceId;
 
     public LaserSensor(boolean value, String machineUri) {
         this.value = value;
         this.machineUri = machineUri;
     }
 
-    public LaserSensor(boolean value, DataGenerate dataGenerate, String cntUri, String machineUri) {
+    public LaserSensor(boolean value, DataGenerate dataGenerate, String cntUri, String machineUri, int parkingFloor, String resourceId) {
         this.value = value;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
         this.machineUri = machineUri;
+        this.parkingFloor = parkingFloor;
+        this.resourceId = resourceId;
         add();
     }
 
@@ -39,37 +43,37 @@ public class LaserSensor extends AbstractSensor {
     public void run() {
         value = !value;
         request(new LaserSensor(value, machineUri));
-        int id = parkingURIToID.get(cntUri);
         if (value) {
-            parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-            parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            parkingFloorStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+            parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
 
         } else {
-            parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-            parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
 
-
+          parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            parkingFloorStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
         }
-        parkingCondition.put(cntUri, value);
+        parkingCondition.put(resourceId, value);
     }
 
-    public void add() {
-        int i = atomicInteger.getAndIncrement();
-        parkingCondition.put(cntUri, value);
-        parkingIdToURI.put(i, cntUri);
-        parkingURIToID.put(cntUri, i);
-        int floorId = (i) % parkingFloor;
-        if (floorId >= parkingFloorStatistics.size()) {
-            int[] ints = new int[1];
-            ints[0] = parkingPositionCount / parkingFloor;
-            parkingFloorStatistics.add(floorId, new StatisticsDO(1, ints));
+    private void add() {
+        try{
+            parkingCondition.put(cntUri, value);
+            if (parkingFloor >= parkingFloorStatistics.size()) {
+                int[] ints = new int[1];
+                ints[0] = parkingPositionCount / parkingFloorCount;
+                parkingFloorStatistics.add(parkingFloor, new StatisticsDO(1, ints));
+            }
+            if (!value) {
+                 parkingFloorStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+
+            }
+            parkingCondition.put(resourceId, value);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        if (value) {
-            parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-        } else {
-            parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-        }
-}
+
+    }
 
     @Override
     public int getValue() {

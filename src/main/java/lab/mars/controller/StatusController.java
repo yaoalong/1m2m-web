@@ -107,7 +107,7 @@ public class StatusController {
     }
 
     /**
-     * 获取一户人家所有的信息
+     * 获取一位业主所有的信息
      *
      * @param key
      * @return
@@ -121,20 +121,21 @@ public class StatusController {
         if (result.length != 3) {
             return apartmentStatusStatistics;
         }
-        int ban = Integer.parseInt(result[0]) - 1;
-        int floor = Integer.parseInt(result[1]) - 1;
-        int apartment = Integer.parseInt(result[2]) - 1;
+        int banId = Integer.parseInt(result[0]) - 1;
+        int floorId = Integer.parseInt(result[1]) - 1;
+        int apartmentId = Integer.parseInt(result[2]) - 1;
         List<Integer> lightSensorValues = new ArrayList<>();
         List<Integer> temperatureSensorValues = new ArrayList<>();
         List<Boolean> lightStatuses = new ArrayList<>();
         List<Boolean> airConditionStatuses = new ArrayList<>();
+        String index=banId + "/" + floorId + "/" + apartmentId + "/";
         for (int i = 0; i < roomNumber; i++) {
-            lightStatuses.add(positionMapMachine.get(ban + "/" + floor + "/" + apartment + "/" + i + "/" + 0).isClosed);
-            airConditionStatuses.add(positionMapMachine.get(ban + "/" + floor + "/" + apartment + "/" + i + "/" + 1).isClosed);
-            lightSensorValues.add(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + i + "/" + 2).getValue());
-            temperatureSensorValues.add(positionMapSensor.get(ban + "/" + floor + "/" + apartment + "/" + i + "/" + 3).getValue());
+            lightStatuses.add(positionMapMachine.get(index + i + "/" + 0).isClosed);
+            airConditionStatuses.add(positionMapMachine.get(index+ i + "/" + 1).isClosed);
+            lightSensorValues.add(positionMapSensor.get(index + i + "/" + 2).getValue());
+            temperatureSensorValues.add(positionMapSensor.get(index + i + "/" + 3).getValue());
         }
-        boolean antiTheft = positionMapAntiTheft.get(ban + "/" + floor + "/" + apartment + "/" + 1 + "/").isClosed;
+        boolean antiTheft = positionMapAntiTheft.get(index + 1 + "/").isClosed;
         apartmentStatusStatistics.setAirConditionStatuses(airConditionStatuses);
         apartmentStatusStatistics.setLightStatuses(lightStatuses);
         apartmentStatusStatistics.setTemperatureSensorValues(lightSensorValues);

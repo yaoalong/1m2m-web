@@ -117,18 +117,19 @@ public class DataGenerate extends WebNetwork {
                     for (int y = 0; y < roomNumber; y++) {
                         for (int w = 0; w < 4; w++) {
                             String cntUri = createSyncContainer(aeUri);//创建一个container
-                            containerURI.put(i + "/" + j + "/" + z + "/" + y + "/" + w, cntUri);
+                            String resourceId=i + "/" + j + "/" + z + "/" + y + "/" + w;
+                            containerURI.put(resourceId, cntUri);
                             if (w == 2) {
-                                machineBelongInformation.setResourceId(i + "/" + j + "/" + z + "/" + y + "/" + w);
+                                machineBelongInformation.setResourceId(resourceId);
                                 Light light = new Light(light_low_value, light_high_value, false, this, cntUri, machineBelongInformation);//空调
                                 cntMapMachine.put(cntUri, light);//存储container和设备的映射关系
-                                positionMapMachine.put(i + "/" + j + "/" + z + "/" + y + "/" + w, light);
+                                positionMapMachine.put(resourceId, light);
                             }
                             if (w == 3) {
-                                machineBelongInformation.setResourceId(i + "/" + j + "/" + z + "/" + y + "/" + w);
+                                machineBelongInformation.setResourceId(resourceId);
                                 AirConditioning airConditioning = new AirConditioning(temperature_low_value, temperature_high_value, false, this, cntUri, machineBelongInformation);//灯
                                 cntMapMachine.put(cntUri, airConditioning);
-                                positionMapMachine.put(i + "/" + j + "/" + z + "/" + y + "/" + w, airConditioning);
+                                positionMapMachine.put(resourceId, airConditioning);
                             }
                         }
                     }
@@ -137,11 +138,11 @@ public class DataGenerate extends WebNetwork {
                     containerURI.put(i + "/" + j + "/" + z + "/" + 0 + "/", cntUri);
                     //防盗报警器
                     cntUri = createSyncContainer(aeUri);//创建一个container
-
-                    containerURI.put(i + "/" + j + "/" + z + "/" + 1 + "/", cntUri);
-                    machineBelongInformation.setResourceId(i + "/" + j + "/" + z + "/" + 1 + "/");
+                    String resourceId=i + "/" + j + "/" + z + "/" + 1 + "/";
+                    containerURI.put(resourceId, cntUri);
+                    machineBelongInformation.setResourceId(resourceId);
                     AntitheftAlarm antitheftAlarm = new AntitheftAlarm(true, this, cntUri, machineBelongInformation);
-                    positionMapAntiTheft.put(i + "/" + j + "/" + z + "/" + 1 + "/", antitheftAlarm);
+                    positionMapAntiTheft.put(resourceId, antitheftAlarm);
                     cntMapMachine.put(cntUri, antitheftAlarm);
 
                 }
@@ -178,15 +179,15 @@ public class DataGenerate extends WebNetwork {
             }
         }
         String aeUri = createSyncAEResource();
-        for (int i = 0; i < parkingFloor; i++) {
-            for (int j = 0; j < parkingPositionCount / parkingFloor; j++) {
+        for (int i = 0; i < parkingFloorCount; i++) {
+            for (int j = 0; j < parkingPositionCount / parkingFloorCount; j++) {
                 String cntUri = createSyncContainer(aeUri);//创建一个container
                 containerURI.put(i + "/" + j, cntUri);
             }
         }
-        for (int i = 0; i < parkingFloor; i++) {
-            for (int j = 0; j < parkingPositionCount / parkingFloor; j++) {
-                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j), null), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
+        for (int i = 0; i < parkingFloorCount; i++) {
+            for (int j = 0; j < parkingPositionCount / parkingFloorCount; j++) {
+                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j), null,i,i+"/"+j), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
 
             }
         }
