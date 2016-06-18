@@ -53,6 +53,39 @@ public class StatusController {
     }
 
     /**
+     * 获取所有停车场的统计信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/allParkingStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    MachineStatistics getAllParkingStatus() {
+        MachineStatistics machineStatistics = new MachineStatistics();
+        long sum, used;
+        used = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
+        sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
+        machineStatistics.setOpen(used, sum);
+        return machineStatistics;
+    }
+
+    /**
+     * 获取所有空调的统计信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/allAirConditionStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    MachineStatistics getAllAirConditionStatus() {
+        MachineStatistics machineStatisticsResult = new MachineStatistics();
+        long sum = machineStatistics.getStatistics().get(AIRCONDIION.getIndex()).getSum();
+        long used = machineStatistics.getStatistics().get(AIRCONDIION.getIndex()).getUsed().get();
+        machineStatisticsResult.setOpen(used, sum);
+        return machineStatisticsResult;
+    }
+
+    /**
      * 获取空调的统计信息
      *
      * @param key
@@ -71,6 +104,20 @@ public class StatusController {
     }
 
     /**
+     * 获取所有灯的统计信息
+     */
+    @RequestMapping(value = "/allLightStatusStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    MachineStatistics getAllLightStatus() {
+        long sum = machineStatistics.getStatistics().get(LIGHT.getIndex()).getSum();
+        long used = machineStatistics.getStatistics().get(LIGHT.getIndex()).getUsed().get();
+        MachineStatistics lightStatusStatistics = new MachineStatistics();
+        lightStatusStatistics.setOpen(used, sum);
+        return lightStatusStatistics;
+    }
+
+    /**
      * 获取灯的统计信息
      *
      * @param key
@@ -86,6 +133,22 @@ public class StatusController {
         MachineStatistics lightStatusStatistics = new MachineStatistics();
         lightStatusStatistics.setOpen(used, sum);
         return lightStatusStatistics;
+    }
+
+    /**
+     * 获取所有警报器的信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/allAntiTheftStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    MachineStatistics getAllAntiTheftStatus() {
+        MachineStatistics antiTheftStatistics = new MachineStatistics();
+        long sum = machineStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
+        long used = machineStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
+        antiTheftStatistics.setOpen(used, sum);
+        return antiTheftStatistics;
     }
 
     /**
@@ -128,10 +191,10 @@ public class StatusController {
         List<Integer> temperatureSensorValues = new ArrayList<>();
         List<Boolean> lightStatuses = new ArrayList<>();
         List<Boolean> airConditionStatuses = new ArrayList<>();
-        String index=banId + "/" + floorId + "/" + apartmentId + "/";
+        String index = banId + "/" + floorId + "/" + apartmentId + "/";
         for (int i = 0; i < roomNumber; i++) {
             lightStatuses.add(positionMapMachine.get(index + i + "/" + 0).isClosed);
-            airConditionStatuses.add(positionMapMachine.get(index+ i + "/" + 1).isClosed);
+            airConditionStatuses.add(positionMapMachine.get(index + i + "/" + 1).isClosed);
             lightSensorValues.add(positionMapSensor.get(index + i + "/" + 2).getValue());
             temperatureSensorValues.add(positionMapSensor.get(index + i + "/" + 3).getValue());
         }
