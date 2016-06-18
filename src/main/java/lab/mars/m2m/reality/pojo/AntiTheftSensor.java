@@ -23,21 +23,25 @@ public class AntiTheftSensor extends AbstractSensor {
         this.machineUri = machineUri;
     }
 
-    public AntiTheftSensor(boolean value, DataGenerate dataGenerate, String cntUri, String machineUri,String resourceId) {
+    public AntiTheftSensor(boolean value, DataGenerate dataGenerate, String cntUri, String machineUri, String resourceId) {
         this.value = value;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
         this.machineUri = machineUri;
-        this.resourceId=resourceId;
+        this.resourceId = resourceId;
+        positionMapSensor.put(resourceId, this);
 
     }
 
     @Override
     public void run() {
-        value = !value;
-        request(new AntiTheftSensor(value, machineUri));
-        // System.out.println("防盗传感器" + machineUri + " 状态为:" + (value ? "空" : "被占用"));
-        positionMapSensor.get(resourceId).setValue(value ? 1 : 0);
+        try {
+            value = !value;
+            request(new AntiTheftSensor(value, machineUri));
+            positionMapSensor.get(resourceId).setValue(value ? 1 : 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static lab.mars.mapper.MachineMapper.*;
+import static lab.mars.model.MachineTypeEnum.AIRCONDIION;
+import static lab.mars.model.MachineTypeEnum.ANTITHEFT;
 import static lab.mars.model.MachineTypeEnum.LIGHT;
 import static lab.msrs.web.util.NotificationUtils.*;
 
@@ -52,7 +54,7 @@ public class DataGenerate extends WebNetwork {
      * 防盗传感器
      */
     private static final boolean antitheft_sensor_value = true;
-    private static final int antitheft_sensor_period = 5;
+    private static final int antitheft_sensor_period = 1;
 
     /**
      * 传感器
@@ -113,19 +115,21 @@ public class DataGenerate extends WebNetwork {
             for (int j = 0; j < floorNumber; j++) {
                 String aeUri = createSyncAEResource();//现在是每层楼是一个AE
                 for (int z = 0; z < apartmentNumber; z++) {
-                    MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, LIGHT);
+
                     for (int y = 0; y < roomNumber; y++) {
                         for (int w = 0; w < 4; w++) {
                             String cntUri = createSyncContainer(aeUri);//创建一个container
                             String resourceId=i + "/" + j + "/" + z + "/" + y + "/" + w;
                             containerURI.put(resourceId, cntUri);
                             if (w == 2) {
+                                MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, LIGHT);
                                 machineBelongInformation.setResourceId(resourceId);
                                 Light light = new Light(light_low_value, light_high_value, false, this, cntUri, machineBelongInformation);//空调
                                 cntMapMachine.put(cntUri, light);//存储container和设备的映射关系
                                 positionMapMachine.put(resourceId, light);
                             }
                             if (w == 3) {
+                                MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, AIRCONDIION);
                                 machineBelongInformation.setResourceId(resourceId);
                                 AirConditioning airConditioning = new AirConditioning(temperature_low_value, temperature_high_value, false, this, cntUri, machineBelongInformation);//灯
                                 cntMapMachine.put(cntUri, airConditioning);
@@ -140,8 +144,9 @@ public class DataGenerate extends WebNetwork {
                     cntUri = createSyncContainer(aeUri);//创建一个container
                     String resourceId=i + "/" + j + "/" + z + "/" + 1 + "/";
                     containerURI.put(resourceId, cntUri);
+                    MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, ANTITHEFT);
                     machineBelongInformation.setResourceId(resourceId);
-                    AntitheftAlarm antitheftAlarm = new AntitheftAlarm(true, this, cntUri, machineBelongInformation);
+                    AntitheftAlarm antitheftAlarm = new AntitheftAlarm(false, this, cntUri, machineBelongInformation);
                     positionMapAntiTheft.put(resourceId, antitheftAlarm);
                     cntMapMachine.put(cntUri, antitheftAlarm);
 

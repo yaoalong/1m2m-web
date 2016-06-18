@@ -41,12 +41,12 @@ public class Light extends Machine {
             // System.out.println("光线传感器感应到光强度过低，因此开启灯");
             isClosed = false;
             request(new Light(isClosed), IS_NOT_INIT);
-            update(cntUri, isClosed);
+            update( isClosed);
         } else if (value > high && isClosed == false) {
             //  System.out.println("光线传感器感应到光强度始终，关闭灯");
-            isClosed = false;
+            isClosed = true;
             request(new Light(isClosed), IS_NOT_INIT);
-            update(cntUri, isClosed);
+            update( isClosed);
         }
 
     }

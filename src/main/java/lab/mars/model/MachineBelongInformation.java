@@ -21,7 +21,7 @@ public class MachineBelongInformation {
         this.banId = banId;
         this.floorId = floorId;
         this.apartmentId = apartmentId;
-        this.machineType = machineTypeEnum;;
+        this.machineType = machineTypeEnum;
     }
 
     public int getBanId() {
@@ -49,5 +49,9 @@ public class MachineBelongInformation {
 
     public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
+    }
+
+    public void setMachineType(MachineTypeEnum machineType) {
+        this.machineType = machineType;
     }
 }

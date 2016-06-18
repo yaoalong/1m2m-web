@@ -34,7 +34,6 @@ public abstract class Machine {
     public void request(Machine machine, int init) {
         int machineType = machineBelongInformation.getMachineType().getIndex();
         if (init == INIT) {
-            int i = atomicInteger.getAndIncrement();
             int apartmentId = machineBelongInformation.getApartmentId();
             if (apartmentId >= apartmentStatistics.size()) {
                 apartmentStatistics.add(apartmentId, new StatisticsDO(3, new int[]{apartmentMachineNumber / 11, apartmentMachineNumber * 5 / 11, apartmentMachineNumber * 5 / 11}));
@@ -76,23 +75,24 @@ public abstract class Machine {
     /**
      * 更新统计信息
      *
-     * @param resourceURI
      * @param value
      */
     //TODO 这里的统计信息有误
-    public void update(String resourceURI, boolean value) {
+    public void update(boolean value) {
         int machineType = machineBelongInformation.getMachineType().getIndex();
         try {
             if (value) {//当前的状态为关闭，已使用的减1
                 apartmentStatistics.get(machineBelongInformation.getApartmentId()).getStatistics().get(machineType).getUsed().getAndDecrement();
                 floorStatistics.get(machineBelongInformation.getFloorId()).getStatistics().get(machineType).getUsed().getAndDecrement();
                 banStatistics.get(machineBelongInformation.getBanId()).getStatistics().get(machineType).getUsed().getAndDecrement();
-                machineStatistics.getStatistics().get(machineType).getUsed().getAndDecrement();
+             machineStatistics.getStatistics().get(machineType).getUsed().getAndDecrement();
             } else {
                 apartmentStatistics.get(machineBelongInformation.getApartmentId()).getStatistics().get(machineType).getUsed().getAndIncrement();
                 floorStatistics.get(machineBelongInformation.getFloorId()).getStatistics().get(machineType).getUsed().getAndIncrement();
                 banStatistics.get(machineBelongInformation.getBanId()).getStatistics().get(machineType).getUsed().getAndIncrement();
                 machineStatistics.getStatistics().get(machineType).getUsed().getAndIncrement();
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();

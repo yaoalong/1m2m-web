@@ -43,7 +43,7 @@ public class MachineMapper {
     //停车位的总数量
     public static final int parkingPositionCount = 40;
     public static final String CSEBASE = "/csebase";
-    public static StatisticsDO machineStatistics = new StatisticsDO(3, new int[]{machineCount / 5, machineCount * 2 / 5, machineCount * 2 / 5});
+    public static StatisticsDO machineStatistics = new StatisticsDO(3, new int[]{machineCount / 11, machineCount * 5 / 11, machineCount * 5 /11});
     public static StatisticsDO parkingStatistics = new StatisticsDO(1, new int[]{parkingPositionCount});
 
 //
