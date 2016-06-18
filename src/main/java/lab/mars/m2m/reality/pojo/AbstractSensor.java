@@ -8,6 +8,7 @@ import lab.mars.m2m.reflection.ResourceReflection;
 import javax.xml.bind.JAXBException;
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static lab.mars.m2m.protocol.enumeration.m2m_resourceType.contentInstance;
@@ -20,11 +21,12 @@ import static lab.mars.network.WebNetwork.ASYNC;
  */
 public abstract class AbstractSensor implements SensorObject, Serializable {
 
-    protected DataGenerate dataGenerate;
+    protected transient DataGenerate dataGenerate;
     protected String cntUri;
     protected String machineUri;
     private long id;
-
+    protected volatile int value;
+    protected  String resourceId;
     public void request(AbstractSensor sensor) {
         m2m_primitiveContentType m2m_primitiveContentType = new m2m_primitiveContentType();
         m2m_ContentInstance m2m_contentInstance = new m2m_ContentInstance();
@@ -51,5 +53,12 @@ public abstract class AbstractSensor implements SensorObject, Serializable {
 
     public String getMachineUri() {
         return machineUri;
+    }
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

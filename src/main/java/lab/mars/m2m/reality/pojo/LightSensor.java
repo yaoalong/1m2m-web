@@ -1,7 +1,8 @@
 package lab.mars.m2m.reality.pojo;
 
 import lab.mars.data.DataGenerate;
-import lab.mars.mapper.MachineMapper;
+
+import static lab.msrs.web.util.NotificationUtils.positionMapSensor;
 
 /**
  * Author:yaoalong.
@@ -20,7 +21,7 @@ public class LightSensor extends AbstractSensor {
         this.machineUri = machineUri;
     }
 
-    public LightSensor(int value, int incrementNum, int low, int high, DataGenerate dataGenerate, String cntUri, String machineUri) {
+    public LightSensor(int value, int incrementNum, int low, int high, DataGenerate dataGenerate, String cntUri, String machineUri, String resourceId) {
         this.incrementNum = incrementNum;
         this.low = low;
         this.high = high;
@@ -28,6 +29,7 @@ public class LightSensor extends AbstractSensor {
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
         this.machineUri = machineUri;
+        this.resourceId = resourceId;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class LightSensor extends AbstractSensor {
         } else {
             value = low;
         }
-        MachineMapper.sensorMap.put(cntUri, value);
+        positionMapSensor.get(resourceId).setValue(value);
     }
 
     public int getValue() {

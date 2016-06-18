@@ -8,8 +8,8 @@ package lab.mars.m2m.reality.pojo;
 
 
 import lab.mars.data.DataGenerate;
+import lab.mars.model.MachineBelongInformation;
 
-import static lab.mars.model.MachineTypeEnum.LIGHT;
 import static lab.msrs.web.util.NotificationUtils.INIT;
 import static lab.msrs.web.util.NotificationUtils.IS_NOT_INIT;
 
@@ -25,13 +25,14 @@ public class Light extends Machine {
         this.isClosed = isClosed;
     }
 
-    public Light(int low, int high, boolean isClosed, DataGenerate dataGenerate, String cntUri) {
+    public Light(int low, int high, boolean isClosed, DataGenerate dataGenerate, String cntUri, MachineBelongInformation machineBelongInformation) {
         this.low = low;
         this.high = high;
         this.isClosed = isClosed;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
-        request(new Light(isClosed), INIT, LIGHT);
+        this.machineBelongInformation = machineBelongInformation;
+        request(new Light(isClosed), INIT);
     }
 
     @Override
@@ -39,13 +40,13 @@ public class Light extends Machine {
         if (value < low && isClosed == true) {
             // System.out.println("光线传感器感应到光强度过低，因此开启灯");
             isClosed = false;
-            request(new Light(isClosed), IS_NOT_INIT, LIGHT);
-            update(cntUri, isClosed, LIGHT);
+            request(new Light(isClosed), IS_NOT_INIT);
+            update(cntUri, isClosed);
         } else if (value > high && isClosed == false) {
             //  System.out.println("光线传感器感应到光强度始终，关闭灯");
             isClosed = false;
-            request(new Light(isClosed), IS_NOT_INIT, LIGHT);
-            update(cntUri, isClosed, LIGHT);
+            request(new Light(isClosed), IS_NOT_INIT);
+            update(cntUri, isClosed);
         }
 
     }

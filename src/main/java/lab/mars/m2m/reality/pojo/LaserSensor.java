@@ -27,7 +27,7 @@ public class LaserSensor extends AbstractSensor {
         this.machineUri = machineUri;
     }
 
-    public LaserSensor(boolean value,  DataGenerate dataGenerate, String cntUri, String machineUri) {
+    public LaserSensor(boolean value, DataGenerate dataGenerate, String cntUri, String machineUri) {
         this.value = value;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
@@ -42,16 +42,12 @@ public class LaserSensor extends AbstractSensor {
         int id = parkingURIToID.get(cntUri);
         if (value) {
             parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-            //System.out.println("增加了");
-            synchronized (parkingStatistics) {
-                parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-            }
+            parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+
         } else {
             parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-            // System.out.println("减少");
-            synchronized (parkingFloorStatistics) {
-                parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-            }
+            parkingFloorStatistics.get(id % 2).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+
 
         }
         parkingCondition.put(cntUri, value);
@@ -63,19 +59,17 @@ public class LaserSensor extends AbstractSensor {
         parkingIdToURI.put(i, cntUri);
         parkingURIToID.put(cntUri, i);
         int floorId = (i) % parkingFloor;
-        synchronized (parkingFloorStatistics) {
-            if (floorId >= parkingFloorStatistics.size()) {
-                int[] ints = new int[1];
-                ints[0] = parkingPositionCount / parkingFloor;
-                parkingFloorStatistics.add(floorId, new StatisticsDO(1, ints));
-            }
-            if (value) {
-                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
-            } else {
-                parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-            }
+        if (floorId >= parkingFloorStatistics.size()) {
+            int[] ints = new int[1];
+            ints[0] = parkingPositionCount / parkingFloor;
+            parkingFloorStatistics.add(floorId, new StatisticsDO(1, ints));
         }
-    }
+        if (value) {
+            parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+        } else {
+            parkingFloorStatistics.get(floorId).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+        }
+}
 
     @Override
     public int getValue() {
