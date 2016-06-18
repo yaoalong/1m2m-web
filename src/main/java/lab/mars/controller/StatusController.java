@@ -2,6 +2,7 @@ package lab.mars.controller;
 
 import lab.mars.mapper.MachineMapper;
 import lab.mars.model.ApartmentStatusStatistics;
+import lab.mars.model.FloorStatusSatistics;
 import lab.mars.model.MachineStatistics;
 import lab.mars.model.StatisticsDO;
 import org.springframework.stereotype.Controller;
@@ -206,7 +207,32 @@ public class StatusController {
         apartmentStatusStatistics.setAntiTheft(antiTheft);
         return apartmentStatusStatistics;
     }
+    /**
+     * 获取一位业主所有的信息
+     *
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "/getFloorStatistics.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    FloorStatusSatistics getFloorStatistics(@RequestParam String key) {
+        String[] result = key.split("c");
+        FloorStatusSatistics floorStatusSatistics = new FloorStatusSatistics();
+        if (result.length != 2) {
+            return floorStatusSatistics;
+        }
+        int banId = Integer.parseInt(result[0]) - 1;
+        int floorId = Integer.parseInt(result[1]) - 1;
+        List<Boolean> antiTheftStatuses=new ArrayList<>();
 
+        for(int i=0;i<apartmentNumber;i++){
+            String index = banId + "/" + floorId + "/" + i + "/"+1+"/";
+            antiTheftStatuses.add(positionMapAntiTheft.get(index).isClosed);
+        }
+       floorStatusSatistics.setAntiTheftValues(antiTheftStatuses);
+        return floorStatusSatistics;
+    }
     private StatisticsDO judgePosition(String key) {
         String[] result = key.split("c");
         StatisticsDO statisticsDO = null;
