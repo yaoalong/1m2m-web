@@ -5,18 +5,65 @@ var banId = 1;
 var floorId = 1;
 var apartmentId = 1;
 var red = "#FF0000";
-var green = "#FF0000";
+var green = "#008000";
 $(document).ready(function () {
 
     $(".banId").click(function () {
         banId = $(this).attr("id");
+        $("#banId").text(banId);
         getFloorStatistics();
+        getApartmentStatistics();
+    });
+    /**
+     * 获取空调的统计信息
+     */
+    $.getJSON("/allAirConditionStatistics.do", {}, function (data) {
+        var chart = $("#chart1").CanvasJSChart();
+        chart.options.data[0].dataPoints[0].y = data.open;
+        chart.options.data[0].dataPoints[1].y = data.closed;
+        chart.render();
+    });
+    /**
+     * 获取灯的统计信息
+     */
+    $.getJSON("/allLightStatusStatistics.do", {}, function (data) {
+        var chart = $("#chart2").CanvasJSChart();
+        chart.options.data[0].dataPoints[0].y = data.open;
+        chart.options.data[0].dataPoints[1].y = data.closed;
+        chart.render();
+    });
+    /**
+     * 获取防盗器的统计信息
+     */
+    $.getJSON("/allAntiTheftStatistics.do", {}, function (data) {
+        var chart = $("#chart3").CanvasJSChart();
+        chart.options.data[0].dataPoints[0].y = data.open;
+        chart.options.data[0].dataPoints[1].y = data.closed;
+        chart.render();
+    });
+    /**
+     * 获取停车场的统计信息
+     */
+    $.getJSON("/allParkingStatistics.do", {}, function (data) {
+        var chart = $("#chart4").CanvasJSChart();
+        chart.options.data[0].dataPoints[0].y = data.open;
+        chart.options.data[0].dataPoints[1].y = data.closed;
+        chart.render();
     });
     $("#u247_input").change(function () {
         var checkValue = $(this).val();
         floorId = parseInt(checkValue);
+        $("#floorId").text(floorId);
         getFloorStatistics();
-    })
+        getApartmentStatistics();
+    });
+    $(".apartmentNO").click(function () {
+        var text = $(this).children().html();
+        var result = text.split("-");
+        apartmentId = result[result.length - 1];
+        $("#apartmentId").text(apartmentId);
+        getApartmentStatistics();
+    });
     function getFloorStatistics() {
         $.getJSON("/getFloorStatistics.do", {key: banId + "c" + floorId}, function (data) {
             console.log(data.antiTheftValues.length);
@@ -34,7 +81,10 @@ $(document).ready(function () {
         });
     }
 
-    function getParkingStatistics() {
+    /**
+     * 获取某层的信息
+     */
+    function getApartmentStatistics() {
         $.getJSON("/getApartmentStatistics.do", {key: banId + "c" + floorId + "c" + apartmentId}, function (data) {
             $("#roomNumbers").text(data.lightSensorValues.length);
             if (data.antiTheft == false) {
@@ -46,49 +96,49 @@ $(document).ready(function () {
             }
             $("#safetyStatus").text(data.antiTheft == false ? "不安全" : "安全");
             $("#lightSensorNumber").text(data.lightSensorValues.length);
-            var i=0;
-            for(var index=0;index<data.lightStatuses.length;index++){
-                if(data.lightStatuses[i].isClosed==false){
+            var i = 0;
+            for (var index = 0; index < data.lightStatuses.length; index++) {
+                if (data.lightStatuses[i].isClosed == false) {
                     i++;
-                    $("#light"+index).css("color", green);
+                    $("#light" + index).css("color", green);
                 }
-                else{
-                    $("#light"+index).css("color", red);
+                else {
+                    $("#light" + index).css("color", red);
                 }
-                $("#light"+index).text(data.lightStatuses[index]==false?"开":"关");
+                $("#light" + index).text(data.lightStatuses[index] == false ? "开" : "关");
             }
-            for(var index=0;index<data.airConditionStatuses.length;index++){
-                if(data.airConditionStatuses[i].isClosed==false){
-                    $("#aircondition"+index).css("color", green);
+            for (var index = 0; index < data.airConditionStatuses.length; index++) {
+                if (data.airConditionStatuses[i].isClosed == false) {
+                    $("#aircondition" + index).css("color", green);
                 }
-                else{
-                    $("#aircondition"+index).css("color", red);
+                else {
+                    $("#aircondition" + index).css("color", red);
                 }
-                $("#aircondition"+index).text(data.airConditionStatuses[index]==false?"开":"关");
+                $("#aircondition" + index).text(data.airConditionStatuses[index] == false ? "开" : "关");
             }
-            for(var index=0;index<data.lightSensorValues.length;index++){
-                if(data.lightSensorValues[i].isClosed==false){
-                    $("#lightSensor"+index).css("color", green);
+            for (var index = 0; index < data.lightSensorValues.length; index++) {
+                if (data.lightSensorValues[i].isClosed == false) {
+                    $("#lightSensor" + index).css("color", green);
                 }
-                else{
-                    $("#lightSensor"+index).css("color", red);
+                else {
+                    $("#lightSensor" + index).css("color", red);
                 }
-                $("#lightSensor"+index).text(data.lightSensorValues[index]);
+                $("#lightSensor" + index).text(data.lightSensorValues[index]);
             }
-            for(var index=0;index<data.temperatureSensorValues.length;index++){
-                if(data.temperatureSensorValues[i].isClosed==false){
-                    $("#temperatureSensor"+index).css("color", green);
+            for (var index = 0; index < data.temperatureSensorValues.length; index++) {
+                if (data.temperatureSensorValues[i].isClosed == false) {
+                    $("#temperatureSensor" + index).css("color", green);
                 }
-                else{
-                    $("#temperatureSensor"+index).css("color", red);
+                else {
+                    $("#temperatureSensor" + index).css("color", red);
                 }
-                $("#temperatureSensor"+index).text(data.temperatureSensorValues[index]);
+                $("#temperatureSensor" + index).text(data.temperatureSensorValues[index]);
             }
             $("#lightOpenNumber").text(i);
-            $("#ligthOffNumber").text(data.lightSensorValues.length-i);
+            $("#ligthOffNumber").text(data.lightSensorValues.length - i);
             $("#temperatureSensorNumber").text(data.temperatureSensorValues.length);
         });
     }
     getFloorStatistics();
-    getParkingStatistics();
+    getApartmentStatistics();
 });
