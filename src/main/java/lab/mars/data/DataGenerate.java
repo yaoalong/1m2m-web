@@ -33,9 +33,9 @@ public class DataGenerate extends WebNetwork {
      * 光线传感器
      */
     private static final int light_current_value = 0;
-    private static final int light_low_value = 10;
+    private static final int light_low_value = 80;
     private static final int light_lowest_value = 0;
-    private static final int light_high_value = 100;
+    private static final int light_high_value = 140;
     private static final int light_highest_value = 200;
     private static final int light_period = 2;
     private static final int light_increment_num = 20;
