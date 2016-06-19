@@ -183,15 +183,19 @@ public class DataGenerate extends WebNetwork {
         }
         String aeUri = createSyncAEResource();
         for (int i = 0; i < parkingFloorCount; i++) {
-            for (int j = 0; j < parkingPositionCount / parkingFloorCount; j++) {
-                String cntUri = createSyncContainer(aeUri);//创建一个container
-                containerURI.put(i + "/" + j, cntUri);
+            for (int j = 0; j < parkingRegionCount; j++) {
+                for (int z = 0; z < parkingPositionCount / parkingRegionCount / parkingFloorCount; z++) {
+                    String cntUri = createSyncContainer(aeUri);//创建一个container
+                    containerURI.put(i + "/" + j + "/" + z, cntUri);
+                }
             }
         }
         for (int i = 0; i < parkingFloorCount; i++) {
-            for (int j = 0; j < parkingPositionCount / parkingFloorCount; j++) {
-                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j), null, i, i + "/" + j), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
+            for (int j = 0; j < parkingRegionCount; j++) {
+                for (int z = 0; z < parkingPositionCount / parkingRegionCount / parkingFloorCount; z++) {
+                    executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j + "/" + z), null, i+"/"+j, i + "/" + j + "/" + z), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
 
+                }
             }
         }
         System.out.println("创建完毕");

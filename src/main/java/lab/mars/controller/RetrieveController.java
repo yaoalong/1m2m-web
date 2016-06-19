@@ -50,7 +50,6 @@ public class RetrieveController {
             if (Integer.parseInt(result[4]) == 0) {
                 isClosed = positionMapMachine.get(index + roomId + "/" + 2).isClosed;
             } else {
-                System.out.println("ddd"+index + roomId + "/" + 1);
                 isClosed = positionMapMachine.get(index + roomId + "/" + 3).isClosed;
             }
         }
@@ -62,9 +61,9 @@ public class RetrieveController {
     public
     @ResponseBody
     ParkingStatus retrieveParking(@RequestParam String key) {
-        String[] result = key.split("c");
+        String result=key.replaceAll("c","/");
         ParkingStatus parkingStatus = new ParkingStatus();
-        parkingStatus.setUnUsed(parkingCondition.get(result[0] + "/" + result[1]));
+        parkingStatus.setUnUsed(parkingCondition.get(result));
         return parkingStatus;
     }
 

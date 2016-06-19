@@ -11,6 +11,7 @@ $(document).ready(function () {
     $(".banId").click(function () {
         banId = $(this).attr("id");
         $("#banId").text(banId);
+        $(".parkingArea").css("display","none");
         getFloorStatistics();
         getApartmentStatistics();
     });
@@ -117,7 +118,7 @@ $(document).ready(function () {
                 $("#aircondition" + index).text(data.airConditionStatuses[index] == false ? "开" : "关");
             }
             for (var index = 0; index < data.lightSensorValues.length; index++) {
-                if (data.lightSensorValues[index].isClosed == false) {
+                if (data.lightSensorValues[index] == false) {
                     $("#lightSensor" + index).css("color", green);
                 }
                 else {

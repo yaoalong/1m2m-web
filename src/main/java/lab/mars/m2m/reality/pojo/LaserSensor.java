@@ -21,7 +21,7 @@ import static lab.msrs.web.util.NotificationUtils.parkingCondition;
 public class LaserSensor extends AbstractSensor {
     private static final long serialVersionUID = 6021429766370514584L;
     private boolean value;
-    private int parkingFloor;
+    private String parkingFloor;
     private String resourceId;
 
     public LaserSensor(boolean value, String machineUri) {
@@ -29,7 +29,7 @@ public class LaserSensor extends AbstractSensor {
         this.machineUri = machineUri;
     }
 
-    public LaserSensor(boolean value, DataGenerate dataGenerate, String cntUri, String machineUri, int parkingFloor, String resourceId) {
+    public LaserSensor(boolean value, DataGenerate dataGenerate, String cntUri, String machineUri, String parkingFloor, String resourceId) {
         this.value = value;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;
@@ -44,13 +44,13 @@ public class LaserSensor extends AbstractSensor {
         value = !value;
         request(new LaserSensor(value, machineUri));
         if (value) {
-            parkingFloorStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
+            parkingFloorAndRegionStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
             parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndDecrement();
 
         } else {
 
           parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
-            parkingFloorStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            parkingFloorAndRegionStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
         }
         parkingCondition.put(resourceId, value);
     }
@@ -58,13 +58,13 @@ public class LaserSensor extends AbstractSensor {
     private void add() {
         try{
             parkingCondition.put(cntUri, value);
-            if (parkingFloor >= parkingFloorStatistics.size()) {
+            if (parkingFloorAndRegionStatistics.get(parkingFloor)==null) {
                 int[] ints = new int[1];
-                ints[0] = parkingPositionCount / parkingFloorCount;
-                parkingFloorStatistics.add(parkingFloor, new StatisticsDO(1, ints));
+                ints[0] = parkingPositionCount / parkingFloorCount/parkingRegionCount;
+                parkingFloorAndRegionStatistics.put(parkingFloor, new StatisticsDO(1, ints));
             }
             if (!value) {
-                 parkingFloorStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+                parkingFloorAndRegionStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
                 parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
 
             }

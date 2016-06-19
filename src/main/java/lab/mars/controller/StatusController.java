@@ -1,10 +1,7 @@
 package lab.mars.controller;
 
 import lab.mars.mapper.MachineMapper;
-import lab.mars.model.ApartmentStatusStatistics;
-import lab.mars.model.FloorStatusSatistics;
-import lab.mars.model.MachineStatistics;
-import lab.mars.model.StatisticsDO;
+import lab.mars.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,11 +44,32 @@ public class StatusController {
             used = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
             sum = parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getSum();
         } else {
-            sum = parkingFloorStatistics.get(floorId - 1).getStatistics().get(ANTITHEFT.getIndex()).getSum();
-            used = parkingFloorStatistics.get(floorId - 1).getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
+            sum = parkingFloorAndRegionStatistics.get(floorId + "").getStatistics().get(ANTITHEFT.getIndex()).getSum();
+            used = parkingFloorAndRegionStatistics.get(floorId - 1).getStatistics().get(ANTITHEFT.getIndex()).getUsed().get();
         }
         machineStatistics.setOpen(used, sum);
         return machineStatistics;
+    }
+
+    /**
+     * 获取某层某区域的统计信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getParkingFlooAndRegion.do", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    ParkingFloorAndRegionStatistics getParkingFlooAndRegion(@RequestParam String key) {
+        String result = key.replaceAll("c", "/");
+        StatisticsDO.StatisticsMessage statisticsMessage = parkingFloorAndRegionStatistics.get(result).getStatistics().get(ANTITHEFT.getIndex());
+        long sum = statisticsMessage.getSum();
+        long used = statisticsMessage.getUsed().get();
+
+        ParkingFloorAndRegionStatistics parkingFloorAndRegionStatistics = new ParkingFloorAndRegionStatistics();
+        parkingFloorAndRegionStatistics.setSum(sum);
+        parkingFloorAndRegionStatistics.setUnUsed(sum - used);
+        parkingFloorAndRegionStatistics.setFree(parkingCondition.get(result + "/" + 0));
+        return parkingFloorAndRegionStatistics;
     }
 
     /**
@@ -208,6 +226,7 @@ public class StatusController {
         apartmentStatusStatistics.setAntiTheft(antiTheft);
         return apartmentStatusStatistics;
     }
+
     /**
      * 获取一位业主所有的信息
      *
@@ -225,15 +244,16 @@ public class StatusController {
         }
         int banId = Integer.parseInt(result[0]) - 1;
         int floorId = Integer.parseInt(result[1]) - 1;
-        List<Boolean> antiTheftStatuses=new ArrayList<>();
+        List<Boolean> antiTheftStatuses = new ArrayList<>();
 
-        for(int i=0;i<apartmentNumber;i++){
-            String index = banId + "/" + floorId + "/" + i + "/"+1+"/";
+        for (int i = 0; i < apartmentNumber; i++) {
+            String index = banId + "/" + floorId + "/" + i + "/" + 1 + "/";
             antiTheftStatuses.add(positionMapAntiTheft.get(index).isClosed);
         }
-       floorStatusSatistics.setAntiTheftValues(antiTheftStatuses);
+        floorStatusSatistics.setAntiTheftValues(antiTheftStatuses);
         return floorStatusSatistics;
     }
+
     private StatisticsDO judgePosition(String key) {
         String[] result = key.split("c");
         StatisticsDO statisticsDO = null;
