@@ -114,8 +114,6 @@ public class StatusController {
     MachineStatistics getAllLightStatus() {
         long sum = machineStatistics.getStatistics().get(LIGHT.getIndex()).getSum();
         long used = machineStatistics.getStatistics().get(LIGHT.getIndex()).getUsed().get();
-        System.out.println("used:"+used);
-        System.out.println("sum:"+sum);
         MachineStatistics lightStatusStatistics = new MachineStatistics();
         lightStatusStatistics.setOpen(used, sum);
         return lightStatusStatistics;

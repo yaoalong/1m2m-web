@@ -19,15 +19,13 @@ import static lab.msrs.web.util.NotificationUtils.IS_NOT_INIT;
 public class Light extends Machine {
 
     private int low;
-    private int high;
 
     public Light(boolean isClosed) {
         this.isClosed = isClosed;
     }
 
-    public Light(int low, int high, boolean isClosed, DataGenerate dataGenerate, String cntUri, MachineBelongInformation machineBelongInformation) {
+    public Light(int low, boolean isClosed, DataGenerate dataGenerate, String cntUri, MachineBelongInformation machineBelongInformation) {
         this.low = low;
-        this.high = high;
         this.isClosed = isClosed;
         this.dataGenerate = dataGenerate;
         this.cntUri = cntUri;

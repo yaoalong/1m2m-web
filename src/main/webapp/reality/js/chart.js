@@ -2,6 +2,7 @@
  * Created by Administrator on 2016/6/4.
  */
 var xMaxNumber = 20;
+var fontSize=10;
 window.onload = function () {
     $('.dropdown-submenu a.test').on("click", function (e) {
         $(this).next('ul').toggle();
@@ -21,7 +22,7 @@ function ariconditionStatistics() {
     $("#chart1").CanvasJSChart({
         title: {
             text: "空调",
-            fontSize: 15
+            fontSize: fontSize
         },
         legend: {
             verticalAlign: "center",
@@ -45,7 +46,7 @@ function lightStatistics() {
     $("#chart2").CanvasJSChart({
         title: {
             text: "灯",
-            fontSize: 15
+            fontSize: fontSize
         },
         legend: {
             verticalAlign: "center",
@@ -69,7 +70,7 @@ function antitheftStatistics() {
     $("#chart3").CanvasJSChart({
         title: {
             text: "防盗器",
-            fontSize: 15
+            fontSize: fontSize
         },
         legend: {
             verticalAlign: "center",
@@ -93,7 +94,7 @@ function parkingStatistics() {
     $("#chart4").CanvasJSChart({
         title: {
             text: "停车位",
-            fontSize: 15
+            fontSize: fontSize
         },
         legend: {
             verticalAlign: "center",

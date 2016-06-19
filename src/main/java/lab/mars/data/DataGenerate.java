@@ -18,9 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static lab.mars.mapper.MachineMapper.*;
-import static lab.mars.model.MachineTypeEnum.AIRCONDIION;
-import static lab.mars.model.MachineTypeEnum.ANTITHEFT;
-import static lab.mars.model.MachineTypeEnum.LIGHT;
+import static lab.mars.model.MachineTypeEnum.*;
 import static lab.msrs.web.util.NotificationUtils.*;
 
 /**
@@ -29,6 +27,10 @@ import static lab.msrs.web.util.NotificationUtils.*;
  * Email:yaoalong@foxmail.com
  */
 public class DataGenerate extends WebNetwork {
+    public static final int LIGHT_SENSOR_INDEX = 0;
+    public static final int TEMPERATURE_SENSOR_INDEX = 1;
+    public static final int LIGHT_INDEX = 2;
+    public static final int AIRCONDITION_INDEX = 3;
     /**
      * 光线传感器
      */
@@ -49,24 +51,16 @@ public class DataGenerate extends WebNetwork {
     private static final int temperature_highest_value = 40;
     private static final int temperature_period = 1;
     private static final int temperature_increment_num = 20;
-
     /**
      * 防盗传感器
      */
     private static final boolean antitheft_sensor_value = true;
     private static final int antitheft_sensor_period = 1;
-
     /**
      * 传感器
      */
     private static final boolean laser_sensor_value = true;
     private static final int laser_sensor_period = 5;
-
-    public static final int LIGHT_SENSOR_INDEX=0;
-    public static final int TEMPERATURE_SENSOR_INDEX=1;
-    public static final int LIGHT_INDEX=2;
-    public static final int AIRCONDITION_INDEX=3;
-
     //光线传感器0
     //空调传感器1
     //灯2
@@ -123,12 +117,12 @@ public class DataGenerate extends WebNetwork {
                     for (int y = 0; y < roomNumber; y++) {
                         for (int w = 0; w < 4; w++) {
                             String cntUri = createSyncContainer(aeUri);//创建一个container
-                            String resourceId=i + "/" + j + "/" + z + "/" + y + "/" + w;
+                            String resourceId = i + "/" + j + "/" + z + "/" + y + "/" + w;
                             containerURI.put(resourceId, cntUri);
                             if (w == 2) {
                                 MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, LIGHT);
                                 machineBelongInformation.setResourceId(resourceId);
-                                Light light = new Light(light_low_value, light_high_value, false, this, cntUri, machineBelongInformation);//空调
+                                Light light = new Light(light_low_value, false, this, cntUri, machineBelongInformation);//空调
                                 cntMapMachine.put(cntUri, light);//存储container和设备的映射关系
                                 positionMapMachine.put(resourceId, light);
                             }
@@ -146,7 +140,7 @@ public class DataGenerate extends WebNetwork {
                     containerURI.put(i + "/" + j + "/" + z + "/" + 0 + "/", cntUri);
                     //防盗报警器
                     cntUri = createSyncContainer(aeUri);//创建一个container
-                    String resourceId=i + "/" + j + "/" + z + "/" + 1 + "/";
+                    String resourceId = i + "/" + j + "/" + z + "/" + 1 + "/";
                     containerURI.put(resourceId, cntUri);
                     MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, ANTITHEFT);
                     machineBelongInformation.setResourceId(resourceId);
@@ -171,8 +165,8 @@ public class DataGenerate extends WebNetwork {
                             containerURL = containerURI.get(resourceURI + w);
                             createAsyncSubScriptions(containerURL);
                         }
-                        LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, this, containerURI.get(resourceURI + 0), containerURI.get(resourceURI + 2),resourceURI+0);
-                        TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value,  this, containerURI.get(resourceURI + 1), containerURI.get(resourceURI + 3),resourceURI+1);
+                        LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, this, containerURI.get(resourceURI + 0), containerURI.get(resourceURI + 2), resourceURI + 0);
+                        TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, this, containerURI.get(resourceURI + 1), containerURI.get(resourceURI + 3), resourceURI + 1);
                         positionMapSensor.put(resourceURI + LIGHT_SENSOR_INDEX, lightSensor);
                         positionMapSensor.put(resourceURI + TEMPERATURE_SENSOR_INDEX, temperatureSensor);
                         executorService.scheduleAtFixedRate(lightSensor, 0
@@ -180,7 +174,7 @@ public class DataGenerate extends WebNetwork {
                         executorService.scheduleAtFixedRate(temperatureSensor, 1
                                 , light_period * getRandom(), TimeUnit.SECONDS);
                     }
-                    executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, this, containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(i + "/" + j + "/" + z + "/" + 1 + "/"),i + "/" + j + "/" + z + "/" + 0 + "/"), 1
+                    executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, this, containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(i + "/" + j + "/" + z + "/" + 1 + "/"), i + "/" + j + "/" + z + "/" + 0 + "/"), 1
                             , antitheft_sensor_period * getRandom(), TimeUnit.SECONDS);
 
 
@@ -196,7 +190,7 @@ public class DataGenerate extends WebNetwork {
         }
         for (int i = 0; i < parkingFloorCount; i++) {
             for (int j = 0; j < parkingPositionCount / parkingFloorCount; j++) {
-                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j), null,i,i+"/"+j), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
+                executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j), null, i, i + "/" + j), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
 
             }
         }
