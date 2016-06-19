@@ -98,7 +98,7 @@ $(document).ready(function () {
             $("#lightSensorNumber").text(data.lightSensorValues.length);
             var i = 0;
             for (var index = 0; index < data.lightStatuses.length; index++) {
-                if (data.lightStatuses[i].isClosed == false) {
+                if (data.lightStatuses[index]== false) {
                     i++;
                     $("#light" + index).css("color", green);
                 }
@@ -108,7 +108,7 @@ $(document).ready(function () {
                 $("#light" + index).text(data.lightStatuses[index] == false ? "开" : "关");
             }
             for (var index = 0; index < data.airConditionStatuses.length; index++) {
-                if (data.airConditionStatuses[i].isClosed == false) {
+                if (data.airConditionStatuses[index]== false) {
                     $("#aircondition" + index).css("color", green);
                 }
                 else {
@@ -117,7 +117,7 @@ $(document).ready(function () {
                 $("#aircondition" + index).text(data.airConditionStatuses[index] == false ? "开" : "关");
             }
             for (var index = 0; index < data.lightSensorValues.length; index++) {
-                if (data.lightSensorValues[i].isClosed == false) {
+                if (data.lightSensorValues[index].isClosed == false) {
                     $("#lightSensor" + index).css("color", green);
                 }
                 else {
