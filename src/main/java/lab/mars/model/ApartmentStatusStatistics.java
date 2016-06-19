@@ -8,6 +8,10 @@ import java.util.List;
  * Email:yaoalong@foxmail.com
  */
 
+/**
+ * 每个业主的统计信息
+ */
+
 public class ApartmentStatusStatistics {
 
     private List<Integer> lightSensorValues;

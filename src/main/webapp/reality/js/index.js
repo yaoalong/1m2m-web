@@ -35,7 +35,7 @@ $(document).ready(function () {
     }
 
     function getParkingStatistics() {
-        $.getJSON("/getApartmentStatistics.do", {key: banId + "c" + floorId + "c" + floorId}, function (data) {
+        $.getJSON("/getApartmentStatistics.do", {key: banId + "c" + floorId + "c" + apartmentId}, function (data) {
             $("#roomNumbers").text(data.lightSensorValues.length);
             if (data.antiTheft == false) {
                 $("#safetyStatus").css("color", red);
@@ -89,7 +89,6 @@ $(document).ready(function () {
             $("#temperatureSensorNumber").text(data.temperatureSensorValues.length);
         });
     }
-
     getFloorStatistics();
     getParkingStatistics();
 });

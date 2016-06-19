@@ -1,0 +1,227 @@
+.floor-container  , .floor-info , .room-info{
+    width: 1250px;
+    margin:0 auto;
+    border: 2px solid #696969;
+    background: #ffffff;
+}
+.floor-container{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.floor-container .title{
+    margin-bottom: 10px;
+    height: 40px;
+    font-size: 20px;
+    line-height: 40px;
+    background:rgb(244,244,244) ;
+    border-bottom:1px solid #696969;
+    text-align: center;
+    font-weight: bold;
+    font-family : 方正兰亭中粗黑;
+}
+.floor{
+    /*background: url("../img/floor-device.png") no-repeat 20px;*/
+    position: relative;
+}
+.floor div{
+    position: absolute;
+    z-index: 9999;
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    text-align: center;
+    color: red;
+    font-weight:bold;
+    cursor: pointer;
+}
+.floor div:hover{
+    background: rgba(186,219,249,0.8);
+    opacity: 1;
+}
+.floor .bakgrnd{
+    padding: 10px;
+}
+.legend{
+    height: 682px;
+    width:150px;
+    border: 1px solid #696969;
+    margin: 10px;
+    text-align: center;
+    font-family: 'Times New Roman';
+}
+.legend .item{
+    margin-bottom:20px;
+    font-weight:bold;
+}
+.air_condition{
+    width: 20px;
+    height: 40px;
+}
+.alarm{
+    width: 30px;
+    height: 30px;
+}
+.room-info .item, .floor-info .item{
+    font-weight:bold;
+}
+.room-info .item img{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+.floor-info h5, .floor-info .item ,.room-info h5, .room-info .item{
+    padding: 10px;
+}
+.floor-info .tips{
+    display: inline-block;
+    width: 220px;
+}
+.room-info .tips{
+    display: inline-block;
+    width: 300px;
+}
+.room-status{
+    border-collapse: collapse;
+    margin: 15px 100px;
+}
+.room-status th ,.room-status td{
+    border:1px solid #696969 ;
+    width: 100px;
+    text-align: center;
+    line-height: 30px;
+    height: 30px;
+}
+.room-status img{
+    display: inline-block;
+    width: 15px;
+    height: 20px;
+}
+.room-status caption{
+    margin-bottom: 10px;
+}
+.floor .user1{
+    width: 197px;
+    right: 0px;
+    top: 14px;
+    height: 185px;
+    line-height: 185px;
+}
+.floor .user2{
+    width: 259px;
+    right: 226px;
+    top: 242px;
+    height: 152px;
+    line-height: 152px;
+}
+.floor .user3{
+    width: 202px;
+    right: 422px;
+    top: 14px;
+    height: 185px;
+    line-height:185px;
+}
+.floor .user4{
+    width: 264px;
+    left: 219px;
+    top: 242px;
+    height: 155px;
+    line-height: 155px;
+}
+.floor .user5{
+    width: 202px;
+    left: 217px;
+    top: 14px;
+    height: 185px;
+    line-height:185px;
+}
+.floor .user6{
+    width: 207px;
+    left: 11px;
+    top: 35px;
+    height: 162px;
+    line-height: 162px
+}
+.floor .user7{
+    width: 213px;
+    left: 11px;
+    top: 245px;
+    height: 419px;
+    line-height:419px
+}
+.floor .user8{
+    width: 196px;
+    left: 224px;
+    top: 435px;
+    height: 252px;
+    line-height: 252px;
+}
+.floor .user9{
+    width: 196px;
+    left: 420px;
+    top: 435px;
+    height: 252px;
+    line-height: 252px;
+}
+.floor .user10{
+    width: 196px;
+    left: 616px;
+    top: 435px;
+    height: 252px;
+    line-height: 252px;
+}
+button{
+    cursor: pointer;
+    width: 114px;
+    height: 30px;
+    font-weight:bold;
+}
+button:hover{
+    background-color:#D1D1D1;
+}
+a:link {
+    text-decoration: none;
+}
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+.left{  float: left;  }
+.right{ float:right}
+.strong{font-weight:bold;}
+.red{color: red}
+.green{color:green}
+.yellow{color:orange}
+#chart1 {
+    position: absolute;
+    left: 25px;
+    top: 595px;
+    background:#ffffff;
+    height:140px;
+    width:200px;
+}
+#chart2 {
+    position: absolute;
+    left: 275px;
+    top: 595px;
+    background:#ffffff;
+    height:140px;
+    width:200px;
+}
+#chart3 {
+    position: absolute;
+    left: 25px;
+    top: 755px;
+    background:#ffffff;
+    height:140px;
+    width:200px;
+}
+#chart4 {
+    position: absolute;
+    left: 275px;
+    top: 755px;
+    background:#ffffff;
+    height:140px;
+    width:200px;
+}
+.canvasjs-chart-credit {
+    display: none;
+}
