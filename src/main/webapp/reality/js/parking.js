@@ -36,7 +36,7 @@ $(document).ready(function () {
     function getParkingStatistics() {
         $.getJSON("/getParkingFlooAndRegion.do", {key: parkingFloor + "c" + parkingRegion}, function (data) {
             $("#parkingRegion").text(parkingRegion+1);
-            $("#parkingFloor").text(parkingFloor);
+            $("#parkingFloor").text(parkingFloor+1);
             $("#parkingCount").text(data.sum);
             $("#parkingUnUsed").text(data.unUsed);
             $("#parkingStatus").text(data.unUsed ? "空闲" : "被占用");
