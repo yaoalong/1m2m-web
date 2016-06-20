@@ -198,8 +198,6 @@ public class DataGenerate extends WebNetwork {
                 }
             }
         }
-        System.out.println("创建完毕");
-        Thread.sleep(10000);
     }
 
     private int getRandom() {

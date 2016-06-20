@@ -11,7 +11,7 @@ $(document).ready(function () {
     $(".banId").click(function () {
         banId = $(this).attr("id");
         $("#banId").text(banId);
-        $(".parkingArea").css("display","none");
+        $(".parkingArea").css("display", "none");
         getFloorStatistics();
         getApartmentStatistics();
     });
@@ -67,7 +67,6 @@ $(document).ready(function () {
     });
     function getFloorStatistics() {
         $.getJSON("/getFloorStatistics.do", {key: banId + "c" + floorId}, function (data) {
-            console.log(data.antiTheftValues.length);
             $("#apartmentNumber").text(data.antiTheftValues.length);
             for (var i = 1; i <= data.antiTheftValues.length; i++) {
                 if (data.antiTheftValues[i] == false) {
@@ -99,7 +98,7 @@ $(document).ready(function () {
             $("#lightSensorNumber").text(data.lightSensorValues.length);
             var i = 0;
             for (var index = 0; index < data.lightStatuses.length; index++) {
-                if (data.lightStatuses[index]== false) {
+                if (data.lightStatuses[index] == false) {
                     i++;
                     $("#light" + index).css("color", green);
                 }
@@ -109,7 +108,7 @@ $(document).ready(function () {
                 $("#light" + index).text(data.lightStatuses[index] == false ? "开" : "关");
             }
             for (var index = 0; index < data.airConditionStatuses.length; index++) {
-                if (data.airConditionStatuses[index]== false) {
+                if (data.airConditionStatuses[index] == false) {
                     $("#aircondition" + index).css("color", green);
                 }
                 else {
@@ -127,7 +126,7 @@ $(document).ready(function () {
                 $("#lightSensor" + index).text(data.lightSensorValues[index]);
             }
             for (var index = 0; index < data.temperatureSensorValues.length; index++) {
-                if (data.temperatureSensorValues[i].isClosed == false) {
+                if (data.temperatureSensorValues[i] == false) {
                     $("#temperatureSensor" + index).css("color", green);
                 }
                 else {
@@ -140,6 +139,7 @@ $(document).ready(function () {
             $("#temperatureSensorNumber").text(data.temperatureSensorValues.length);
         });
     }
+
     getFloorStatistics();
     getApartmentStatistics();
 });

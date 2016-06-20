@@ -37,9 +37,9 @@ public class MachineMapper {
     //楼栋数
     public static final int banNumber = 5;
     //层数
-    public static final int floorNumber = 1;
+    public static final int floorNumber = 10;
     //户数
-    public static final int apartmentNumber = 4;
+    public static final int apartmentNumber = 5;
     //房间数量
     public static final int roomNumber = 5;
 
@@ -47,7 +47,7 @@ public class MachineMapper {
     public static final int apartmentMachineNumber = 11;
     public static final int machineCount = banNumber * floorNumber * apartmentNumber * apartmentMachineNumber;
     //停车位的总数量
-    public static final int parkingPositionCount = 60;
+    public static final int parkingPositionCount = 495;
     public static final String CSEBASE = "/csebase";
     public static StatisticsDO machineStatistics = new StatisticsDO(3, new int[]{machineCount / 11, machineCount * 5 / 11, machineCount * 5 / 11});
     public static StatisticsDO parkingStatistics = new StatisticsDO(1, new int[]{parkingPositionCount});

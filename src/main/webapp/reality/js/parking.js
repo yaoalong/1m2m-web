@@ -13,7 +13,7 @@ $(document).ready(function () {
         $(this).parent().find('li').each(function () {
             $(this).removeClass("active");
         });
-        parkingFloor=parseInt($(this).children().text().split("层")[0])-1;
+        parkingFloor = parseInt($(this).children().text().split("层")[0]) - 1;
         $(this).addClass("active");
         getParkingStatistics();
     });
@@ -21,7 +21,7 @@ $(document).ready(function () {
         $(this).parent().find('li').each(function () {
             $(this).removeClass("blue");
         });
-        parkingRegion=parseInt($(this).children().attr("value"));
+        parkingRegion = parseInt($(this).children().attr("value"));
         $(this).addClass("blue");
         getParkingStatistics();
     });
@@ -30,13 +30,21 @@ $(document).ready(function () {
         getParkingStatistics();
     });
     $(".parking  p span").click(function () {
-        parkingId = parseInt($(this).text()) -1;
+        parkingId = parseInt($(this).text()) - 1;
+        retrieveParkingStatus();
+    });
+    $(".parking2  p span").click(function () {
+        parkingId = parseInt($(this).text()) - 1;
+        retrieveParkingStatus();
+    });
+    $(".parkingFloor3  p span").click(function () {
+        parkingId = parseInt($(this).text()) - 1;
         retrieveParkingStatus();
     });
     function getParkingStatistics() {
         $.getJSON("/getParkingFlooAndRegion.do", {key: parkingFloor + "c" + parkingRegion}, function (data) {
-            $("#parkingRegion").text(parkingRegion+1);
-            $("#parkingFloor").text(parkingFloor+1);
+            $("#parkingRegion").text(parkingRegion + 1);
+            $("#parkingFloor").text(parkingFloor + 1);
             $("#parkingCount").text(data.sum);
             $("#parkingUnUsed").text(data.unUsed);
             $("#parkingStatus").text(data.unUsed ? "空闲" : "被占用");
