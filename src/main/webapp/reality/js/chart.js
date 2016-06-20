@@ -15,9 +15,6 @@ window.onload = function () {
     parkingStatistics();
 }
 
-
-
-
 function ariconditionStatistics() {
     $("#chart1").CanvasJSChart({
         title: {

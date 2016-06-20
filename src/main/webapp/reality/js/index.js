@@ -7,14 +7,15 @@ var apartmentId = 1;
 var red = "#FF0000";
 var green = "#008000";
 $(document).ready(function () {
-
     $(".banId").click(function () {
         banId = $(this).attr("id");
         $("#banId").text(banId);
         $(".parkingArea").css("display", "none");
         getFloorStatistics();
         getApartmentStatistics();
+        updateApartmentNo();
     });
+    updateApartmentNo();
     /**
      * 获取空调的统计信息
      */
@@ -57,6 +58,7 @@ $(document).ready(function () {
         $("#floorId").text(floorId);
         getFloorStatistics();
         getApartmentStatistics();
+        updateApartmentNo();
     });
     $(".apartmentNO").click(function () {
         var text = $(this).children().html();
@@ -64,6 +66,7 @@ $(document).ready(function () {
         apartmentId = result[result.length - 1];
         $("#apartmentId").text(apartmentId);
         getApartmentStatistics();
+
     });
     function getFloorStatistics() {
         $.getJSON("/getFloorStatistics.do", {key: banId + "c" + floorId}, function (data) {
@@ -78,6 +81,13 @@ $(document).ready(function () {
                 }
                 $("#apartment" + i).text(data.antiTheftValues[i] == false ? "不安全" : "安全");
             }
+        });
+    }
+    function updateApartmentNo(){
+        $(".apartmentNO").each(function () {
+            var tex=$(this).children().text();
+            var result = tex.split("-");
+            $(this).children().text(banId+"-"+floorId+"-"+result[result.length - 1]);
         });
     }
 
