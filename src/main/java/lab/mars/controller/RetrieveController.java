@@ -61,7 +61,7 @@ public class RetrieveController {
     public
     @ResponseBody
     ParkingStatus retrieveParking(@RequestParam String key) {
-        String result=key.replaceAll("c","/");
+        String result = key.replaceAll("c", "/");
         ParkingStatus parkingStatus = new ParkingStatus();
         parkingStatus.setUnUsed(parkingCondition.get(result));
         return parkingStatus;

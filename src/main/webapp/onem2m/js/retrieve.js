@@ -14,7 +14,7 @@ $(document).ready(function () {
             });
             return;
         }
-        var retrieveKey = floorNumber+"c"+parkingNumber;
+        var retrieveKey = floorNumber + "c" + parkingNumber;
         $.getJSON("/parkingRetrieve.do", {key: retrieveKey}, function (data) {
             if (data.unUsed) {
                 bootbox.alert("车位空闲", function () {
@@ -33,18 +33,18 @@ $(document).ready(function () {
         var apartmentId = $("#apartmentId").val().split("户")[0];
         var roomId = $("#roomId").val().split("房间")[0];
         var machineType = $("#machineType").val();
-        var machineId=0;
+        var machineId = 0;
         var retrieveKey;
         if (machineType == "防盗器") {
-            retrieveKey = buildingId + "c" + floorId + "c" + apartmentId + "c" +machineId;
+            retrieveKey = buildingId + "c" + floorId + "c" + apartmentId + "c" + machineId;
         }
         else if (machineType == "空调") {
             machineId = 1;
-            retrieveKey = buildingId + "c" + floorId + "c" + apartmentId + "c" + roomId+"c"+machineId;
+            retrieveKey = buildingId + "c" + floorId + "c" + apartmentId + "c" + roomId + "c" + machineId;
         }
         else {
             machineId = 0;
-            retrieveKey = buildingId + "c" + floorId + "c" + apartmentId + "c" + roomId+"c"+machineId;
+            retrieveKey = buildingId + "c" + floorId + "c" + apartmentId + "c" + roomId + "c" + machineId;
         }
 
         console.log("key:" + retrieveKey);

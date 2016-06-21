@@ -26,11 +26,11 @@
 <div class="row first">
     <div class="col-md-2 col-md-offset-2"><input type='button' value='查看设备状态' class='right button-primary'></div>
     <div class="select  col-md-offset-8">
-        <form class="form-inline" >
+        <form class="form-inline">
             <div class="form-group">
 
                 <label>楼栋</label>
-                <select  id="buildingId">
+                <select id="buildingId">
                     <c:forEach var="i" begin="1" end="${ban}">
                         <c:out value="<option>${i}栋</option>" escapeXml="false"></c:out>
                     </c:forEach>
@@ -42,7 +42,7 @@
                     </c:forEach>
                 </select>
                 <label>户</label>
-                <select  id="apartmentId">
+                <select id="apartmentId">
                     <c:forEach var="i" begin="1" end="${apartment}">
                         <c:out value="<option>${i}户</option>" escapeXml="false"></c:out>
                     </c:forEach>
@@ -57,13 +57,13 @@
     <div class="select  col-md-5 col-md-offset-3">
         <form class="bs-example bs-example-form form-inline " role="form">
             <label>房间</label>
-            <select class="form-control"  id="roomId">
+            <select class="form-control" id="roomId">
                 <c:forEach var="i" begin="1" end="${rooms}">
                     <c:out value="<option>${i}房间</option>" escapeXml="false"></c:out>
                 </c:forEach>
             </select>
             <label>设备</label>
-            <select class="form-control"  id="machineType">
+            <select class="form-control" id="machineType">
                 <option>防盗器</option>
                 <option>空调</option>
                 <option>灯</option>
@@ -80,7 +80,7 @@
             <form class=" " role="form">
                 <div class="form-inline">
                     <label for="parking">车层</label>
-                    <select  id="parking" name="ddd">
+                    <select id="parking" name="ddd">
                         <option selected="selected">1层</option>
                         <option>2层</option>
                     </select>

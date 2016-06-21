@@ -31,7 +31,8 @@ window.onload = function () {
             if (length > xMaxNumber) {
                 chart.options.data[0].dataPoints.shift();
             }
-            chart.options.data[0].dataPoints.push({x: new Date(), y: data.avgResonseTime});chart.render();
+            chart.options.data[0].dataPoints.push({x: new Date(), y: data.avgResonseTime});
+            chart.render();
 
         });
 

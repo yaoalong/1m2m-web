@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class StatisticsDO {
     private ConcurrentHashMap<Integer, StatisticsMessage> statistics = new ConcurrentHashMap<>();
 
-    public StatisticsDO(int length,int[] lengths) {
+    public StatisticsDO(int length, int[] lengths) {
         for (int i = 0; i < length; i++) {
             statistics.put(i, new StatisticsMessage(lengths[i]));
         }

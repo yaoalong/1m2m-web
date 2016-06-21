@@ -85,7 +85,7 @@ public abstract class Machine {
                 apartmentStatistics.get(machineBelongInformation.getApartmentId()).getStatistics().get(machineType).getUsed().getAndDecrement();
                 floorStatistics.get(machineBelongInformation.getFloorId()).getStatistics().get(machineType).getUsed().getAndDecrement();
                 banStatistics.get(machineBelongInformation.getBanId()).getStatistics().get(machineType).getUsed().getAndDecrement();
-             machineStatistics.getStatistics().get(machineType).getUsed().getAndDecrement();
+                machineStatistics.getStatistics().get(machineType).getUsed().getAndDecrement();
             } else {
                 apartmentStatistics.get(machineBelongInformation.getApartmentId()).getStatistics().get(machineType).getUsed().getAndIncrement();
                 floorStatistics.get(machineBelongInformation.getFloorId()).getStatistics().get(machineType).getUsed().getAndIncrement();

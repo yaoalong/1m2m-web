@@ -193,7 +193,7 @@ public class DataGenerate extends WebNetwork {
         for (int i = 0; i < parkingFloorCount; i++) {
             for (int j = 0; j < parkingRegionCount; j++) {
                 for (int z = 0; z < parkingPositionCount / parkingRegionCount / parkingFloorCount; z++) {
-                    executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j + "/" + z), null, i+"/"+j, i + "/" + j + "/" + z), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
+                    executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j + "/" + z), null, i + "/" + j, i + "/" + j + "/" + z), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
 
                 }
             }

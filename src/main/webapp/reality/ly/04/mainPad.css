@@ -1,6 +1,6 @@
-.label1 .text{
+.label1 .text {
 
-    -fx-effect: dropshadow(one-pass-box , white, 0, 1 , 0, 1);
+    -fx-effect: dropshadow(one-pass-box, white, 0, 1, 0, 1);
 
 }
 
@@ -18,25 +18,25 @@
 
 }
 
-.label2.text{
+.label2.text {
 
-    -fx-effect: dropshadow(one-pass-box , white, 0, 1 , 0, 1);
+    -fx-effect: dropshadow(one-pass-box, white, 0, 1, 0, 1);
 
 }
 
-.label2{
+.label2 {
 
     -fx-padding: 6px;
     -fx-font-size: 1.3em;
 }
 
-.label3.text{
+.label3.text {
 
-    -fx-effect: dropshadow(one-pass-box , white, 0, 1 , 0, 1);
+    -fx-effect: dropshadow(one-pass-box, white, 0, 1, 0, 1);
 
 }
 
-.label3{
+.label3 {
 
     -fx-padding: 6px;
     -fx-font-size: 1.3em;
@@ -45,107 +45,106 @@
     -fx-font-weight: bold;
 }
 
-.label4{
+.label4 {
 
     -fx-font-size: 1.3em;
     -fx-text-fill: red;
     -fx-font-weight: bold;
 }
 
-.button1{
-        -fx-padding: 6px;
+.button1 {
+    -fx-padding: 6px;
 
     -fx-font-size: 1.3em;
 }
 
-.button1 .text{
-    -fx-effect: dropshadow(one-pass-box , white, 0, 1 , 0, 1);
+.button1 .text {
+    -fx-effect: dropshadow(one-pass-box, white, 0, 1, 0, 1);
 }
 
-.borderPane{
-/*  -fx-border-color:lightskyblue; */ 
--fx-border-color: #666;
-    -fx-border-width:1;
+.borderPane {
+    /*  -fx-border-color:lightskyblue; */
+    -fx-border-color: #666;
+    -fx-border-width: 1;
 }
 
-.infor{
+.infor {
     -fx-background-color: null;
-        -fx-background-repeat:no-repeat ;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-image: url("sharedResources/infor.png");
 }
 
-.searchBoxTemp{
-    -fx-background-repeat:no-repeat ;
+.searchBoxTemp {
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-image: url("sharedResources/search_temp.png");
 }
 
-.lightImg{
-    -fx-background-repeat:no-repeat ;
+.lightImg {
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-image: url("sharedResources/light_on.png");
-    -fx-background-size: 30.0px 20.0px ;
+    -fx-background-size: 30.0px 20.0px;
 }
 
-.floorImg{
-        -fx-background-repeat:no-repeat ;
+.floorImg {
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-image: url("sharedResources/floor02.png");
 }
 
-.roomImg{
-        -fx-background-repeat:no-repeat ;
+.roomImg {
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-image: url("sharedResources/room01.png");
 }
 
-.machineImageLight{
+.machineImageLight {
     -fx-background-image: url("sharedResources/light_icon.png");
-    -fx-background-repeat:no-repeat ;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    -fx-background-size: 20.0px 30.0px ;
+    -fx-background-size: 20.0px 30.0px;
 }
 
-.machineImageHum{
+.machineImageHum {
     -fx-background-image: url("sharedResources/hum_icon.png");
-    -fx-background-repeat:no-repeat ;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    -fx-background-size: 20.0px 30.0px ;
+    -fx-background-size: 20.0px 30.0px;
 }
 
-.machineImageTemp{
+.machineImageTemp {
     -fx-background-image: url("sharedResources/temphot_icon.png");
-    -fx-background-repeat:no-repeat ;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    -fx-background-size: 20.0px 30.0px ;
+    -fx-background-size: 20.0px 30.0px;
 }
 
-.bulbImage{
+.bulbImage {
     -fx-background-image: url("sharedResources/bulb.png");
-    -fx-background-repeat:no-repeat ;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    -fx-background-size: 20.0px 30.0px ;
+    -fx-background-size: 20.0px 30.0px;
 }
 
-.bulbOffImage{
+.bulbOffImage {
     -fx-background-image: url("sharedResources/bulbOFF.png");
-    -fx-background-repeat:no-repeat ;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    -fx-background-size: 20.0px 30.0px ;
+    -fx-background-size: 20.0px 30.0px;
 }
 
-
-.airCondImage{
+.airCondImage {
     -fx-background-image: url("sharedResources/air_cond.png");
-    -fx-background-repeat:no-repeat ;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    -fx-background-size: 20.0px 30.0px ;
+    -fx-background-size: 20.0px 30.0px;
 }
 
-.timeImage{
+.timeImage {
     -fx-background-image: url("sharedResources/time.png");
-    -fx-background-repeat:no-repeat ;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
-    -fx-background-size: 120.0px 40.0px ;
+    -fx-background-size: 120.0px 40.0px;
 }

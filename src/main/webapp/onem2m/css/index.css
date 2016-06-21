@@ -1,7 +1,8 @@
-body{
+body {
     background-color: #55A5E8;
     font-family: "Times New Roman";
 }
+
 .first {
     margin-top: 50px;
 }
@@ -65,8 +66,6 @@ select {
     margin-top: 200px;
 }
 
-
-
 .body-center {
     margin-left: auto;
     margin-right: auto;
@@ -79,19 +78,23 @@ select {
 
 .nav-vertical-width {
     width: 80px;
-    height:200px;
+    height: 200px;
 }
-.nav-vertical-width > li{
+
+.nav-vertical-width > li {
     width: 80px;
-    height:200px;
+    height: 200px;
 }
-.car-background{
+
+.car-background {
     background-color: grey;
-    height:50px;
+    height: 50px;
 }
+
 .dropdown-submenu {
     position: relative;
 }
+
 .dropdown-submenu .dropdown-menu {
     top: 0;
     left: 100%;

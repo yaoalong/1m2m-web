@@ -83,11 +83,12 @@ $(document).ready(function () {
             }
         });
     }
-    function updateApartmentNo(){
+
+    function updateApartmentNo() {
         $(".apartmentNO").each(function () {
-            var tex=$(this).children().text();
+            var tex = $(this).children().text();
             var result = tex.split("-");
-            $(this).children().text(banId+"-"+floorId+"-"+result[result.length - 1]);
+            $(this).children().text(banId + "-" + floorId + "-" + result[result.length - 1]);
         });
     }
 

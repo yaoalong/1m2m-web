@@ -9,8 +9,7 @@ package lab.mars.model;
 /**
  * 停车场某区域的统计信息
  */
-public class ParkingFloorAndRegionStatistics
-{
+public class ParkingFloorAndRegionStatistics {
     private Long sum;
     private Long unUsed;
     private Boolean free;

@@ -26,7 +26,7 @@ public class MachineMapper {
     public static final List<StatisticsDO> floorStatistics = new ArrayList<>();
     public static final List<StatisticsDO> apartmentStatistics = new ArrayList<>();
 
-    public static final ConcurrentHashMap<String,StatisticsDO> parkingFloorAndRegionStatistics=new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<String, StatisticsDO> parkingFloorAndRegionStatistics = new ConcurrentHashMap<>();
 
 
     public static final DataGenerate network = new DataGenerate();

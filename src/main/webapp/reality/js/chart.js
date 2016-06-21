@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/6/4.
  */
 var xMaxNumber = 20;
-var fontSize=10;
+var fontSize = 10;
 window.onload = function () {
     $('.dropdown-submenu a.test').on("click", function (e) {
         $(this).next('ul').toggle();

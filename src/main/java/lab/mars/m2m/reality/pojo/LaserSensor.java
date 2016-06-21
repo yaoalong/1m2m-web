@@ -3,8 +3,6 @@ package lab.mars.m2m.reality.pojo;
 import lab.mars.data.DataGenerate;
 import lab.mars.model.StatisticsDO;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import static lab.mars.mapper.MachineMapper.*;
 import static lab.mars.model.MachineTypeEnum.ANTITHEFT;
 import static lab.msrs.web.util.NotificationUtils.parkingCondition;
@@ -49,18 +47,18 @@ public class LaserSensor extends AbstractSensor {
 
         } else {
 
-          parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
+            parkingStatistics.getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
             parkingFloorAndRegionStatistics.get(parkingFloor).getStatistics().get(ANTITHEFT.getIndex()).getUsed().getAndIncrement();
         }
         parkingCondition.put(resourceId, value);
     }
 
     private void add() {
-        try{
+        try {
             parkingCondition.put(cntUri, value);
-            if (parkingFloorAndRegionStatistics.get(parkingFloor)==null) {
+            if (parkingFloorAndRegionStatistics.get(parkingFloor) == null) {
                 int[] ints = new int[1];
-                ints[0] = parkingPositionCount / parkingFloorCount/parkingRegionCount;
+                ints[0] = parkingPositionCount / parkingFloorCount / parkingRegionCount;
                 parkingFloorAndRegionStatistics.put(parkingFloor, new StatisticsDO(1, ints));
             }
             if (!value) {
@@ -69,7 +67,7 @@ public class LaserSensor extends AbstractSensor {
 
             }
             parkingCondition.put(resourceId, value);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
