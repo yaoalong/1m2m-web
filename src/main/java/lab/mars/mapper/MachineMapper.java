@@ -21,7 +21,6 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
  * 这里是统计信息
  */
 public class MachineMapper {
-
     public static final List<StatisticsDO> banStatistics = new ArrayList<>();
     public static final List<StatisticsDO> floorStatistics = new ArrayList<>();
     public static final List<StatisticsDO> apartmentStatistics = new ArrayList<>();
@@ -34,18 +33,21 @@ public class MachineMapper {
     public static final int parkingFloorCount = 3;
     //停车场区域数量
     public static final int parkingRegionCount = 5;
+
+    //小区区数量
+    public static final int regionNumer = 2;
     //楼栋数
     public static final int banNumber = 5;
     //层数
-    public static final int floorNumber = 10;
+    public static final int floorNumber = 5;
     //户数
-    public static final int apartmentNumber = 5;
+    public static final int apartmentNumber = 1;
     //房间数量
-    public static final int roomNumber = 5;
+    public static final int roomNumber = 4;
 
     //一户人家的设备的数量
     public static final int apartmentMachineNumber = 11;
-    public static final int machineCount = banNumber * floorNumber * apartmentNumber * apartmentMachineNumber;
+    public static final int machineCount = regionNumer * banNumber * floorNumber * apartmentNumber * apartmentMachineNumber;
     //停车位的总数量
     public static final int parkingPositionCount = 495;
     public static final String CSEBASE = "/csebase";

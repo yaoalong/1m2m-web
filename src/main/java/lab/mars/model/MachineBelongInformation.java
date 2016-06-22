@@ -16,8 +16,10 @@ public class MachineBelongInformation {
     private MachineTypeEnum machineType;
 
     private String resourceId;
+    private int region;
 
-    public MachineBelongInformation(int banId, int floorId, int apartmentId, MachineTypeEnum machineTypeEnum) {
+    public MachineBelongInformation(int region, int banId, int floorId, int apartmentId, MachineTypeEnum machineTypeEnum) {
+        this.region = region;
         this.banId = banId;
         this.floorId = floorId;
         this.apartmentId = apartmentId;
@@ -42,6 +44,9 @@ public class MachineBelongInformation {
         return machineType;
     }
 
+    public void setMachineType(MachineTypeEnum machineType) {
+        this.machineType = machineType;
+    }
 
     public String getResourceId() {
         return resourceId;
@@ -51,7 +56,7 @@ public class MachineBelongInformation {
         this.resourceId = resourceId;
     }
 
-    public void setMachineType(MachineTypeEnum machineType) {
-        this.machineType = machineType;
+    public int getRegion() {
+        return region;
     }
 }

@@ -108,96 +108,104 @@ public class DataGenerate extends WebNetwork {
         init();
         Map<String, String> containerURI = new HashMap<>();
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+        for (int q = 0; q < regionNumer; q++) {
+            for (int i = 0; i < banNumber; i++) {
+                for (int j = 0; j < floorNumber; j++) {
+                    String aeUri = createSyncAEResource();//现在是每层楼是一个AE
+                    for (int z = 0; z < apartmentNumber; z++) {
 
-        for (int i = 0; i < banNumber; i++) {
-            for (int j = 0; j < floorNumber; j++) {
-                String aeUri = createSyncAEResource();//现在是每层楼是一个AE
-                for (int z = 0; z < apartmentNumber; z++) {
-
-                    for (int y = 0; y < roomNumber; y++) {
-                        for (int w = 0; w < 4; w++) {
-                            String cntUri = createSyncContainer(aeUri);//创建一个container
-                            String resourceId = i + "/" + j + "/" + z + "/" + y + "/" + w;
-                            containerURI.put(resourceId, cntUri);
-                            if (w == 2) {
-                                MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, LIGHT);
-                                machineBelongInformation.setResourceId(resourceId);
-                                Light light = new Light(light_low_value, false, this, cntUri, machineBelongInformation);//空调
-                                cntMapMachine.put(cntUri, light);//存储container和设备的映射关系
-                                positionMapMachine.put(resourceId, light);
-                            }
-                            if (w == 3) {
-                                MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, AIRCONDIION);
-                                machineBelongInformation.setResourceId(resourceId);
-                                AirConditioning airConditioning = new AirConditioning(temperature_low_value, temperature_high_value, false, this, cntUri, machineBelongInformation);//灯
-                                cntMapMachine.put(cntUri, airConditioning);
-                                positionMapMachine.put(resourceId, airConditioning);
+                        for (int y = 0; y < roomNumber; y++) {
+                            for (int w = 0; w < 4; w++) {
+                                String cntUri = createSyncContainer(aeUri);//创建一个container
+                                String resourceId = q + "/" + i + "/" + j + "/" + z + "/" + y + "/" + w;
+                                containerURI.put(resourceId, cntUri);
+                                if (w == 2) {
+                                    MachineBelongInformation machineBelongInformation = new MachineBelongInformation(q, i, j, z, LIGHT);
+                                    machineBelongInformation.setResourceId(resourceId);
+                                    Light light = new Light(light_low_value, false, this, cntUri, machineBelongInformation);//空调
+                                    cntMapMachine.put(cntUri, light);//存储container和设备的映射关系
+                                    positionMapMachine.put(resourceId, light);
+                                }
+                                if (w == 3) {
+                                    MachineBelongInformation machineBelongInformation = new MachineBelongInformation(q, i, j, z, AIRCONDIION);
+                                    machineBelongInformation.setResourceId(resourceId);
+                                    AirConditioning airConditioning = new AirConditioning(temperature_low_value, temperature_high_value, false, this, cntUri, machineBelongInformation);//灯
+                                    cntMapMachine.put(cntUri, airConditioning);
+                                    positionMapMachine.put(resourceId, airConditioning);
+                                }
                             }
                         }
-                    }
-                    //防盗传感器
-                    String cntUri = createSyncContainer(aeUri);//创建一个container
-                    containerURI.put(i + "/" + j + "/" + z + "/" + 0 + "/", cntUri);
-                    //防盗报警器
-                    cntUri = createSyncContainer(aeUri);//创建一个container
-                    String resourceId = i + "/" + j + "/" + z + "/" + 1 + "/";
-                    containerURI.put(resourceId, cntUri);
-                    MachineBelongInformation machineBelongInformation = new MachineBelongInformation(i, j, z, ANTITHEFT);
-                    machineBelongInformation.setResourceId(resourceId);
-                    AntitheftAlarm antitheftAlarm = new AntitheftAlarm(false, this, cntUri, machineBelongInformation);
-                    positionMapAntiTheft.put(resourceId, antitheftAlarm);
-                    cntMapMachine.put(cntUri, antitheftAlarm);
+                        //防盗传感器
+                        String cntUri = createSyncContainer(aeUri);//创建一个container
+                        containerURI.put(q + "/" + i + "/" + j + "/" + z + "/" + 0 + "/", cntUri);
+                        //防盗报警器
+                        cntUri = createSyncContainer(aeUri);//创建一个container
+                        String resourceId = q + "/" + i + "/" + j + "/" + z + "/" + 1 + "/";
+                        containerURI.put(resourceId, cntUri);
+                        MachineBelongInformation machineBelongInformation = new MachineBelongInformation(q, i, j, z, ANTITHEFT);
+                        machineBelongInformation.setResourceId(resourceId);
+                        AntitheftAlarm antitheftAlarm = new AntitheftAlarm(false, this, cntUri, machineBelongInformation);
+                        positionMapAntiTheft.put(resourceId, antitheftAlarm);
+                        cntMapMachine.put(cntUri, antitheftAlarm);
 
+                    }
                 }
             }
         }
-        for (int i = 0; i < banNumber; i++) {
-            for (int j = 0; j < floorNumber; j++) {
-                for (int z = 0; z < apartmentNumber; z++) {
-                    String containerURL = containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/");
-                    createAsyncSubScriptions(containerURL);
-                    for (int y = 0; y < roomNumber; y++) {
-                        /**
-                         * 创建不同的subscription
-                         */
-                        String resourceURI = i + "/" + j + "/" + z + "/" + y + "/";
-                        for (int w = 0; w < 2; w++) {
-                            containerURL = containerURI.get(resourceURI + w);
-                            createAsyncSubScriptions(containerURL);
+        for (int q = 0; q < regionNumer; q++) {
+            for (int i = 0; i < banNumber; i++) {
+                for (int j = 0; j < floorNumber; j++) {
+                    for (int z = 0; z < apartmentNumber; z++) {
+                        String containerURL = containerURI.get(q + "/" + i + "/" + j + "/" + z + "/" + 0 + "/");
+                        createAsyncSubScriptions(containerURL);
+                        for (int y = 0; y < roomNumber; y++) {
+                            /**
+                             * 创建不同的subscription
+                             */
+                            String resourceURI = q + "/" + i + "/" + j + "/" + z + "/" + y + "/";
+                            for (int w = 0; w < 2; w++) {
+                                containerURL = containerURI.get(resourceURI + w);
+                                createAsyncSubScriptions(containerURL);
+                            }
+                            LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, this, containerURI.get(resourceURI + 0), containerURI.get(resourceURI + 2), resourceURI + 0);
+                            TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, this, containerURI.get(resourceURI + 1), containerURI.get(resourceURI + 3), resourceURI + 1);
+                            positionMapSensor.put(resourceURI + LIGHT_SENSOR_INDEX, lightSensor);
+                            positionMapSensor.put(resourceURI + TEMPERATURE_SENSOR_INDEX, temperatureSensor);
+                            executorService.scheduleAtFixedRate(lightSensor, 0
+                                    , light_period * getRandom(), TimeUnit.SECONDS);
+                            executorService.scheduleAtFixedRate(temperatureSensor, 1
+                                    , light_period * getRandom(), TimeUnit.SECONDS);
                         }
-                        LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, this, containerURI.get(resourceURI + 0), containerURI.get(resourceURI + 2), resourceURI + 0);
-                        TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, this, containerURI.get(resourceURI + 1), containerURI.get(resourceURI + 3), resourceURI + 1);
-                        positionMapSensor.put(resourceURI + LIGHT_SENSOR_INDEX, lightSensor);
-                        positionMapSensor.put(resourceURI + TEMPERATURE_SENSOR_INDEX, temperatureSensor);
-                        executorService.scheduleAtFixedRate(lightSensor, 0
-                                , light_period * getRandom(), TimeUnit.SECONDS);
-                        executorService.scheduleAtFixedRate(temperatureSensor, 1
-                                , light_period * getRandom(), TimeUnit.SECONDS);
+                        executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, this, containerURI.get(q + "/" + i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(q + "/" + i + "/" + j + "/" + z + "/" + 1 + "/"), q + "/" + i + "/" + j + "/" + z + "/" + 0 + "/"), 1
+                                , antitheft_sensor_period * getRandom(), TimeUnit.SECONDS);
+
+
                     }
-                    executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, this, containerURI.get(i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(i + "/" + j + "/" + z + "/" + 1 + "/"), i + "/" + j + "/" + z + "/" + 0 + "/"), 1
-                            , antitheft_sensor_period * getRandom(), TimeUnit.SECONDS);
-
-
                 }
             }
         }
         String aeUri = createSyncAEResource();
-        for (int i = 0; i < parkingFloorCount; i++) {
-            for (int j = 0; j < parkingRegionCount; j++) {
-                for (int z = 0; z < parkingPositionCount / parkingRegionCount / parkingFloorCount; z++) {
-                    String cntUri = createSyncContainer(aeUri);//创建一个container
-                    containerURI.put(i + "/" + j + "/" + z, cntUri);
+        for (int w = 0; w < regionNumer; w++) {
+            for (int i = 0; i < parkingFloorCount; i++) {
+                for (int j = 0; j < parkingRegionCount; j++) {
+                    for (int z = 0; z < parkingPositionCount / parkingRegionCount / parkingFloorCount; z++) {
+                        String cntUri = createSyncContainer(aeUri);//创建一个container
+                        containerURI.put(w + "/" + i + "/" + j + "/" + z, cntUri);
+                    }
                 }
             }
         }
-        for (int i = 0; i < parkingFloorCount; i++) {
-            for (int j = 0; j < parkingRegionCount; j++) {
-                for (int z = 0; z < parkingPositionCount / parkingRegionCount / parkingFloorCount; z++) {
-                    executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(i + "/" + j + "/" + z), null, i + "/" + j, i + "/" + j + "/" + z), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
+        for (int w = 0; w < regionNumer; w++) {
+            for (int i = 0; i < parkingFloorCount; i++) {
+                for (int j = 0; j < parkingRegionCount; j++) {
+                    for (int z = 0; z < parkingPositionCount / parkingRegionCount / parkingFloorCount; z++) {
+                        executorService.scheduleAtFixedRate(new LaserSensor(laser_sensor_value, this, containerURI.get(w + "/" + i + "/" + j + "/" + z), null, w + "/" + i + "/" + j, w + "/" + i + "/" + j + "/" + z), 1, laser_sensor_period * getRandom(), TimeUnit.SECONDS);
 
+                    }
                 }
             }
         }
+
     }
 
     private int getRandom() {

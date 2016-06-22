@@ -6,7 +6,7 @@ var floorId = 1;
 var apartmentId = 1;
 var red = "#FF0000";
 var green = "#008000";
-var regionId=1;
+var regionId = 1;
 $(document).ready(function () {
     $(".banId").click(function () {
         banId = $(this).attr("id");
@@ -63,8 +63,10 @@ $(document).ready(function () {
     });
     $("#region_select").change(function () {
         var checkValue = $(this).val();
-        regionId = parseInt((checkValue+"").split("区")[0]);
+        regionId = parseInt(checkValue);
         $("#regionNumber").text(regionId);
+        getFloorStatistics();
+        getApartmentStatistics();
     });
     $(".apartmentNO").click(function () {
         var text = $(this).children().html();
@@ -75,7 +77,7 @@ $(document).ready(function () {
 
     });
     function getFloorStatistics() {
-        $.getJSON("/getFloorStatistics.do", {key: banId + "c" + floorId}, function (data) {
+        $.getJSON("/getFloorStatistics.do", {key: regionId + "c" + banId + "c" + floorId}, function (data) {
             $("#apartmentNumber").text(data.antiTheftValues.length);
             for (var i = 1; i <= data.antiTheftValues.length; i++) {
                 if (data.antiTheftValues[i] == false) {
@@ -102,7 +104,7 @@ $(document).ready(function () {
      * 获取某层的信息
      */
     function getApartmentStatistics() {
-        $.getJSON("/getApartmentStatistics.do", {key: banId + "c" + floorId + "c" + apartmentId}, function (data) {
+        $.getJSON("/getApartmentStatistics.do", {key: regionId + "c" + banId + "c" + floorId + "c" + apartmentId}, function (data) {
             $("#roomNumbers").text(data.lightSensorValues.length);
             if (data.antiTheft == false) {
                 $("#safetyStatus").css("color", red);

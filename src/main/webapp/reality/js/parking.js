@@ -8,6 +8,7 @@ var parkingFloor = 1;
 var parkingRegion = 1;
 var parkingId = 1;
 var parkingRegionName = "A";
+var regionId = 1;
 $(document).ready(function () {
     $(".parkingFloorPosition ul li").click(function () {
         $(this).parent().find('li').each(function () {
@@ -65,7 +66,7 @@ $(document).ready(function () {
     }
 
     function getParkingStatistics() {
-        $.getJSON("/getParkingFlooAndRegion.do", {key: (parkingFloor - 1) + "c" + (parkingRegion - 1)}, function (data) {
+        $.getJSON("/getParkingFlooAndRegion.do", {key: regionId + "c" + (parkingFloor - 1) + "c" + (parkingRegion - 1)}, function (data) {
             $("#parkingRegion").text(parkingRegion);
             $("#parkingFloor").text(parkingFloor);
             $("#parkingCount").text(data.sum);
@@ -75,11 +76,17 @@ $(document).ready(function () {
     }
 
     function retrieveParkingStatus() {
-        var result = (parkingFloor - 1) + "c" + (parkingRegion - 1) + "c" + (parkingId - 1);
+        var result = (regionId - 1) + "c" + (parkingFloor - 1) + "c" + (parkingRegion - 1) + "c" + (parkingId - 1);
         $.getJSON("/parkingRetrieve.do", {key: result}, function (data) {
             $("#parkingId").text(parkingId);
             $("#parkingstatus").text(data.unUsed ? "空闲" : "被占用");
         });
-    }
+    };
+    $("#parkingRegionId").text(parseInt($("#region_select").val()));
+    $("#region_select").change(function () {
+        var checkValue = $(this).val();
+        regionId = parseInt(checkValue);
+        $("#parkingRegionId").text(regionId);
+    });
 
 });

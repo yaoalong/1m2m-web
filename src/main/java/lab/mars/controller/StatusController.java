@@ -201,17 +201,18 @@ public class StatusController {
     ApartmentStatusStatistics getApartmentStatistics(@RequestParam String key) {
         String[] result = key.split("c");
         ApartmentStatusStatistics apartmentStatusStatistics = new ApartmentStatusStatistics();
-        if (result.length != 3) {
+        if (result.length != 4) {
             return apartmentStatusStatistics;
         }
-        int banId = Integer.parseInt(result[0]) - 1;
-        int floorId = Integer.parseInt(result[1]) - 1;
-        int apartmentId = Integer.parseInt(result[2]) - 1;
+        int regionId = Integer.parseInt(result[0]) - 1;
+        int banId = Integer.parseInt(result[1]) - 1;
+        int floorId = Integer.parseInt(result[2]) - 1;
+        int apartmentId = Integer.parseInt(result[3]) - 1;
         List<Integer> lightSensorValues = new ArrayList<>();
         List<Integer> temperatureSensorValues = new ArrayList<>();
         List<Boolean> lightStatuses = new ArrayList<>();
         List<Boolean> airConditionStatuses = new ArrayList<>();
-        String index = banId + "/" + floorId + "/" + apartmentId + "/";
+        String index = regionId + "/" + banId + "/" + floorId + "/" + apartmentId + "/";
         for (int i = 0; i < roomNumber; i++) {
             lightStatuses.add(positionMapMachine.get(index + i + "/" + LIGHT_INDEX).isClosed);
             airConditionStatuses.add(positionMapMachine.get(index + i + "/" + AIRCONDITION_INDEX).isClosed);
@@ -239,15 +240,16 @@ public class StatusController {
     FloorStatusSatistics getFloorStatistics(@RequestParam String key) {
         String[] result = key.split("c");
         FloorStatusSatistics floorStatusSatistics = new FloorStatusSatistics();
-        if (result.length != 2) {
+        if (result.length != 3) {
             return floorStatusSatistics;
         }
-        int banId = Integer.parseInt(result[0]) - 1;
-        int floorId = Integer.parseInt(result[1]) - 1;
+        int regionId = Integer.parseInt(result[0]) - 1;
+        int banId = Integer.parseInt(result[1]) - 1;
+        int floorId = Integer.parseInt(result[2]) - 1;
         List<Boolean> antiTheftStatuses = new ArrayList<>();
 
         for (int i = 0; i < apartmentNumber; i++) {
-            String index = banId + "/" + floorId + "/" + i + "/" + 1 + "/";
+            String index = regionId + "/" + banId + "/" + floorId + "/" + i + "/" + 1 + "/";
             antiTheftStatuses.add(positionMapAntiTheft.get(index).isClosed);
         }
         floorStatusSatistics.setAntiTheftValues(antiTheftStatuses);
