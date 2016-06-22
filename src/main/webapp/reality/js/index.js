@@ -124,7 +124,7 @@ $(document).ready(function () {
                 else {
                     $("#light" + index).css("color", red);
                 }
-                $("#light" + index).text(data.lightStatuses[index] == false ? "开" : "关");
+                $("#lightStatistics").append("<li>" + data.lightStatuses[index] == false ? "开" : "关" + "</li>");
             }
             for (var index = 0; index < data.airConditionStatuses.length; index++) {
                 if (data.airConditionStatuses[index] == false) {
@@ -133,7 +133,7 @@ $(document).ready(function () {
                 else {
                     $("#aircondition" + index).css("color", red);
                 }
-                $("#aircondition" + index).text(data.airConditionStatuses[index] == false ? "开" : "关");
+                $("#airConditionStatistics").append("<li>" + data.airConditionStatuses[index] == false ? "开" : "关" + "</li>");
             }
             for (var index = 0; index < data.lightSensorValues.length; index++) {
                 if (data.lightSensorValues[index] == false) {
@@ -142,7 +142,7 @@ $(document).ready(function () {
                 else {
                     $("#lightSensor" + index).css("color", red);
                 }
-                $("#lightSensor" + index).text(data.lightSensorValues[index]);
+                $("#lightSensorStatistics").append("<li>" + data.lightSensorValues[index] + "</li>");
             }
             for (var index = 0; index < data.temperatureSensorValues.length; index++) {
                 if (data.temperatureSensorValues[i] == false) {
@@ -151,7 +151,7 @@ $(document).ready(function () {
                 else {
                     $("#temperatureSensor" + index).css("color", red);
                 }
-                $("#temperatureSensor" + index).text(data.temperatureSensorValues[index]);
+                $("#tmpSensorStatistics").append("<li>" + data.temperatureSensorValues[index] + "</li>");
             }
             $("#lightOpenNumber").text(i);
             $("#ligthOffNumber").text(data.lightSensorValues.length - i);

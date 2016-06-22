@@ -674,6 +674,36 @@ li a {
     font-size: x-large;
 }
 
+#lightSensorDisplay{
+    position: absolute;
+    left: 1445px;
+    top: 660px;
+    width: 50px;
+    height: 150px;
+}
+#lightStatusDisplay{
+    position: absolute;
+    left: 1525px;
+    top: 660px;
+    width: 50px;
+    height: 150px;
+}
+#airConditionStatusDisplay{
+    position: absolute;
+    left: 1615px;
+    top: 660px;
+    width: 50px;
+    height: 150px;
+
+}
+#temperatureSensorDisplay{
+    position: absolute;
+    left: 1705px;
+    top: 660px;
+    width: 50px;
+    height: 150px;
+
+}
 
 
 
