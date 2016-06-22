@@ -264,7 +264,13 @@ li a {
 .yellow {
     color: orange
 }
-
+#region{
+    position: absolute;
+    left: 25px;
+    top:150px;
+    height: 40px;
+    width: 100px;
+}
 #chart1 {
     position: absolute;
     left: 25px;

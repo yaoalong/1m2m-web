@@ -6,6 +6,7 @@ var floorId = 1;
 var apartmentId = 1;
 var red = "#FF0000";
 var green = "#008000";
+var regionId=1;
 $(document).ready(function () {
     $(".banId").click(function () {
         banId = $(this).attr("id");
@@ -59,6 +60,11 @@ $(document).ready(function () {
         getFloorStatistics();
         getApartmentStatistics();
         updateApartmentNo();
+    });
+    $("#region_select").change(function () {
+        var checkValue = $(this).val();
+        regionId = parseInt((checkValue+"").split("区")[0]);
+        $("#regionNumber").text(regionId);
     });
     $(".apartmentNO").click(function () {
         var text = $(this).children().html();
