@@ -676,21 +676,21 @@ li a {
 
 #lightSensorDisplay{
     position: absolute;
-    left: 1445px;
+    left: 1425px;
     top: 660px;
     width: 50px;
     height: 150px;
 }
 #lightStatusDisplay{
     position: absolute;
-    left: 1525px;
+    left: 1505px;
     top: 660px;
     width: 50px;
     height: 150px;
 }
 #airConditionStatusDisplay{
     position: absolute;
-    left: 1615px;
+    left: 1600px;
     top: 660px;
     width: 50px;
     height: 150px;
@@ -698,9 +698,9 @@ li a {
 }
 #temperatureSensorDisplay{
     position: absolute;
-    left: 1705px;
+    left: 1690px;
     top: 660px;
-    width: 50px;
+    width: 80px;
     height: 150px;
 
 }

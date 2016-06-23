@@ -79,15 +79,26 @@ $(document).ready(function () {
     function getFloorStatistics() {
         $.getJSON("/getFloorStatistics.do", {key: regionId + "c" + banId + "c" + floorId}, function (data) {
             $("#apartmentNumber").text(data.antiTheftValues.length);
+            var isSafe=true;
             for (var i = 1; i <= data.antiTheftValues.length; i++) {
                 if (data.antiTheftValues[i] == false) {
                     $("#apartment" + i).css("color", red);
+                    isSafe=false;
+
                 }
                 else {
                     $("#apartment" + i).css("color", green);
 
                 }
                 $("#apartment" + i).text(data.antiTheftValues[i] == false ? "不安全" : "安全");
+            }
+            if(isSafe){
+                $("#allFloorSafetyStatus").css("color",green);
+                $("#allFloorSafetyStatus").text("安全");
+            }
+            else{
+                $("#allFloorSafetyStatus").css("color",red);
+                $("#allFloorSafetyStatus").text("不安全");
             }
         });
     }
@@ -142,7 +153,7 @@ $(document).ready(function () {
                 else {
                     $("#lightSensor" + index).css("color", red);
                 }
-                $("#lightSensorStatistics").append("<li>" + data.lightSensorValues[index] + "</li>");
+                $("#lightSensorStatistics").append("<li>" + data.lightSensorValues[index] +"lx"+ "</li>");
             }
             for (var index = 0; index < data.temperatureSensorValues.length; index++) {
                 if (data.temperatureSensorValues[i] == false) {
@@ -151,7 +162,7 @@ $(document).ready(function () {
                 else {
                     $("#temperatureSensor" + index).css("color", red);
                 }
-                $("#tmpSensorStatistics").append("<li>" + data.temperatureSensorValues[index] + "</li>");
+                $("#tmpSensorStatistics").append("<li>" + data.temperatureSensorValues[index]+"度" + "</li>");
             }
             $("#lightOpenNumber").text(i);
             $("#airConditionNumber").text(data.temperatureSensorValues.length);
