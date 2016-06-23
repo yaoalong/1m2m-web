@@ -35,15 +35,15 @@ public class MachineMapper {
     public static final int parkingRegionCount = 5;
 
     //小区区数量
-    public static final int regionNumer = 2;
+    public static final int regionNumer = 1;
     //楼栋数
-    public static final int banNumber = 5;
+    public static final int banNumber = 1;
     //层数
-    public static final int floorNumber = 5;
+    public static final int floorNumber =1;
     //户数
     public static final int apartmentNumber = 1;
     //房间数量
-    public static final int roomNumber = 4;
+    public static final int roomNumber = 5;
 
     //一户人家的设备的数量
     public static final int apartmentMachineNumber = 11;

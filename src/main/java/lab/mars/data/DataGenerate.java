@@ -37,7 +37,6 @@ public class DataGenerate extends WebNetwork {
     private static final int light_current_value = 0;
     private static final int light_low_value = 80;
     private static final int light_lowest_value = 0;
-    private static final int light_high_value = 140;
     private static final int light_highest_value = 200;
     private static final int light_period = 2;
     private static final int light_increment_num = 20;
@@ -49,18 +48,17 @@ public class DataGenerate extends WebNetwork {
     private static final int temperature_low_value = 0;
     private static final int temperature_high_value = 25;
     private static final int temperature_highest_value = 40;
-    private static final int temperature_period = 1;
-    private static final int temperature_increment_num = 20;
+    private static final int temperature_increment_num = 10;
     /**
      * 防盗传感器
      */
     private static final boolean antitheft_sensor_value = true;
-    private static final int antitheft_sensor_period = 1;
+    private static final int antitheft_sensor_period = 15;
     /**
      * 传感器
      */
     private static final boolean laser_sensor_value = true;
-    private static final int laser_sensor_period = 5;
+    private static final int laser_sensor_period = 15;
     //光线传感器0
     //空调传感器1
     //灯2
@@ -113,20 +111,19 @@ public class DataGenerate extends WebNetwork {
                 for (int j = 0; j < floorNumber; j++) {
                     String aeUri = createSyncAEResource();//现在是每层楼是一个AE
                     for (int z = 0; z < apartmentNumber; z++) {
-
                         for (int y = 0; y < roomNumber; y++) {
-                            for (int w = 0; w < 4; w++) {
+                            for (int w = 0; w < 8; w++) {  //每个房间都有两个温度传感器、光线传感器、灯、空调
                                 String cntUri = createSyncContainer(aeUri);//创建一个container
                                 String resourceId = q + "/" + i + "/" + j + "/" + z + "/" + y + "/" + w;
                                 containerURI.put(resourceId, cntUri);
-                                if (w == 2) {
+                                if (w == 4 || w == 5) {
                                     MachineBelongInformation machineBelongInformation = new MachineBelongInformation(q, i, j, z, LIGHT);
                                     machineBelongInformation.setResourceId(resourceId);
                                     Light light = new Light(light_low_value, false, this, cntUri, machineBelongInformation);//空调
                                     cntMapMachine.put(cntUri, light);//存储container和设备的映射关系
                                     positionMapMachine.put(resourceId, light);
                                 }
-                                if (w == 3) {
+                                if (w == 6 || w == 7) {
                                     MachineBelongInformation machineBelongInformation = new MachineBelongInformation(q, i, j, z, AIRCONDIION);
                                     machineBelongInformation.setResourceId(resourceId);
                                     AirConditioning airConditioning = new AirConditioning(temperature_low_value, temperature_high_value, false, this, cntUri, machineBelongInformation);//灯
@@ -148,10 +145,13 @@ public class DataGenerate extends WebNetwork {
                         positionMapAntiTheft.put(resourceId, antitheftAlarm);
                         cntMapMachine.put(cntUri, antitheftAlarm);
 
+
                     }
                 }
             }
+            System.out.println("创建完成" + q);
         }
+        System.out.println("创建完成");
         for (int q = 0; q < regionNumer; q++) {
             for (int i = 0; i < banNumber; i++) {
                 for (int j = 0; j < floorNumber; j++) {
@@ -163,7 +163,7 @@ public class DataGenerate extends WebNetwork {
                              * 创建不同的subscription
                              */
                             String resourceURI = q + "/" + i + "/" + j + "/" + z + "/" + y + "/";
-                            for (int w = 0; w < 2; w++) {
+                            for (int w = 0; w < 4; w++) {
                                 containerURL = containerURI.get(resourceURI + w);
                                 createAsyncSubScriptions(containerURL);
                             }

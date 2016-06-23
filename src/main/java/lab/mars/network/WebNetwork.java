@@ -50,7 +50,7 @@ public class WebNetwork {
     public static final int ASYNC = 1;
     public static final int SYNC = 0;
     protected final String myIp = "192.168.10.131";
-    private final String serverIp = "192.168.10.131";
+    private final String serverIp = "192.168.10.208";
     public ThreadLocal<Marshaller> marshaller;
     private JAXBContext jc = null;
     private ThreadLocal<Unmarshaller> unmarshaller;
@@ -60,7 +60,7 @@ public class WebNetwork {
     public void init() {
         client = new HttpClient();
         server = new HttpServer();
-        server.bindAsync("localhost", 9010)
+        server.bindAsync(myIp, 9010)
                 .then(future -> {
                     System.out.println("server has started@9010");
                 })
@@ -217,7 +217,7 @@ public class WebNetwork {
         m2m_subscription.enc = m2m_eventNotificationCriteria;
         m2m_AnyURIList m2m_anyURIList = new m2m_AnyURIList();
         List<String> reference = new ArrayList<>();
-        reference.add("http://" + "localhost" + ":9010/");
+        reference.add("http://" + myIp+ ":9010/");
         m2m_anyURIList.reference = reference;
         m2m_subscription.nu = m2m_anyURIList;
         m2m_primitiveContentType.value = m2m_subscription;
@@ -263,7 +263,7 @@ public class WebNetwork {
             String[][] rsp_headers) throws InterruptedException, IOException, URISyntaxException {
 
         CountDownLatch latchNami = new CountDownLatch(1);
-        URI uri = new URI("http://localhost:8081");
+        URI uri = new URI("http://192.168.10.208:8081");
         HttpRequest httpRequest = HttpClient.makeRequest(method, path, req_headers, requestBody);
         HeartBeat m_rsp[] = new HeartBeat[1];
         client.requestAsync(uri, httpRequest)
