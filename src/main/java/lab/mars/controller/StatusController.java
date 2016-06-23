@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
-import static lab.mars.data.DataGenerate.*;
 import static lab.mars.mapper.MachineMapper.*;
 import static lab.mars.model.MachineTypeEnum.*;
 import static lab.msrs.web.util.NotificationUtils.*;
@@ -214,10 +213,16 @@ public class StatusController {
         List<Boolean> airConditionStatuses = new ArrayList<>();
         String index = regionId + "/" + banId + "/" + floorId + "/" + apartmentId + "/";
         for (int i = 0; i < roomNumber; i++) {
-            lightStatuses.add(positionMapMachine.get(index + i + "/" + LIGHT_INDEX).isClosed);
-            airConditionStatuses.add(positionMapMachine.get(index + i + "/" + AIRCONDITION_INDEX).isClosed);
-            lightSensorValues.add(positionMapSensor.get(index + i + "/" + LIGHT_SENSOR_INDEX).getValue());
-            temperatureSensorValues.add(positionMapSensor.get(index + i + "/" + TEMPERATURE_SENSOR_INDEX).getValue());
+
+            lightStatuses.add(positionMapMachine.get(index + i + "/" + 4).isClosed);
+            lightStatuses.add(positionMapMachine.get(index + i + "/" + 5).isClosed);
+            airConditionStatuses.add(positionMapMachine.get(index + i + "/" + 6).isClosed);
+            airConditionStatuses.add(positionMapMachine.get(index + i + "/" + 7).isClosed);
+            lightSensorValues.add(positionMapSensor.get(index + i + "/" + 0).getValue());
+
+            lightSensorValues.add(positionMapSensor.get(index + i + "/" + 1).getValue());
+            temperatureSensorValues.add(positionMapSensor.get(index + i + "/" + 2).getValue());
+            temperatureSensorValues.add(positionMapSensor.get(index + i + "/" + 3).getValue());
         }
         boolean antiTheft = positionMapAntiTheft.get(index + 1 + "/").isClosed;
         apartmentStatusStatistics.setAirConditionStatuses(airConditionStatuses);

@@ -50,7 +50,7 @@ public class WebNetwork {
     public static final int ASYNC = 1;
     public static final int SYNC = 0;
     protected final String myIp = "192.168.10.131";
-    private final String serverIp = "192.168.10.208";
+    private final String serverIp = "192.168.10.131";
     public ThreadLocal<Marshaller> marshaller;
     private JAXBContext jc = null;
     private ThreadLocal<Unmarshaller> unmarshaller;

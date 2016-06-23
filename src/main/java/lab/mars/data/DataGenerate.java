@@ -112,7 +112,7 @@ public class DataGenerate extends WebNetwork {
                     String aeUri = createSyncAEResource();//现在是每层楼是一个AE
                     for (int z = 0; z < apartmentNumber; z++) {
                         for (int y = 0; y < roomNumber; y++) {
-                            for (int w = 0; w < 8; w++) {  //每个房间都有两个温度传感器、光线传感器、灯、空调
+                            for (int w = 0; w < 8; w++) {  //每个房间都有两个温度传感器、光线传感器、等
                                 String cntUri = createSyncContainer(aeUri);//创建一个container
                                 String resourceId = q + "/" + i + "/" + j + "/" + z + "/" + y + "/" + w;
                                 containerURI.put(resourceId, cntUri);
@@ -167,14 +167,18 @@ public class DataGenerate extends WebNetwork {
                                 containerURL = containerURI.get(resourceURI + w);
                                 createAsyncSubScriptions(containerURL);
                             }
-                            LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, this, containerURI.get(resourceURI + 0), containerURI.get(resourceURI + 2), resourceURI + 0);
-                            TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, this, containerURI.get(resourceURI + 1), containerURI.get(resourceURI + 3), resourceURI + 1);
-                            positionMapSensor.put(resourceURI + LIGHT_SENSOR_INDEX, lightSensor);
-                            positionMapSensor.put(resourceURI + TEMPERATURE_SENSOR_INDEX, temperatureSensor);
-                            executorService.scheduleAtFixedRate(lightSensor, 0
-                                    , light_period * getRandom(), TimeUnit.SECONDS);
-                            executorService.scheduleAtFixedRate(temperatureSensor, 1
-                                    , light_period * getRandom(), TimeUnit.SECONDS);
+                            for (int f = 0; f < 2; f++) {
+                                LightSensor lightSensor = new LightSensor(light_current_value, light_increment_num, light_lowest_value, light_highest_value, this, containerURI.get(resourceURI + (0 + f)), containerURI.get(resourceURI + (4 + f)), resourceURI + (0 + f));
+                                positionMapSensor.put(resourceURI +(0+f), lightSensor);
+                                executorService.scheduleAtFixedRate(lightSensor, 0
+                                        , light_period * getRandom(), TimeUnit.SECONDS);
+                            }
+                            for (int f = 0; f < 2; f++) {
+                                TemperatureSensor temperatureSensor = new TemperatureSensor(temperature_current_value, temperature_increment_num, temperature_lowest_value, temperature_highest_value, this, containerURI.get(resourceURI + (2 + f)), containerURI.get(resourceURI + (6 + f)), resourceURI + (2 + f));
+                                positionMapSensor.put(resourceURI + (2+f), temperatureSensor);
+                                executorService.scheduleAtFixedRate(temperatureSensor, 1
+                                        , light_period * getRandom(), TimeUnit.SECONDS);
+                            }
                         }
                         executorService.scheduleAtFixedRate(new AntiTheftSensor(antitheft_sensor_value, this, containerURI.get(q + "/" + i + "/" + j + "/" + z + "/" + 0 + "/"), containerURI.get(q + "/" + i + "/" + j + "/" + z + "/" + 1 + "/"), q + "/" + i + "/" + j + "/" + z + "/" + 0 + "/"), 1
                                 , antitheft_sensor_period * getRandom(), TimeUnit.SECONDS);
