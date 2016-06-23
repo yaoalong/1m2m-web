@@ -154,7 +154,7 @@ $(document).ready(function () {
                 $("#tmpSensorStatistics").append("<li>" + data.temperatureSensorValues[index] + "</li>");
             }
             $("#lightOpenNumber").text(i);
-            $("#ligthOffNumber").text(data.lightSensorValues.length - i);
+            $("#airConditionNumber").text(data.temperatureSensorValues.length);
             $("#temperatureSensorNumber").text(data.temperatureSensorValues.length);
         });
     }

@@ -263,7 +263,7 @@ public class WebNetwork {
             String[][] rsp_headers) throws InterruptedException, IOException, URISyntaxException {
 
         CountDownLatch latchNami = new CountDownLatch(1);
-        URI uri = new URI("http://192.168.10.208:8081");
+        URI uri = new URI("http://"+serverIp+":8081");
         HttpRequest httpRequest = HttpClient.makeRequest(method, path, req_headers, requestBody);
         HeartBeat m_rsp[] = new HeartBeat[1];
         client.requestAsync(uri, httpRequest)
